@@ -1,0 +1,31 @@
+<div class="row" *ngIf="!IsLogedIn; else Logged">
+  <div class="col-md-6 mx-auto">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="text-center pb-4 pt-3">
+          <span class="text-">Please enter your login</span>
+        </h3>
+        <form #userForm="ngForm">
+          <div class="form-group">
+            <label>Username</label>
+            <input [(ngModel)]="userName" type="text" name="username" class="form-control" #username="ngModel" required
+              minlength="2">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input [(ngModel)]="password" type="password" name="password" class="form-control" #passWord="ngModel"
+              required minlength="2">
+
+          </div>
+          <div class="form-group">
+            <label>Organization</label>
+            <input [(ngModel)]="orgName" type="text" name="orgName" class="form-control" #orgname="ngModel">
+          </div>
+
+          <button (click)='onSubmit(userForm)' class="btn btn-dark btn-block">login</button>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

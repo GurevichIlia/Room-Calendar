@@ -19,7 +19,13 @@
     "@angular/platform-browser": "~7.1.0",
     "@angular/platform-browser-dynamic": "~7.1.0",
     "@angular/router": "~7.1.0",
+    "angular-calendar-scheduler": "^1.0.6",
+    "angular2-jwt": "^0.2.3",
+    "bootstrap": "^4.2.1",
     "core-js": "^2.5.4",
+    "daypilot-pro-angular": "https://npm.daypilot.org/daypilot-pro-angular/trial/2019.1.3521.tar.gz",
+    "font-awesome": "^4.7.0",
+    "moment": "^2.23.0",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"

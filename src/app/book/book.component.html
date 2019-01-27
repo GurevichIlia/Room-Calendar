@@ -1,0 +1,60 @@
+<div class="container">
+    <button class="btn btn-light" (click)="ChangeDate('prev');"><i class="fa fa-lg fa-caret-left" aria-hidden="true"></i></button>
+    <span class="ml-3">From: {{start}}</span>
+    <span class="ml-3"> To: {{end}}</span><button class="btn btn-light ml-3 mb-3" (click)="ChangeDate('next');"><i
+            class="fa fa-lg fa-caret-right"></i></button>
+    <button class="btn btn-dark btn-sm" (click)="checkMethod();oneWeekDate()"></button>
+    <table class=" table-bordered ">
+        <thead>
+            <tr>
+                <th colspan="4">Rooms</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let group of childrenRooms">
+                <td>
+                    <h4>{{group.name}}</h4><button (click)="group.hide=!group.hide" class="btn btn-light btn-sm"><i
+                            class="fa fa-plus"></i></button>
+                    <ul class="list-unstyled" *ngFor="let room of group['children']">
+                        <ng-container>
+                            <li class="row" *ngIf="!group.hide">
+                <td class="col" *ngFor="let date of weekStart" [ngStyle]="{backgroundColor: room.backColor? room.backColor: 'grey', border: room.borderColor? room.borderColor: '4px solid red'}">
+                    <strong>{{room.name}}</strong>
+                    <p>{{date}}</p>
+                </td>
+                </li>
+                </ng-container>
+                </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!-- <div class="row">
+        <div class="col-4">
+            <ul class="list-unstyled">
+                <li>
+                    <h3></h3>
+                    <ul class="list-unstyled">
+                        <li *ngFor="let element of resource;let i= index">
+                            {{id}}
+                        </li>
+                        <li *ngFor="let room of resource">
+                            <p [ngStyle]="{backgroundColor: room.id === resource? 'red': 'grey'}">{{room.name}}</p>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="col-8">
+            <ul class="list-unstyled">
+                <li>
+                    <h3>Week</h3>
+                    <ul class="list-unstyled">
+                        <li>
+                            <p></p>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div> -->
