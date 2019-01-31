@@ -1,60 +1,64 @@
 <div class="container">
-    <button class="btn btn-light" (click)="ChangeDate('prev');"><i class="fa fa-lg fa-caret-left" aria-hidden="true"></i></button>
+
+    <button class="btn btn-light" (click)="ChangeDate('prev');getBookedRooms();"><i class="fa fa-lg fa-caret-left"
+            aria-hidden="true"></i></button>
     <span class="ml-3">From: {{start}}</span>
-    <span class="ml-3"> To: {{end}}</span><button class="btn btn-light ml-3 mb-3" (click)="ChangeDate('next');"><i
+    <span class="ml-3"> To: {{end}}</span><button class="btn btn-light ml-3 mb-3" (click)="ChangeDate('next');getBookedRooms()"><i
             class="fa fa-lg fa-caret-right"></i></button>
-    <button class="btn btn-dark btn-sm" (click)="checkMethod();oneWeekDate()"></button>
-    <table class=" table-bordered ">
-        <thead>
-            <tr>
-                <th colspan="4">Rooms</th>
-        </thead>
-        <tbody>
-            <tr *ngFor="let group of childrenRooms">
-                <td>
-                    <h4>{{group.name}}</h4><button (click)="group.hide=!group.hide" class="btn btn-light btn-sm"><i
-                            class="fa fa-plus"></i></button>
-                    <ul class="list-unstyled" *ngFor="let room of group['children']">
-                        <ng-container>
-                            <li class="row" *ngIf="!group.hide">
-                <td class="col" *ngFor="let date of weekStart" [ngStyle]="{backgroundColor: room.backColor? room.backColor: 'grey', border: room.borderColor? room.borderColor: '4px solid red'}">
-                    <strong>{{room.name}}</strong>
-                    <p>{{date}}</p>
-                </td>
+    <button class="btn btn-dark btn-sm" (click)="oneWeekDate() ;getBookedRooms();"></button>
+
+    <div>
+        <div class="row">
+            <div class="col-2"><button class="btn btn-light" (click)="ChangeDate('prev');getBookedRooms();"><i class="fa fa-lg fa-caret-left"></i></button>
+                <span class="ml-3 mr-3"><button (click)="backToday()" class="btn btn-sm btn-light">Today</button></span>
+                <button class="btn btn-light" (click)="ChangeDate('next');getBookedRooms()"><i class="fa fa-lg fa-caret-right"></i></button></div>
+            <p class="col btn btn-light ml-2">{{weekStart[0]}}</p>
+            <p class="col btn btn-light ml-1">{{weekStart[1]}}</p>
+            <p class="col btn btn-light ml-1">{{weekStart[2]}}</p>
+            <p class="col btn btn-light mr-1 ml-1">{{weekStart[3]}}</p>
+            <p class="col btn btn-light mr-1">{{weekStart[4]}}</p>
+            <p class="col btn btn-light mr-1">{{weekStart[5]}}</p>
+            <p class="col btn btn-light mr-2">{{weekStart[6]}}</p>
+        </div>
+        <ul class="list-group list-unstyled" *ngFor="let group of allRooms">
+            <div class="row mb-3">
+                <h4 class="col-2">Group: {{group.name}}<button (click)="group.hide=!group.hide" class="btn btn-light btn-sm"><i
+                            class="fa fa-plus"></i></button></h4>
+
+            </div>
+
+            <ng-container *ngFor="let room of group['children']; let i=index">
+                <li class="list-group-item" *ngIf="!group.hide">
+                    <div class="row">
+                        <div class="col-2 btn btn-light">
+                            <strong>{{room.name}}</strong>
+                        </div>
+                        <button id="{{room.id + '_1'}}" class="col btn" style="background-color: cornsilk">
+                            Sun
+                        </button>
+                        <button id="{{room.id + '_2'}}" class="col btn" style="background-color: cornsilk">
+                            Mon
+                        </button>
+                        <button id="{{room.id + '_3'}}" class="col btn" style="background-color: cornsilk">
+                            Tue
+                        </button>
+                        <button id="{{room.id + '_4'}}" class="col btn" style="background-color: cornsilk">
+                            Wed
+                        </button>
+                        <button id="{{room.id + '_5'}}" class="col btn" style="background-color: cornsilk">
+                            Th
+                        </button>
+                        <button id="{{room.id + '_6'}}" class="col btn" style="background-color: cornsilk">
+                            Fr
+
+                        </button>
+                        <button id="{{room.id + '_7'}}" class="col btn" style="background-color: cornsilk">
+                            Sa
+
+                        </button>
+                    </div>
                 </li>
-                </ng-container>
-                </ul>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+            </ng-container>
+        </ul>
+    </div>
 </div>
-<!-- <div class="row">
-        <div class="col-4">
-            <ul class="list-unstyled">
-                <li>
-                    <h3></h3>
-                    <ul class="list-unstyled">
-                        <li *ngFor="let element of resource;let i= index">
-                            {{id}}
-                        </li>
-                        <li *ngFor="let room of resource">
-                            <p [ngStyle]="{backgroundColor: room.id === resource? 'red': 'grey'}">{{room.name}}</p>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <div class="col-8">
-            <ul class="list-unstyled">
-                <li>
-                    <h3>Week</h3>
-                    <ul class="list-unstyled">
-                        <li>
-                            <p></p>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div> -->

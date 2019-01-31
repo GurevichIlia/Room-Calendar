@@ -1,12 +1,10 @@
-import { Component, OnInit, ɵConsole } from '@angular/core';
+import { Component, OnInit, ɵConsole, ElementRef, } from '@angular/core';
 import { GetRoomsService } from '../Services/get-rooms.service';
-import { Data } from '../Model/data.module';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { CalendareRoom } from '../model/CalendareRoom.model';
-import { Response } from 'selenium-webdriver/http';
+
+
 
 
 
@@ -26,58 +24,41 @@ export class BookComponent implements OnInit {
     barColor: '',
     borderColor: '',
     toolTip: '',
-
+    children: null,
+    expanded: true,
   };
 
   roomsDate = [];
   groupsRooms = [];
   calendarRooms = [];
-  timeCurrent;
   start: any;
-  weekStart: any[] = [];
   end;
-  weekRooms: CalendareRoom[] = [];
-  dayRoom = [];
+  weekStart: any[] = [];
   bookedRooms: CalendareRoom[] = [];
-  childrenRooms: any[] = [];
-  backColor;
-  barColor;
-  borderColor;
-  resource: any[] = [];
-  roomId: any[] = [];
+  allRooms: any[] = [];
+  sunday;
+  monday;
+  tuesday;
+  wedns;
+  tus;
+  friday;
+  sa;
   constructor(
     private roomService: GetRoomsService,
-    private http: HttpClient
+
   ) {
-    this.rooms = {
-      id: null,
-      start: '',
-      end: '',
-      resource: '',
-      text: '',
-      backColor: '',
-      barColor: '',
-      borderColor: '',
-      toolTip: '',
-
-    };
     this.start = moment(new Date()).format('YYYY-MM-DD');
-    this.end = moment(this.start).add('days', 6);
+    this.end = moment(this.start).add('days', 30);
     this.end = moment(this.end).format('YYYY-MM-DD');
-
-
-
-
   }
 
   ngOnInit() {
-    this.getBookedRooms();
-    this.roomsGroups();
+    this.oneWeekDate();
     this.roomsForCalendar();
+    this.getBookedRooms();
   }
   // Method for changing date
   ChangeDate(From) {
-    debugger;
     const Vdate = this.start.split('-');
     // tslint:disable-next-line:radix
     const NewVDate = new Date(parseInt(Vdate[0]), parseInt(Vdate[1]), parseInt(Vdate[2]));
@@ -104,19 +85,17 @@ export class BookComponent implements OnInit {
   //     console.log(this.roomsDate);
   //   });
   // }
+
   // Create array of booked rooms for one week
   getBookedRooms() {
-    this.roomService.GetBookedRooms(this.start, this.end, '').subscribe((rooms: any[]) => {
-      this.bookedRooms = rooms as [];
+    this.roomService.GetBookedRooms(this.start, this.end, '').subscribe((rooms: CalendareRoom[]) => {
+      this.bookedRooms = rooms['Data'] as [];
+      // this.oneWeekDate();
       this.checkMethod();
-      this.oneWeekDate();
       console.log(this.bookedRooms);
-
     }
     );
   }
-
-
   roomsGroups() {
     this.roomService.getGroupsRooms().subscribe(res => {
       this.groupsRooms = res['Data'] as [];
@@ -125,45 +104,122 @@ export class BookComponent implements OnInit {
   }
   roomsForCalendar() {
     this.roomService.getRoomsCalendar().subscribe(res => {
-      this.childrenRooms = res as [];
-      console.log(this.childrenRooms);
+      this.allRooms = res as [];
+      // console.log(this.allRooms);
     });
   }
   // Create array of date from start to end
   oneWeekDate() {
-    let x;
     const Vdate = this.start.split('-');
     // tslint:disable-next-line:radix
     const NewVDate = new Date(parseInt(Vdate[0]), parseInt(Vdate[1]), parseInt(Vdate[2]));
     NewVDate.setMonth(NewVDate.getMonth() - 1);
     this.weekStart = [];
-    for (x = 0; x < 8; x++) {
+    for (let x = 0; x < 8; x++) {
       if (x === 0) {
         NewVDate.setDate(NewVDate.getDate() - 1);
       } else {
         NewVDate.setDate(NewVDate.getDate() + 1);
-        this.weekStart.push(moment(NewVDate).format('dddd,YYYY-MMMM-DD'));
+        this.weekStart.push(moment(NewVDate).format('YYYY-MM-DD'));
       }
     }
-    console.log(this.weekStart);
+    // console.log(this.weekStart);
     return this.weekStart;
   }
 
   checkMethod() {
-    for (const i of this.childrenRooms) {
+    for (const i of this.allRooms) {
       for (const x of i.children) {
+        this.sunday = document.getElementById(x.id + '_1');
+        this.sunday.style.backgroundColor = 'cornsilk';
+        this.sunday.style.border = 'none';
+        this.sunday.innerHTML = 'Free';
+
+        this.monday = document.getElementById(x.id + '_2');
+        this.monday.style.backgroundColor = 'cornsilk';
+        this.monday.style.border = `none`;
+        this.monday.innerHTML = 'Free';
+
+        this.tuesday = document.getElementById(x.id + '_3');
+        this.tuesday.style.backgroundColor = 'cornsilk';
+        this.tuesday.style.border = `none`;
+        this.tuesday.innerHTML = 'Free';
+
+        this.wedns = document.getElementById(x.id + '_4');
+        this.wedns.style.backgroundColor = 'cornsilk';
+        this.wedns.style.border = `none`;
+        this.wedns.innerHTML = 'Free';
+
+        this.tus = document.getElementById(x.id + '_5');
+        this.tus.style.backgroundColor = 'cornsilk';
+        this.tus.style.border = `none`;
+        this.tus.innerHTML = 'Free';
+
+        this.friday = document.getElementById(x.id + '_6');
+        this.friday.style.backgroundColor = 'cornsilk';
+        this.friday.style.border = `none`;
+        this.friday.innerHTML = 'Free';
+
+        this.sa = document.getElementById(x.id + '_7');
+        this.sa.style.backgroundColor = 'cornsilk';
+        this.sa.style.border = `none`;
+        this.sa.innerHTML = 'Free';
         for (const y of this.bookedRooms) {
           if (x.id === y.resource) {
-            x['backColor'] = y.backColor;
-            x['borderColor'] = '4px solid' + ' ' + y.borderColor;
+            if (y.start === this.weekStart[0]) {
+              this.sunday = document.getElementById(x.id + '_1');
+              this.sunday.style.backgroundColor = y.backColor;
+              this.sunday.style.border = `2px solid ${y.borderColor}`;
+              this.sunday.innerHTML = y.text;
+            }
+            if (y.start === this.weekStart[1]) {
+              this.monday = document.getElementById(x.id + '_2');
+              this.monday.style.backgroundColor = y.backColor;
+              this.monday.style.border = `2px solid ${y.borderColor}`;
+              this.monday.innerHTML = y.text;
+            }
+            if (y.start === this.weekStart[2]) {
+              this.tuesday = document.getElementById(x.id + '_3');
+              this.tuesday.style.backgroundColor = y.backColor;
+              this.tuesday.style.border = `2px solid ${y.borderColor}`;
+              this.tuesday.innerHTML = y.text;
+            }
+            if (y.start === this.weekStart[3]) {
+              this.wedns = document.getElementById(x.id + '_4');
+              this.wedns.style.backgroundColor = y.backColor;
+              this.wedns.style.border = `2px solid ${y.borderColor}`;
+              this.wedns.innerHTML = y.text;
+            }
+            if (y.start === this.weekStart[4]) {
+              this.tus = document.getElementById(x.id + '_5');
+              this.tus.style.backgroundColor = y.backColor;
+              this.tus.style.border = `2px solid ${y.borderColor}`;
+              this.tus.innerHTML = y.text;
+            }
+            if (y.start === this.weekStart[5]) {
+              this.friday = document.getElementById(x.id + '_6');
+              this.friday.style.backgroundColor = y.backColor;
+              this.friday.style.border = `2px solid ${y.borderColor}`;
+              this.friday.innerHTML = y.text;
+            }
+            if (y.start === this.weekStart[6]) {
+              this.sa = document.getElementById(x.id + '_7');
+              this.sa.style.backgroundColor = y.backColor;
+              this.sa.style.border = `2px solid ${y.borderColor}`;
+              this.sa.innerHTML = y.text;
+            }
           }
-
         }
+
       }
     }
-
-    this.childrenRooms['backColor'] = 'red';
-    console.log(this.childrenRooms);
   }
-
+  // backToday() {
+  //   this.start = moment(new Date()).format('YYYY-MM-DD');
+  //   return this.oneWeekDate();
+  // }
 }
+
+
+
+

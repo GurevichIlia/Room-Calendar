@@ -8,4 +8,6 @@ export class CalendareRoom {
     barColor?: string;
     borderColor?: string;
     toolTip?: string;
+    children: number;
+    expanded: boolean;
 }

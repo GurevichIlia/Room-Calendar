@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { observable, Observable, } from 'rxjs';
-import { Data } from '../model/data.module';
-
-
-
+import { CalendareRoom } from '../model/CalendareRoom.model';
 
 
 
@@ -15,8 +12,7 @@ import { Data } from '../model/data.module';
 
 export class GetRoomsService {
   readonly rootURL = 'http://jaffapms.service.amax.co.il/API/';
-  bookedRooms: any[] = [];
-  childrenRooms: any[] = [];
+
   constructor(private http: HttpClient) { }
 
   // getRooms(): Observable<any> {
@@ -25,9 +21,7 @@ export class GetRoomsService {
   //   ).pipe(map((res: Response) => {
   //     const data = res.json();
   //     return data;
-  //   }));
-
-  // }
+  //   })); // }
   getGroupsRooms() {
     return this.http.get(
       this.rootURL + 'DropDown/GetGroups',
@@ -52,9 +46,6 @@ export class GetRoomsService {
     header.append('Content-Type', 'application/x-www-form-urlencoded');
     return this.http.get(
       this.rootURL + 'Service/GetBookedRooms?StartDate=' + StartDate + '&EndDate=' + EndDate + '&RoomGroupId=' + RoomGroupId,
-    ).pipe(map((res: Response) => {
-      const data = res['Data'];
-      return data;
-    }));
+    );
   }
 }

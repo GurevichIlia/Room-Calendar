@@ -32,11 +32,9 @@ export class LoginService {
   }
   get isLoggedIn() {
     return this.loggedInStatus;
-
   }
 
   validLogin(userName: string, password: string, orgName: string) {
-
     const userInfo = {
       OrgId: orgName,
       UserName: userName,
