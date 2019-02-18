@@ -1,8 +1,15 @@
-import { Component, OnInit, ɵConsole, ElementRef, } from '@angular/core';
-import { GetRoomsService } from '../Services/get-rooms.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Component, OnInit, ɵConsole, ElementRef, HostListener, Inject, Output } from '@angular/core';
+import { GetRoomsService } from '../services/get-rooms.service';
 import * as moment from 'moment';
 import { CalendareRoom } from '../model/CalendareRoom.model';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { RoomDetailsComponent } from './room-details/room-details.component';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { OrderService } from '../services/order.service';
+import { ShopCardComponent } from './shop-card/shop-card.component';
+import { CustomerDetailsComponent } from './customer-details/customer-details.component';
+import { LoginService } from '../services/login.service';
+
 
 
 
@@ -11,31 +18,21 @@ import { CalendareRoom } from '../model/CalendareRoom.model';
 @Component({
   selector: 'app-book',
   templateUrl: './book.component.html',
-  styleUrls: ['./book.component.css']
+  styleUrls: ['./book.component.css'],
+  providers: [RoomDetailsComponent, ShopCardComponent]
 })
-export class BookComponent implements OnInit {
-  rooms: CalendareRoom = {
-    id: null,
-    start: '',
-    end: '',
-    resource: '',
-    text: '',
-    backColor: '',
-    barColor: '',
-    borderColor: '',
-    toolTip: '',
-    children: null,
-    expanded: true,
-  };
 
+export class BookComponent implements OnInit {
+  @Output() selectedRooms: any[] = [];
   roomsDate = [];
   groupsRooms = [];
   calendarRooms = [];
   start: any;
-  end;
+  end: any;
   weekStart: any[] = [];
-  bookedRooms: CalendareRoom[] = [];
+  // bookedRooms: CalendareRoom[] = [];
   allRooms: any[] = [];
+  roomById;
   sunday;
   monday;
   tuesday;
@@ -43,91 +40,100 @@ export class BookComponent implements OnInit {
   tus;
   friday;
   sa;
+  showScroll: boolean;
+  showScrollHeight = 300;
+  hideScrollHeight = 10;
+  pickedRoom: Object = {
+    name: '',
+    date: '',
+  };
+  OrderId;
+  @Output() shoppingCart;
   constructor(
+    private spinner: NgxSpinnerService,
     private roomService: GetRoomsService,
-
+    private dialog: MatDialog,
+    private orderService: OrderService,
+    private loginService: LoginService
   ) {
-    this.start = moment(new Date()).format('YYYY-MM-DD');
-    this.end = moment(this.start).add('days', 30);
-    this.end = moment(this.end).format('YYYY-MM-DD');
+    this.start = moment().format('YYYY-MM-DD');
+    this.end = moment(this.start).add('days', 120).format('YYYY-MM-DD');
+
   }
 
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    if ((window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop) > this.showScrollHeight) {
+      this.showScroll = true;
+    } else if (this.showScroll && (window.pageYOffset ||
+      document.documentElement.scrollTop || document.body.scrollTop) < this.hideScrollHeight) {
+      this.showScroll = false;
+    }
+  }
   ngOnInit() {
+    /** spinner starts on init */
+    this.spinner.show();
     this.oneWeekDate();
     this.roomsForCalendar();
     this.getBookedRooms();
+    if (localStorage.getItem('LoggedInStatus') === 'true') {
+      this.loginService.loggedInStatus = true;
+    }
   }
   // Method for changing date
-  ChangeDate(From) {
-    const Vdate = this.start.split('-');
-    // tslint:disable-next-line:radix
-    const NewVDate = new Date(parseInt(Vdate[0]), parseInt(Vdate[1]), parseInt(Vdate[2]));
-
+  changeDate(From) {
+    const Vdate = moment(this.start);
     if (From === 'prev') {
-      NewVDate.setDate(NewVDate.getDate() - 7);
+      Vdate.add(-7, 'day');
     }
     if (From === 'next') {
-      NewVDate.setDate(NewVDate.getDate() + 7);
+      Vdate.add(7, 'day');
     }
-    NewVDate.setMonth(NewVDate.getMonth() - 1);
-    this.end = moment(NewVDate).format(' YYYY-MM-DD');
-    this.start = moment(NewVDate).format(' YYYY-MM-DD');
-    if (this.end === this.start) {
-      this.end = moment(this.end).add('days', 6);
-      this.end = moment(this.end).format('YYYY-MM-DD');
-    }
+    this.start = moment(Vdate).format('YYYY-MM-DD');
+    // this.end = moment(this.start).add('days', 30).format('YYYY-MM-DD');
     this.oneWeekDate();
   }
-  // getAllRooms() {
-  //   this.roomService.getRooms().subscribe(res => {
-  //     this.roomsDate = res['Data'] as [];
-  //     this.checkWeeklyRooms();
-  //     console.log(this.roomsDate);
-  //   });
-  // }
-
+  // Create array of date from start to end
+  oneWeekDate() {
+    const Vdate = moment(this.start);
+    Vdate.add(-1, 'day');
+    this.weekStart = [];
+    for (let x = 0; x < 7; x++) {
+      this.weekStart.push(Vdate.add(1, 'day').format('YYYY-MM-DD'));
+    }
+  }
   // Create array of booked rooms for one week
   getBookedRooms() {
-    this.roomService.GetBookedRooms(this.start, this.end, '').subscribe((rooms: CalendareRoom[]) => {
-      this.bookedRooms = rooms['Data'] as [];
-      // this.oneWeekDate();
-      this.checkMethod();
-      console.log(this.bookedRooms);
+    if (this.roomService.bookedRoomLoaded) {
+      setTimeout(_ => this.showBookedRooms(), 500);
+      this.spinner.hide();
+    } else {
+      this.roomService.getBookedRooms(this.start, this.end, '').subscribe((rooms: CalendareRoom[]) => {
+        this.roomService.bookedRooms = rooms['Data'] as [];
+        this.roomService.bookedRoomLoaded = true;
+        this.spinner.hide();
+        this.showBookedRooms();
+        console.log(this.roomService.bookedRooms);
+      }
+      );
     }
-    );
   }
   roomsGroups() {
     this.roomService.getGroupsRooms().subscribe(res => {
       this.groupsRooms = res['Data'] as [];
-      // console.log(this.groupsRooms);
     });
   }
+  // Show all rooms
+
   roomsForCalendar() {
     this.roomService.getRoomsCalendar().subscribe(res => {
-      this.allRooms = res as [];
-      // console.log(this.allRooms);
+      this.allRooms = res['Data'] as [];
+      console.log(this.allRooms);
     });
   }
-  // Create array of date from start to end
-  oneWeekDate() {
-    const Vdate = this.start.split('-');
-    // tslint:disable-next-line:radix
-    const NewVDate = new Date(parseInt(Vdate[0]), parseInt(Vdate[1]), parseInt(Vdate[2]));
-    NewVDate.setMonth(NewVDate.getMonth() - 1);
-    this.weekStart = [];
-    for (let x = 0; x < 8; x++) {
-      if (x === 0) {
-        NewVDate.setDate(NewVDate.getDate() - 1);
-      } else {
-        NewVDate.setDate(NewVDate.getDate() + 1);
-        this.weekStart.push(moment(NewVDate).format('YYYY-MM-DD'));
-      }
-    }
-    // console.log(this.weekStart);
-    return this.weekStart;
-  }
-
-  checkMethod() {
+  // Show booked rooms
+  showBookedRooms() {
+    this.oneWeekDate();
     for (const i of this.allRooms) {
       for (const x of i.children) {
         this.sunday = document.getElementById(x.id + '_1');
@@ -164,7 +170,57 @@ export class BookComponent implements OnInit {
         this.sa.style.backgroundColor = 'cornsilk';
         this.sa.style.border = `none`;
         this.sa.innerHTML = 'Free';
-        for (const y of this.bookedRooms) {
+
+        for (const y of this.roomService.bookedRooms) {
+          // tslint:disable-next-line:triple-equals
+          if (this.orderService.selectedRooms.length != 0) {
+            for (const w of this.orderService.selectedRooms) {
+              if (w.name === x.name) {
+                if (w.date === this.weekStart[0]) {
+                  this.sunday = document.getElementById(x.id + '_1');
+                  this.sunday.style.backgroundColor = 'yellow';
+                  this.sunday.style.border = 'none';
+                  this.sunday.innerHTML = 'Free';
+                }
+                if (w.date === this.weekStart[1]) {
+                  this.monday = document.getElementById(x.id + '_2');
+                  this.monday.style.backgroundColor = 'yellow';
+                  this.monday.style.border = `none`;
+                  this.monday.innerHTML = 'Free';
+                }
+                if (w.date === this.weekStart[2]) {
+                  this.tuesday = document.getElementById(x.id + '_3');
+                  this.tuesday.style.backgroundColor = 'yellow';
+                  this.tuesday.style.border = `none`;
+                  this.tuesday.innerHTML = 'Free';
+                }
+                if (w.date === this.weekStart[3]) {
+                  this.wedns = document.getElementById(x.id + '_4');
+                  this.wedns.style.backgroundColor = 'yellow';
+                  this.wedns.style.border = 'none';
+                  this.wedns.innerHTML = 'Free';
+                }
+                if (w.date === this.weekStart[4]) {
+                  this.tus = document.getElementById(x.id + '_5');
+                  this.tus.style.backgroundColor = 'yellow';
+                  this.tus.style.border = 'none';
+                  this.tus.innerHTML = 'Free';
+                }
+                if (w.date === this.weekStart[5]) {
+                  this.friday = document.getElementById(x.id + '_6');
+                  this.friday.style.backgroundColor = 'yellow';
+                  this.friday.style.border = 'none';
+                  this.friday.innerHTML = 'Free';
+                }
+                if (w.date === this.weekStart[6]) {
+                  this.sa = document.getElementById(x.id + '_7');
+                  this.sa.style.backgroundColor = 'yellow';
+                  this.sa.style.border = 'none';
+                  this.sa.innerHTML = 'Free';
+                }
+              }
+            }
+          }
           if (x.id === y.resource) {
             if (y.start === this.weekStart[0]) {
               this.sunday = document.getElementById(x.id + '_1');
@@ -210,16 +266,94 @@ export class BookComponent implements OnInit {
             }
           }
         }
-
       }
     }
   }
-  // backToday() {
-  //   this.start = moment(new Date()).format('YYYY-MM-DD');
-  //   return this.oneWeekDate();
+  backToThisWeek() {
+    this.start = moment(new Date()).format('YYYY-MM-DD');
+    this.oneWeekDate();
+    this.showBookedRooms();
+  }
+  orderDetails(id, date, date1) {
+    this.orderService.GetRoomOrderDet(id, date, date1).subscribe(res => {
+      res = res;
+    });
+  }
+  pickRoom(name, startDate, endDate, id, roomId) {
+    let someDate;
+    someDate = document.getElementById(id);
+    if (someDate.innerHTML === 'Free') {
+      if (someDate.style.backgroundColor === 'yellow') {
+        someDate.style.backgroundColor = 'cornsilk';
+      } else {
+        someDate.style.backgroundColor = 'yellow';
+      }
+      this.pickedRoom = {
+        id: roomId,
+        name: name,
+        startDate: startDate,
+        endDate: endDate
+      };
+      // debugger;
+      let x = false;
+      // tslint:disable-next-line:triple-equals
+      if (this.orderService.selectedRooms.length == 0) {
+        this.orderService.selectedRooms.push(this.pickedRoom);
+      } else {
+        for (let i = 0; i < this.orderService.selectedRooms.length; i++) {
+          // tslint:disable-next-line:triple-equals
+          if (this.orderService.selectedRooms[i].name == name) {
+            this.orderService.selectedRooms[i].endDate = endDate;
+            x = true;
+            break;
+          }
+
+          if (this.orderService.selectedRooms[i].name == name &&
+            this.orderService.selectedRooms[i].startDate == startDate &&
+            this.orderService.selectedRooms[i].endDate == endDate) {
+            this.orderService.selectedRooms.splice(i, 1);
+            x = true;
+            break;
+          }
+        } if (x === false) {
+          this.orderService.selectedRooms.push(this.pickedRoom);
+        }
+      }
+    }
+    console.log(this.orderService.selectedRooms)
+  }
+  popUpSelectedRooms(id, text) {
+    let someId;
+    someId = document.getElementById(id);
+    if (someId.style.backgroundColor === 'rgb(224, 255, 255)') {
+      this.spinner.show();
+      this.orderService.GetCompleteCustDetByOrderId(text);
+      setTimeout(() => this.popUpCustomerDetails(id, text), 1000);
+      this.spinner.hide();
+    }
+  }
+  popUpCustomerDetails(id, text) {
+    let someId;
+    someId = document.getElementById(id);
+    if (this.orderService.completeCustDetByOrderIdloaded === true) {
+      this.dialog.open(CustomerDetailsComponent);
+    }
+  }
+  showRoomsForPickedDate(date) {
+    this.start = date;
+    this.showBookedRooms();
+    console.log(this.start);
+  }
+  // roomByRoomId(id) {
+  //   this.roomService.getRoomById(id).subscribe(res => {
+  //     res = res;
+  //     console.log(res);
+  //   });
   // }
+  // roomPrice(ArrivalDate, EvacuateDate, maxadults, maxchildren, totalnights, RoomId, RoomType) {
+  //   this.orderService.GetPrice(ArrivalDate, EvacuateDate, maxadults, maxchildren, totalnights, RoomId, RoomType).subscribe(res => {
+  //     console.log(res);
+  //   });
 }
-
-
 
 

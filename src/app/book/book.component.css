@@ -1,0 +1,14 @@
+.sticky {
+    position: sticky;
+    top: 0em;
+    min-height: 2em;
+    height: 100px;
+    z-index: 100;
+}
+.stickyarrow{
+    position: sticky;
+    top: 10em;
+    min-height: 2em;
+    height: 100px;
+    z-index: 100;
+}

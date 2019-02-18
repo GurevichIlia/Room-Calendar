@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="row">
+    <ul class="list-unstyled" style="width: 700px">
+      <div class="row mb-5">
+        <div class="col-2"><strong>Room No</strong></div>
+        <div class="col-3"><strong>Start</strong></div>
+        <div class="col-3"><strong>End</strong></div>
+        <div class="col-1"><strong>Meal type</strong></div>
+        <div class="col-1"><strong>Price</strong></div>
+      </div>
+      <li class="list-group-item mb-2" *ngFor="let room of orderService.selectedRooms">
+        <div class="row">
+          <div class="col-2">{{room.name}}</div>
+          <div class="col-3"><input class="form-control" [(ngModel)]="room.startDate" type="date"></div>
+          <div class="col-3"><input class="form-control" [(ngModel)]="room.endDate" type="date"></div>
+          <div class="col-1">
+            <div class="input-group mb-3">
+              <select class="custom-select" id="inputGroupSelect01">
+                <option value="1">R/O</option>
+                <option value="2">B/B</option>
+                <option value="3">H/B</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-1">
+
+          </div>
+          <div class="col-1 text-right"><strong><button (click)='removeSelectedRoom(room.name, room.startDate)'
+                class="btn btn-danger btn-sm"><i class="fa fa-remove fa-sm"></i></button></strong></div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <button class="mr-5" mat-raised-button color="primary">Continue Shopping</button>
+  <button (click)="closePopUp()" routerLink="/order-details/new-order" mat-raised-button color="accent">To
+    Pay</button>
+</div>

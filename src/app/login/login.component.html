@@ -15,16 +15,28 @@
             <label>Password</label>
             <input [(ngModel)]="password" type="password" name="password" class="form-control" #passWord="ngModel"
               required minlength="2">
-
           </div>
           <div class="form-group">
             <label>Organization</label>
             <input [(ngModel)]="orgName" type="text" name="orgName" class="form-control" #orgname="ngModel">
           </div>
-
-          <button (click)='onSubmit(userForm)' class="btn btn-dark btn-block">login</button>
-
+          <div class="col-12 input-group mb-3">
+            <select class="custom-select" id="language">
+              <option>English</option>
+              <option>עברית</option>
+              <option>Spanish</option>
+              <option>German</option>
+              <option>French</option>
+              <option>Russian</option>
+            </select>
+          </div>
+          <div class="form-check mb-3">
+            <input type="checkbox" [(ngModel)]="rememberMe" class="form-check-input" #rememberme="ngModel"
+              name="rememberMe">
+            <label class="form-check-label" for="exampleCheck1">Remember Me</label>
+          </div>
         </form>
+        <button (click)='onSubmit(userForm)' mat-raised-button color="primary" class="col">Login</button>
       </div>
     </div>
   </div>

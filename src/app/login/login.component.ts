@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../Services/login.service';
+import { LoginService } from '../services/login.service';
 import { NgForm } from '@angular/forms';
 import { HttpResponse, HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Navigation } from 'selenium-webdriver';
+
 
 @Component({
   selector: 'app-login',
@@ -12,53 +12,40 @@ import { Navigation } from 'selenium-webdriver';
 })
 export class LoginComponent implements OnInit {
   form: any;
-
   userName: string;
   password: string;
   orgName: string;
-  public LoginData: any;
-  IsLogedIn = false;
+  rememberMe: boolean;
+
+
 
   constructor(
-    private service: LoginService,
+    private loginService: LoginService,
     private router: Router,
     private http: HttpClient) { }
 
   ngOnInit() {
+    if (this.loginService.isLoggedIn) {
+      this.router.navigate(['/book']);
+    }
   }
-
   onSubmit() {
-
     if (this.userName !== undefined && this.userName != null && this.userName !== ''
       && this.password !== undefined && this.password != null && this.password !== ''
       && this.orgName !== undefined && this.orgName != null && this.orgName !== '') {
-      this.service
+      this.loginService
         .validLogin(this.userName, this.password, this.orgName)
         .subscribe(res => {
-          res = res;
-
+          res = res['Data'];
           if (res['error'] !== undefined && res['error'] !== null && res['error'] !== '') {
-
-            alert();
-          }
-          if (res['token'] !== '') {
-            console.log(res['token'], res['error']);
-            this.service.setLoggedIn(true);
-            this.IsLogedIn = true;
-            this.LoginData = res;
-            localStorage.setItem('XToken', res['Data']['token']);
+            alert('Wrong data');
+            this.userName = '';
+            this.password = '';
+            this.orgName = '';
+          } else {
+            this.loginService.setLoggedIn(true);
             this.router.navigate(['/book']);
-
-            // var x = sessionStorage.getItem("XToken");
-            // const httpOptions = {
-            //   headers: new HttpHeaders({
-            //     'Content-Type': 'application/json; charset=utf-8',
-            //     'X-Token': sessionStorage.getItem('XToken')
-            //   })
-            // };
           }
-
-
         }
         );
     }

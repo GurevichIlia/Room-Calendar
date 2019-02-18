@@ -1,0 +1,29 @@
+<div class="container" [ngStyle]="{'display': display}">
+  <h3 class="mb-3">Customer Details</h3>
+  <div class="row mb-4" style="width: 700px">
+    <div class="col-6">
+      <ul class="list-group list-unstyled">
+        <li> <strong> Order Id:</strong> {{customerInfo.orderId}}</li>
+        <li> <strong> First Name:</strong> {{customerInfo.firstName}}</li>
+        <li> <strong> Phone:</strong> {{customerInfo.phone}}</li>
+        <li> <strong> Address:</strong> {{customerInfo.address}}</li>
+        <li> <strong> Total Rooms:</strong> {{customerInfo.totalRooms}}</li>
+      </ul>
+
+    </div>
+    <div class="col-6">
+      <ul class="list-group list-unstyled">
+        <li> <strong> Last Name:</strong> {{customerInfo.lastName}}</li>
+        <li> <strong> Email:</strong> {{customerInfo.email}}</li>
+      </ul>
+
+    </div>
+  </div>
+  <div class="row">
+    <button mat-raised-button class="col ml-2">ADD SELECTED TO ORDER</button>
+    <button (click)="closePopUp()" routerLink="/order-details/{{customerInfo.orderId}}" mat-raised-button
+      class="col ml-2">ORDER
+      DETAIL</button>
+    <button mat-raised-button class="col ml-2">CLOSE</button>
+  </div>
+</div>

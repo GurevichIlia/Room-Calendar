@@ -1,0 +1,143 @@
+<div class="container">
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-clip-rotate-multiple">
+    <p style="font-size: 20px; color: white">Loading...</p>
+  </ngx-spinner>
+  <div class="text-left mb-3 ">
+    <button routerLink="/book" mat-raised-button color="accent" class="col-2">Back to Calendar</button>
+  </div>
+  <h2 class="text-left mb-5">Order Details</h2>
+  <!-- <form action=""> -->
+  <div class="row mb-5">
+    <div class="col-6 text-left">
+      <div class="form-group">
+        <label>First Name</label>
+        <input type="" class="form-control" [(ngModel)]="customerInfo.firstName">
+      </div>
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="" class="form-control" [(ngModel)]="customerInfo.lastName">
+      </div>
+      <div class="form-group">
+        <label>Cell Phone</label>
+        <input type="" class="form-control" [(ngModel)]="customerInfo.phone">
+      </div>
+      <div class="form-group">
+        <label>Home Phone</label>
+        <input type="" class="form-control" [(ngModel)]="customerInfo.homePhone">
+      </div>
+      <div class="form-group">
+        <label for="">Email </label>
+        <input type="" class="form-control" [(ngModel)]="customerInfo.email">
+      </div>
+      <div class="form-group">
+        <label for="">Passport Number</label>
+        <input type="" class="form-control" [(ngModel)]="customerInfo.passport">
+      </div>
+      <div class="form-group">
+        <label for="">Company Name</label>
+        <input type="" class="form-control" [(ngModel)]="customerInfo.companyName">
+      </div>
+    </div>
+
+
+    <div class="col-6 text-left">
+      <div class="form-group">
+        <label for="">Language</label>
+        <input type="" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="">City</label>
+        <input type="" class="form-control" [(ngModel)]="customerInfo.city">
+      </div>
+      <div class="form-group">
+        <label for="">Address</label>
+        <input type="" class="form-control" [(ngModel)]="customerInfo.address">
+      </div>
+      <div class="form-group">
+        <label for="">Zip</label>
+        <input type="" class="form-control" [(ngModel)]="customerInfo.zip">
+      </div>
+    </div>
+  </div>
+  <div class="text-left mb-5">
+    <button routerLink="/book" mat-raised-button color="accent" class="col-2 mr-5">Back to Calendar</button>
+    <button (click)="submit()" *ngIf="orderId != 'new-order'" mat-raised-button color="primary"
+      class="col-2">Update</button>
+    <button *ngIf="orderId == 'new-order'" mat-raised-button color="primary" class="col-2">Submit</button>
+  </div>
+  <!-- </form> -->
+  <div>
+    <ul class="list-unstyled">
+      <div class="row mb-5">
+        <div class="col-2"><strong>Room Name</strong></div>
+        <!-- <div class="col-2"><strong>Room Type</strong></div> -->
+        <div class="col-2"><strong>Arrival</strong></div>
+        <div class="col-2"><strong>Check-out</strong></div>
+        <div class="col-1"><strong>Total Nights</strong></div>
+        <div class="col-1"><strong>Adults</strong></div>
+        <div class="col-1"><strong>Children</strong></div>
+        <div class="col-1"><strong>Baby</strong></div>
+        <div class="col-1"><strong>Meal Type</strong></div>
+        <div class="col-1"><strong>Price</strong></div>
+      </div>
+      <li class="list-group-item mb-2" *ngFor="let x of customerInfo.roomDetail">
+        <div class="row">
+          <div class="col-2">{{x.RoomGroup}} {{x.RoomNumber}}{{x.name}}</div>
+          <!-- <div class="col-2"></div> -->
+          <div class="col-2">{{x.ArriveDate}}{{x.startDate}}</div>
+          <div class="col-2">{{x.EvacuateDate}}{{x.endDate}}</div>
+          <div class="col-1">{{x.RegularDays}}</div>
+          <div class=" col-1 input-group mb-3">
+            <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="customerInfo.adults">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+            </select>
+          </div>
+          <div class="col-1 input-group mb-3">
+            <select class="custom-select" id="inputGroupSelect01">
+              <option>0</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+            </select>
+          </div>
+          <div class="col-1 input-group mb-3"> <select class="custom-select" id="inputGroupSelect01">
+              <option>0</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+            </select>
+          </div>
+          <div class="col-1 input-group mb-3"> <select class="custom-select" id="inputGroupSelect01">
+              <option value="1">R/O</option>
+              <option value="2">B/B</option>
+              <option value="3">H/B</option>
+            </select></div>
+          <div class="col-1">{{x.Price}}</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

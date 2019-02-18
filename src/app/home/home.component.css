@@ -1,0 +1,7 @@
+.sticky {
+    position: sticky;
+    top: 1em;
+    min-height: 2em;
+    height: 100px;
+    z-index: 100;
+}
