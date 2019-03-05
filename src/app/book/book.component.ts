@@ -9,6 +9,7 @@ import { OrderService } from '../services/order.service';
 import { ShopCardComponent } from './shop-card/shop-card.component';
 import { CustomerDetailsComponent } from './customer-details/customer-details.component';
 import { LoginService } from '../services/login.service';
+import { SearchAvailableRoomsComponent } from './new-order-room/search-available-rooms/search-available-rooms.component';
 
 
 
@@ -343,6 +344,9 @@ export class BookComponent implements OnInit {
     this.start = date;
     this.showBookedRooms();
     console.log(this.start);
+  }
+  newOrder() {
+    this.dialog.open(SearchAvailableRoomsComponent);
   }
   // roomByRoomId(id) {
   //   this.roomService.getRoomById(id).subscribe(res => {

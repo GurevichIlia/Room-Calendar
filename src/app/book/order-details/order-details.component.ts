@@ -1,12 +1,12 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { FormControl, Validators } from '@angular/forms';
 import { OrderService } from 'src/app/services/order.service';
 import { CustomerDetails } from 'src/app/model/customer-details.model';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { audit } from 'rxjs/operators';
+
 
 
 
@@ -18,7 +18,7 @@ import { audit } from 'rxjs/operators';
 export class OrderDetailsComponent implements OnInit {
   orderId: string;
   routeSubscription: Subscription;
-  customerInfo;
+  customerInfo: CustomerDetails;
   showScroll: boolean;
   showScrollHeight = 300;
   hideScrollHeight = 10;
@@ -26,6 +26,7 @@ export class OrderDetailsComponent implements OnInit {
   constructor(
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
+    private router: Router,
     private orderService: OrderService) {
     this.routeSubscription = route.params.subscribe(params => this.orderId = params['id']);
 
@@ -33,10 +34,16 @@ export class OrderDetailsComponent implements OnInit {
       orderId: '',
       firstName: '',
       lastName: '',
-      adsress: '',
+      address: '',
       phone: '',
-      totalRooms: '',
+      totalRooms: null,
       email: '',
+      homePhone: '',
+      passport: '',
+      zip: '',
+      city: '',
+      companyName: '',
+      roomDetail: []
     };
 
 
@@ -51,31 +58,45 @@ export class OrderDetailsComponent implements OnInit {
     }
   }
   ngOnInit() {
+    if (this.orderService.onlyAvailableRoomsBtwDate === undefined) {
+      this.router.navigate(['/book']);
+    }
     this.spinner.show();
-    this.orderService.GetCompleteCustDetByOrderId(this.orderId);
-    setTimeout(() => this.completeCustDetByOrderId(), 1000);
+    if (this.orderId === 'new-order') {
+      this.newOrderFromNewOrderList();
+    } else {
+      this.orderService.GetCompleteCustDetByOrderId(this.orderId);
+      setTimeout(() => this.completeCustDetByOrderId(), 1000);
+    }
+
 
   }
   completeCustDetByOrderId() {
-    if (this.orderId === 'new-order') {
-      this.customerInfo = {
-        orderId: '',
-        firstName: '',
-        lastName: '',
-        adsress: '',
-        phone: '',
-        totalRooms: '',
-        email: '',
-        roomDetail: this.orderService.selectedRooms
-      };
-      this.spinner.hide();
-    } else {
-      this.customerInfo = this.orderService.customerInfo;
-      this.spinner.hide();
-    }
 
-    console.log(this.customerInfo);
-    console.log(this.orderId);
+    this.customerInfo = this.orderService.customerInfo;
+    this.spinner.hide();
+
+
+    console.log(this.customerInfo.roomDetail);
+    console.log();
+  }
+  newOrderFromNewOrderList() {
+    this.customerInfo = {
+      orderId: '',
+      firstName: '',
+      lastName: '',
+      address: '',
+      phone: '',
+      totalRooms: null,
+      email: '',
+      homePhone: '',
+      passport: '',
+      zip: '',
+      city: '',
+      companyName: '',
+      roomDetail: this.orderService.addedRoomsForNewOrder
+    };
+    this.spinner.hide();
   }
   submit() {
     console.log(this.Adults);

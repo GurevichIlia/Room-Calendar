@@ -1,7 +1,7 @@
 import { Injectable, Output } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { Observable, } from 'rxjs';
+import { Observable, BehaviorSubject, } from 'rxjs';
 
 
 
@@ -13,8 +13,12 @@ import { Observable, } from 'rxjs';
 export class GetRoomsService {
   readonly rootURL = 'http://apitest.jaffapms.com/API/';
   public bookedRooms: any[];
+  public availableRoomsBtwDate;
+  // private TestRooms = new BehaviorSubject(this.availableRoomsBtwDate);
+  // public availableRooms = this.TestRooms.asObservable();
   public bookedRoomLoaded = false;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
 
   getGroupsRooms() {
@@ -41,9 +45,15 @@ export class GetRoomsService {
       'http://apitest.jaffapms.com/API/Rooms/GetRoomDetById?RoomId=116'
     );
   }
-  public GetRoomByRoomId(RoomId): Observable<any> {
+  GetRoomByRoomId(RoomId): Observable<any> {
     return this.http.get(
       this.rootURL + 'Service/GetRoomByRoomId?RoomId=' + RoomId,
+    );
+  }
+  GetAvailableRooms(ArrivalDate, EvacuateDate, maxAdults, maxChildren, maxBaby, Lang, MealType, OrganizationID): Observable<any> {
+    return this.http.get(
+      // tslint:disable-next-line:max-line-length
+      'http://api.jaffapms.com/API/PMSSiteSearch/GetSearchDataSite?ArrivalDate=' + ArrivalDate + '&EvacuateDate=' + EvacuateDate + '&maxadults=' + maxAdults + '&maxchildren=' + maxChildren + '&maxbaby=0' + '&Lang=en' + '&MealType=' + MealType + '&OrganizationID=metzokentest&ImageUrl=http://images.jaffapms.com/',
     );
   }
 }

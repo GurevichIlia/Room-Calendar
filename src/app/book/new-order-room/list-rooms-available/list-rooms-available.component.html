@@ -1,0 +1,10 @@
+<div class="text-left">
+  <div>
+    <div *ngFor='let avlRooms of orderService.avlRooms'>
+      <!-- <button (click)="click(RoomGroup.value, avlRooms.RoomGroupName )"></button> -->
+      <app-available-room (sendOrderToListRooms)="receiveOrderFromAvlRoom($event)" [avlRooms]='avlRooms'>
+      </app-available-room>
+    </div>
+  </div>
+
+</div>

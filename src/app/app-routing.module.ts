@@ -8,6 +8,8 @@ import { HomeComponent } from './home/home.component';
 import { RoomDetailsComponent } from './book/room-details/room-details.component';
 import { CustomerDetailsComponent } from './book/customer-details/customer-details.component';
 import { OrderDetailsComponent } from './book/order-details/order-details.component';
+import { NewOrderRoomComponent } from './book/new-order-room/new-order-room.component';
+import { SearchAvailableRoomsComponent } from './book/new-order-room/search-available-rooms/search-available-rooms.component';
 
 
 const routes: Routes = [
@@ -19,6 +21,14 @@ const routes: Routes = [
   },
   {
     path: 'book', component: BookComponent,
+    canActivate: [LoginGuard]
+  },
+  {
+    path: 'book/new-order', component: NewOrderRoomComponent,
+    canActivate: [LoginGuard]
+  },
+  {
+    path: 'search-available-rooms', component: SearchAvailableRoomsComponent,
     canActivate: [LoginGuard]
   },
   {

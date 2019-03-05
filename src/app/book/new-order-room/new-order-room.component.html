@@ -1,0 +1,95 @@
+<div class="container align-items-center">
+    <div class="text-left mb-3 ">
+        <button routerLink="/book" mat-raised-button color="accent" class="col-2">Back to Calendar</button>
+    </div>
+    <mat-card>
+        <mat-card-content>
+            <mat-card style="" class="mb-1">
+                <mat-card-title color="accent" class="text-left">
+                    <h2>New Order</h2>
+                </mat-card-title>
+                <mat-card-content>
+                    <div class="row mb-3 text-left">
+                        <div class="col-5"></div>
+                        <div class="col-1">Adults</div>
+                        <div class="col-1">Children</div>
+                        <div class="col-2">Meal Type</div>
+                    </div>
+                    <div class="row mb-3 align-items-center">
+                        <mat-form-field class="col-2">
+                            <mat-select placeholder="Rooms Group" [(ngModel)]="roomsGroup" multiple #RoomGroup>
+                                <mat-option *ngFor="let group of orderService.groupName; let i = index" [value]="group"
+                                    (click)="filterGroup()">
+                                    {{group}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <div class="col-3"></div>
+                        <mat-form-field class="col-1">
+                            <select [(ngModel)]='orderService.searchInfoForNewOrderRoom.maxAdults' #MaxAdultsForAll
+                                matNativeControl required>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </mat-form-field>
+                        <mat-form-field class="col-1">
+                            <select [(ngModel)]='orderService.searchInfoForNewOrderRoom.maxChildren' #MaxChildrenForAll
+                                matNativeControl required>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </mat-form-field>
+                        <mat-form-field class="col-2">
+                            <select [(ngModel)]='orderService.searchInfoForNewOrderRoom.mealType' #Meal matNativeControl
+                                required>
+                                <option value="1">Room Only</option>
+                                <option value="2">Bed & Breakfast</option>
+                                <option value="3">Half Board</option>
+                            </select>
+                        </mat-form-field>
+                        <div class="col-2">
+                            <button (click)='showAvailableRooms()' mat-raised-button color="primary">Set for
+                                All</button>
+                            <button class="right" *ngIf="newOrder !== []" (click)='createArrNewOrders()'
+                                mat-raised-button color="accent">Submit</button>
+                        </div>
+                    </div>
+                    <mat-card style="background: #eeeeee">
+                        <mat-card-content>
+                            <div class="row text-left">
+                                <div class="col-2 title">Room Name</div>
+                                <div class="col-2 title">Arrival Date</div>
+                                <div class="col-2 title">Departure Date</div>
+                                <div class="col-1 title">Adults</div>
+                                <div class="col-1 title">Children</div>
+                                <div class="col-1 title">M/T</div>
+                                <div class="col-1 title">Price</div>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </mat-card-content>
+            </mat-card>
+            <app-list-rooms-available (sendOrderToListRooms)="receiveOrderFromAvlRoom($event)">
+            </app-list-rooms-available>
+        </mat-card-content>
+        <button *ngIf="newOrder !== []" (click)='createArrNewOrders()' mat-raised-button color="accent">Submit</button>
+    </mat-card>
+</div>

@@ -4,6 +4,7 @@
   </ngx-spinner>
   <div class="text-left mb-3 ">
     <button routerLink="/book" mat-raised-button color="accent" class="col-2">Back to Calendar</button>
+    <button routerLink="/book/new-order" mat-raised-button color="accent" class="col-2">Back to New Order</button>
   </div>
   <h2 class="text-left mb-5">Order Details</h2>
   <!-- <form action=""> -->
@@ -15,27 +16,27 @@
       </div>
       <div class="form-group">
         <label>Last Name</label>
-        <input type="" class="form-control" [(ngModel)]="customerInfo.lastName">
+        <input type="text" class="form-control" [(ngModel)]="customerInfo.lastName">
       </div>
       <div class="form-group">
         <label>Cell Phone</label>
-        <input type="" class="form-control" [(ngModel)]="customerInfo.phone">
+        <input type="phone" class="form-control" [(ngModel)]="customerInfo.phone">
       </div>
       <div class="form-group">
         <label>Home Phone</label>
-        <input type="" class="form-control" [(ngModel)]="customerInfo.homePhone">
+        <input type="phone" class="form-control" [(ngModel)]="customerInfo.homePhone">
       </div>
       <div class="form-group">
         <label for="">Email </label>
-        <input type="" class="form-control" [(ngModel)]="customerInfo.email">
+        <input type="email" class="form-control" [(ngModel)]="customerInfo.email">
       </div>
       <div class="form-group">
         <label for="">Passport Number</label>
-        <input type="" class="form-control" [(ngModel)]="customerInfo.passport">
+        <input type="number" class="form-control" [(ngModel)]="customerInfo.passport">
       </div>
       <div class="form-group">
         <label for="">Company Name</label>
-        <input type="" class="form-control" [(ngModel)]="customerInfo.companyName">
+        <input type="text" class="form-control" [(ngModel)]="customerInfo.companyName">
       </div>
     </div>
 
@@ -43,19 +44,25 @@
     <div class="col-6 text-left">
       <div class="form-group">
         <label for="">Language</label>
-        <input type="" class="form-control">
+        <mat-form-field class="col-2">
+          <select matNativeControl required>
+            <option value="1">En</option>
+            <option value="2">He</option>
+            <option value="3">Sp</option>
+          </select>
+        </mat-form-field>
       </div>
       <div class="form-group">
         <label for="">City</label>
-        <input type="" class="form-control" [(ngModel)]="customerInfo.city">
+        <input type="text" class="form-control" [(ngModel)]="customerInfo.city">
       </div>
       <div class="form-group">
         <label for="">Address</label>
-        <input type="" class="form-control" [(ngModel)]="customerInfo.address">
+        <input type="text" class="form-control" [(ngModel)]="customerInfo.address">
       </div>
       <div class="form-group">
         <label for="">Zip</label>
-        <input type="" class="form-control" [(ngModel)]="customerInfo.zip">
+        <input type="number" class="form-control" [(ngModel)]="customerInfo.zip">
       </div>
     </div>
   </div>
@@ -82,13 +89,13 @@
       </div>
       <li class="list-group-item mb-2" *ngFor="let x of customerInfo.roomDetail">
         <div class="row">
-          <div class="col-2">{{x.RoomGroup}} {{x.RoomNumber}}{{x.name}}</div>
+          <div class="col-2">{{x.RoomGroup}} {{x.RoomNumber}}{{x.name}}{{x.roomName}}</div>
           <!-- <div class="col-2"></div> -->
-          <div class="col-2">{{x.ArriveDate}}{{x.startDate}}</div>
-          <div class="col-2">{{x.EvacuateDate}}{{x.endDate}}</div>
+          <div class="col-2">{{x.ArriveDate}}{{x.startDate}}{{x.arrivalDate}}</div>
+          <div class="col-2">{{x.EvacuateDate}}{{x.endDate}}{{x.evacuateDate}}</div>
           <div class="col-1">{{x.RegularDays}}</div>
           <div class=" col-1 input-group mb-3">
-            <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="customerInfo.adults">
+            <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="x.maxAdults">
               <option>1</option>
               <option>2</option>
               <option>3</option>
@@ -102,7 +109,7 @@
             </select>
           </div>
           <div class="col-1 input-group mb-3">
-            <select class="custom-select" id="inputGroupSelect01">
+            <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="x.maxChildren">
               <option>0</option>
               <option>1</option>
               <option>2</option>
@@ -130,12 +137,13 @@
               <option>10</option>
             </select>
           </div>
-          <div class="col-1 input-group mb-3"> <select class="custom-select" id="inputGroupSelect01">
+          <div class="col-1 input-group mb-3">
+            <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="x.mealType">
               <option value="1">R/O</option>
               <option value="2">B/B</option>
               <option value="3">H/B</option>
             </select></div>
-          <div class="col-1">{{x.Price}}</div>
+          <div class="col-1">{{x.roomPrice}} NIS</div>
         </div>
       </li>
     </ul>

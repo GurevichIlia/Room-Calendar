@@ -12,13 +12,20 @@
         </div>
         <div class="col-10">
             <div>
-                <div class="input-group text-right mb-2" style="width: 250px">
-                    <input #Date type="date" class="form-control" [(ngModel)]="start">
-                    <span class="input-group-btn">
-                        <button (click)='showRoomsForPickedDate(Date.value)' class="btn btn-secondary"
-                            type="button">Show</button>
-                    </span>
+                <div class="row">
+                    <div class="input-group  mb-2 col-3" style="width: 250px">
+                        <input #Date type="date" class="form-control" [(ngModel)]="start">
+                        <span class="input-group-btn">
+                            <button (click)='showRoomsForPickedDate(Date.value)' class="btn btn-secondary"
+                                type="button">Show</button>
+                        </span>
+                    </div>
+                    <div class="col-2 ">
+                        <button (click)='newOrder()' class="btn btn-secondary text-left" type="button">New
+                            Order</button>
+                    </div>
                 </div>
+
                 <div class="col-12 sticky">
                     <div class="row dateRow ">
                         <button (click)="backToThisWeek()" mat-raised-button color="accent" class="col-2">This
@@ -37,21 +44,7 @@
                         <h4 class="col-12">Group: {{group.name}}<button
                                 (click)="group.hide=!group.hide;showBookedRooms()" class="btn btn-light btn-sm"><i
                                     [ngClass]="group.hide ? 'fa fa-plus': 'fa fa-minus'"></i></button></h4>
-                        <!-- <div class="col-12">
-                            <div class="row dateRow">
-                                <button (click)="backToThisWeek()" mat-raised-button color="accent" class="col-2">This
-                                    Week</button>
-                                <button mat-raised-button class="col ml-2">{{weekStart[0]}}</button>
-                                <button mat-raised-button class="col ml-1">{{weekStart[1]}}</button>
-                                <button mat-raised-button class="col ml-1">{{weekStart[2]}}</button>
-                                <button mat-raised-button class="col mr-1 ml-1">{{weekStart[3]}}</button>
-                                <button mat-raised-button class="col mr-1">{{weekStart[4]}}</button>
-                                <button mat-raised-button class="col mr-1">{{weekStart[5]}}</button>
-                                <button mat-raised-button class="col mr-1">{{weekStart[6]}}</button>
-                            </div>
-                        </div> -->
                     </div>
-
                     <ng-container *ngFor="let room of group['children']; let i=index">
                         <li class="list-group-item" *ngIf="!group.hide">
                             <div class="row">
