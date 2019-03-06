@@ -1,3 +1,32 @@
 .title{
 font-weight: bold;
 }
+@media (min-width: 0px) {
+.order-title{
+    display: none;
+}
+ }
+@media (min-width: 576px) { 
+  
+ }
+
+
+@media (min-width: 768px) { 
+.date{
+    display: none;
+}
+ }
+
+
+@media (min-width: 992px) {
+    .order-title{
+        display: block;
+    }
+    .date{
+        display: none;
+    }
+}
+
+@media (min-width: 1200px) {
+    
+ }

@@ -22,6 +22,7 @@ export class OrderService {
   onlyAvailableRoomsBtwDate: any[];
   addedRoomsForNewOrder: NewOrderRoom[] = [];
   avlRooms: any[];
+  public howManyPeople = false;
   public groupName: any[] = [];
   public completeCustDetByOrderIdloaded = false;
   constructor(private http: HttpClient) {
@@ -94,22 +95,19 @@ export class OrderService {
     this.avlRooms = [];
     for (const rooms of this.onlyAvailableRoomsBtwDate) {
       for (const room of rooms) {
-        for (const group of groupName) {
-          if (room.RoomGroupName === group) {
-            this.avlRooms.push(room);
+        if (groupName.length === 0) {
+          this.avlRooms.push(room);
+        } else {
+          for (const group of groupName) {
+            if (room.RoomGroupName === group) {
+              this.avlRooms.push(room);
+            }
           }
         }
       }
+
     }
     console.log('Order service', this.avlRooms);
-  }
-  availableRooms() {
-    for (const rooms of this.onlyAvailableRoomsBtwDate) {
-      for (const room of rooms) {
-        this.avlRooms.push(room);
-      }
-    }
-    console.log(this.avlRooms);
   }
 }
 

@@ -8,6 +8,6 @@ export class NewOrderRoom {
     mealType: string;
     arrivalDate: string;
     evacuateDate: string;
-    roomPrice: number;
+    Price: number;
     regularDays: number;
 }

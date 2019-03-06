@@ -40,7 +40,7 @@ const routes: Routes = [
     canActivate: [LoginGuard]
   },
   {
-    path: 'order-details/:id', component: OrderDetailsComponent,
+    path: 'book/order-details/:id', component: OrderDetailsComponent,
     canActivate: [LoginGuard]
   },
   { path: '**', redirectTo: '/login' },

@@ -1,78 +1,81 @@
 <div class="container align-items-center">
     <div class="text-left mb-3 ">
-        <button routerLink="/book" mat-raised-button color="accent" class="col-2">Back to Calendar</button>
+        <button (click)="removeAddedRooms()" routerLink="/book" mat-raised-button color="accent"
+            class="col-6 col-sm-6 col-md-4 col-xl-2">Back to
+            Calendar</button>
     </div>
     <mat-card>
         <mat-card-content>
-            <mat-card style="" class="mb-1">
-                <mat-card-title color="accent" class="text-left">
+            <mat-card class="mb-1">
+                <mat-card-title color="accent" class="text-left mb-3">
                     <h2>New Order</h2>
                 </mat-card-title>
                 <mat-card-content>
-                    <div class="row mb-3 text-left">
-                        <div class="col-5"></div>
-                        <div class="col-1">Adults</div>
-                        <div class="col-1">Children</div>
-                        <div class="col-2">Meal Type</div>
-                    </div>
-                    <div class="row mb-3 align-items-center">
-                        <mat-form-field class="col-2">
-                            <mat-select placeholder="Rooms Group" [(ngModel)]="roomsGroup" multiple #RoomGroup>
-                                <mat-option *ngFor="let group of orderService.groupName; let i = index" [value]="group"
-                                    (click)="filterGroup()">
-                                    {{group}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <div class="col-3"></div>
-                        <mat-form-field class="col-1">
-                            <select [(ngModel)]='orderService.searchInfoForNewOrderRoom.maxAdults' #MaxAdultsForAll
-                                matNativeControl required>
-                                <option value="0">0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </mat-form-field>
-                        <mat-form-field class="col-1">
-                            <select [(ngModel)]='orderService.searchInfoForNewOrderRoom.maxChildren' #MaxChildrenForAll
-                                matNativeControl required>
-                                <option value="0">0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </mat-form-field>
-                        <mat-form-field class="col-2">
-                            <select [(ngModel)]='orderService.searchInfoForNewOrderRoom.mealType' #Meal matNativeControl
-                                required>
-                                <option value="1">Room Only</option>
-                                <option value="2">Bed & Breakfast</option>
-                                <option value="3">Half Board</option>
-                            </select>
-                        </mat-form-field>
-                        <div class="col-2">
-                            <button (click)='showAvailableRooms()' mat-raised-button color="primary">Set for
-                                All</button>
-                            <button class="right" *ngIf="newOrder !== []" (click)='createArrNewOrders()'
-                                mat-raised-button color="accent">Submit</button>
+                    <div class="row align-items-center justify-content-between">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                            <div class="row mb-2 text-left">
+                                <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3"><strong>Adults</strong>
+                                </div>
+                                <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3"><strong>Children</strong></div>
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6"><strong>Meal Type</strong></div>
+                            </div>
+                            <div class="row mb-3 align-items-center">
+                                <mat-form-field class="col-3 col-sm-3 col-md-3 col-lg-3">
+                                    <select [(ngModel)]='orderService.searchInfoForNewOrderRoom.maxAdults'
+                                        #MaxAdultsForAll matNativeControl required>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </mat-form-field>
+                                <mat-form-field class="col-3 col-sm-3 col-md-3 col-lg-3">
+                                    <select [(ngModel)]='orderService.searchInfoForNewOrderRoom.maxChildren'
+                                        #MaxChildrenForAll matNativeControl required>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </mat-form-field>
+                                <mat-form-field class="col-6 col-sm-6 col-md-6 col-lg-6">
+                                    <select [(ngModel)]='orderService.searchInfoForNewOrderRoom.mealType' #Meal
+                                        matNativeControl required>
+                                        <option value="1">Room Only</option>
+                                        <option value="2">Bed & Breakfast</option>
+                                        <option value="3">Half Board</option>
+                                    </select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-3">
+                            <div class="row align-items-center">
+                                <mat-form-field class="col-12 col-sm-12 col-md-4 col-lg-12">
+                                    <mat-select placeholder="Filter Group" [(ngModel)]="roomsGroup" multiple #RoomGroup>
+                                        <mat-option *ngFor="let group of orderService.groupName; let i = index"
+                                            [value]="group" (click)="filterGroup()">
+                                            {{group}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
                         </div>
                     </div>
-                    <mat-card style="background: #eeeeee">
+                    <mat-card class="order-title" style="background: #eeeeee">
                         <mat-card-content>
                             <div class="row text-left">
                                 <div class="col-2 title">Room Name</div>
@@ -87,9 +90,8 @@
                     </mat-card>
                 </mat-card-content>
             </mat-card>
-            <app-list-rooms-available (sendOrderToListRooms)="receiveOrderFromAvlRoom($event)">
+            <app-list-rooms-available>
             </app-list-rooms-available>
         </mat-card-content>
-        <button *ngIf="newOrder !== []" (click)='createArrNewOrders()' mat-raised-button color="accent">Submit</button>
     </mat-card>
 </div>

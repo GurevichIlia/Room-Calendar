@@ -1,10 +1,20 @@
 <div class="text-left">
-  <div>
-    <div *ngFor='let avlRooms of orderService.avlRooms'>
-      <!-- <button (click)="click(RoomGroup.value, avlRooms.RoomGroupName )"></button> -->
-      <app-available-room (sendOrderToListRooms)="receiveOrderFromAvlRoom($event)" [avlRooms]='avlRooms'>
-      </app-available-room>
-    </div>
+  <mat-card class="row sticky">
+    <mat-card-content>
+      <!-- <div class="col-5 col-sm-5 col-md-3 col-lg-5 mb-1"> -->
+      <button class="col-5 col-sm-5 col-md-3 col-lg-2 ml-2" (click)='removeAddedRooms()' mat-raised-button
+        color="primary">Cancel
+      </button>
+      <!-- </div> -->
+      <!-- <div class="col-5 col-sm-5 col-md-3 col-lg-5 mb-1 ml-3"> -->
+      <button class="col-5 col-sm-5 col-md-3 col-lg-2 mb-1 ml-4" (click)='createArrNewOrders()' mat-raised-button
+        color="accent">Submit</button>
+      <!-- </div> -->
+    </mat-card-content>
+  </mat-card>
+  <div *ngFor='let avlRooms of orderService.avlRooms'>
+    <!-- <button (click)="click(RoomGroup.value, avlRooms.RoomGroupName )"></button> -->
+    <app-available-room (sendOrderToListRooms)="receiveOrderFromAvlRoom($event)" [avlRooms]='avlRooms'>
+    </app-available-room>
   </div>
-
 </div>

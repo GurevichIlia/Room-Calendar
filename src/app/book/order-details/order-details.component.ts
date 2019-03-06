@@ -6,6 +6,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { OrderService } from 'src/app/services/order.service';
 import { CustomerDetails } from 'src/app/model/customer-details.model';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { NewOrderRoom } from 'src/app/model/NewOrderRoom.model';
 
 
 
@@ -23,6 +24,7 @@ export class OrderDetailsComponent implements OnInit {
   showScrollHeight = 300;
   hideScrollHeight = 10;
   Adults = 0;
+  totalPrice: number;
   constructor(
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
@@ -58,7 +60,7 @@ export class OrderDetailsComponent implements OnInit {
     }
   }
   ngOnInit() {
-    if (this.orderService.onlyAvailableRoomsBtwDate === undefined) {
+    if (this.orderService.customerInfo.totalRooms === null && this.orderService.avlRooms === undefined) {
       this.router.navigate(['/book']);
     }
     this.spinner.show();
@@ -66,20 +68,20 @@ export class OrderDetailsComponent implements OnInit {
       this.newOrderFromNewOrderList();
     } else {
       this.orderService.GetCompleteCustDetByOrderId(this.orderId);
-      setTimeout(() => this.completeCustDetByOrderId(), 1000);
+      setTimeout(() => this.editOrderDetailsFromCalendar(), 1000);
     }
 
 
   }
-  completeCustDetByOrderId() {
+  // completeCustDetByOrderId() {
 
-    this.customerInfo = this.orderService.customerInfo;
-    this.spinner.hide();
+  //   this.customerInfo = this.orderService.customerInfo;
+  //   this.spinner.hide();
 
 
-    console.log(this.customerInfo.roomDetail);
-    console.log();
-  }
+  //   console.log(this.customerInfo.roomDetail);
+  //   console.log();
+  // }
   newOrderFromNewOrderList() {
     this.customerInfo = {
       orderId: '',
@@ -87,7 +89,7 @@ export class OrderDetailsComponent implements OnInit {
       lastName: '',
       address: '',
       phone: '',
-      totalRooms: null,
+      totalRooms: this.orderService.addedRoomsForNewOrder.length,
       email: '',
       homePhone: '',
       passport: '',
@@ -96,9 +98,24 @@ export class OrderDetailsComponent implements OnInit {
       companyName: '',
       roomDetail: this.orderService.addedRoomsForNewOrder
     };
+    this.getTotalPrice(this.customerInfo.roomDetail);
+    console.log(this.customerInfo.roomDetail);
     this.spinner.hide();
   }
-  submit() {
-    console.log(this.Adults);
+  getTotalPrice(roomDetail: NewOrderRoom[]) {
+    this.totalPrice = 0;
+    for (const price of roomDetail) {
+      this.totalPrice += price.Price;
+    }
+    console.log(this.totalPrice);
+  }
+  editOrderDetailsFromCalendar() {
+    this.customerInfo = this.orderService.customerInfo;
+    this.getTotalPrice(this.customerInfo.roomDetail);
+    this.spinner.hide();
+  }
+  submitNewOrder() {
+    console.log(this.customerInfo);
+    alert('Order Sent');
   }
 }

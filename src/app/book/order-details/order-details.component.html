@@ -4,7 +4,9 @@
   </ngx-spinner>
   <div class="text-left mb-3 ">
     <button routerLink="/book" mat-raised-button color="accent" class="col-2">Back to Calendar</button>
-    <button routerLink="/book/new-order" mat-raised-button color="accent" class="col-2">Back to New Order</button>
+    <button *ngIf="orderService.avlRooms !== undefined" routerLink="/book/new-order" mat-raised-button color="accent"
+      class="col-2">Back to
+      New Order</button>
   </div>
   <h2 class="text-left mb-5">Order Details</h2>
   <!-- <form action=""> -->
@@ -75,77 +77,100 @@
   <!-- </form> -->
   <div>
     <ul class="list-unstyled">
-      <div class="row mb-5">
-        <div class="col-2"><strong>Room Name</strong></div>
-        <!-- <div class="col-2"><strong>Room Type</strong></div> -->
-        <div class="col-2"><strong>Arrival</strong></div>
-        <div class="col-2"><strong>Check-out</strong></div>
-        <div class="col-1"><strong>Total Nights</strong></div>
-        <div class="col-1"><strong>Adults</strong></div>
-        <div class="col-1"><strong>Children</strong></div>
-        <div class="col-1"><strong>Baby</strong></div>
-        <div class="col-1"><strong>Meal Type</strong></div>
-        <div class="col-1"><strong>Price</strong></div>
-      </div>
+      <mat-card style="background: #eeeeee" class="mb-2">
+        <mat-card-content>
+          <div class="row left">
+            <div class="col-2"><strong>Room Name</strong></div>
+            <!-- <div class="col-2"><strong>Room Type</strong></div> -->
+            <div class="col-2"><strong>Arrival</strong></div>
+            <div class="col-2"><strong>Check-out</strong></div>
+            <div class="col-1"><strong>Total Nights</strong></div>
+            <div class="col-1"><strong>Adults</strong></div>
+            <div class="col-1"><strong>Children</strong></div>
+            <div class="col-1"><strong>Baby</strong></div>
+            <div class="col-1"><strong>Meal Type</strong></div>
+            <div class="col-1 text-left"><strong>Price</strong></div>
+          </div>
+        </mat-card-content>
+      </mat-card>
       <li class="list-group-item mb-2" *ngFor="let x of customerInfo.roomDetail">
-        <div class="row">
-          <div class="col-2">{{x.RoomGroup}} {{x.RoomNumber}}{{x.name}}{{x.roomName}}</div>
-          <!-- <div class="col-2"></div> -->
-          <div class="col-2">{{x.ArriveDate}}{{x.startDate}}{{x.arrivalDate}}</div>
-          <div class="col-2">{{x.EvacuateDate}}{{x.endDate}}{{x.evacuateDate}}</div>
-          <div class="col-1">{{x.RegularDays}}</div>
-          <div class=" col-1 input-group mb-3">
-            <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="x.maxAdults">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-              <option>10</option>
-            </select>
-          </div>
-          <div class="col-1 input-group mb-3">
-            <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="x.maxChildren">
-              <option>0</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-              <option>10</option>
-            </select>
-          </div>
-          <div class="col-1 input-group mb-3"> <select class="custom-select" id="inputGroupSelect01">
-              <option>0</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-              <option>10</option>
-            </select>
-          </div>
-          <div class="col-1 input-group mb-3">
-            <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="x.mealType">
-              <option value="1">R/O</option>
-              <option value="2">B/B</option>
-              <option value="3">H/B</option>
-            </select></div>
-          <div class="col-1">{{x.roomPrice}} NIS</div>
-        </div>
+        <mat-card>
+          <mat-card-content>
+            <div class="row">
+              <h4 class="col-2">{{x.RoomGroup}} {{x.RoomNumber}}{{x.name}}{{x.roomName}}</h4>
+              <!-- <div class="col-2"></div> -->
+              <div class="col-2"><strong>{{x.ArriveDate}}{{x.startDate}}{{x.arrivalDate}}</strong></div>
+              <div class="col-2"><strong>{{x.EvacuateDate}}{{x.endDate}}{{x.evacuateDate}}</strong></div>
+              <div class="col-1">{{x.regularDays}}</div>
+              <div class=" col-1 input-group mb-3">
+                <select class="custom-select" id="inputGroupSelect01" [value]="x.maxAdults">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                </select>
+              </div>
+              <div class="col-1 input-group mb-3">
+                <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="x.maxChildren">
+                  <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                </select>
+              </div>
+              <div class="col-1 input-group mb-3"> <select class="custom-select" id="inputGroupSelect01">
+                  <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                </select>
+              </div>
+              <div class="col-1 input-group mb-3">
+                <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="x.mealType">
+                  <option value="1">R/O</option>
+                  <option value="2">B/B</option>
+                  <option value="3">H/B</option>
+                </select></div>
+              <div class="col-1"><strong>{{x.Price}} NIS</strong></div>
+            </div>
+          </mat-card-content>
+        </mat-card>
       </li>
     </ul>
   </div>
+
+  <div class="text-right mb-1">
+    <mat-card>
+      <mat-card-content>
+        <h4>Total Price: {{totalPrice}} NIS</h4>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="text-right mb-5">
+    <button style="width: 200px" (click)="submit()" *ngIf="orderId != 'new-order'" mat-raised-button
+      color="primary">Update</button>
+    <button (click)="submitNewOrder()" style="width: 200px" *ngIf="orderId == 'new-order'" mat-raised-button
+      color="primary">Submit</button>
+  </div>
+
 </div>

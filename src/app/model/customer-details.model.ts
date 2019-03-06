@@ -1,7 +1,7 @@
 import { NewOrderRoom } from './NewOrderRoom.model';
 
 export class CustomerDetails {
-    orderId: string;
+    orderId?: string;
     firstName: string;
     lastName: string;
     address: string;

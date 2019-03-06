@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NewOrderRoom } from 'src/app/model/NewOrderRoom.model';
 import { OrderService } from 'src/app/services/order.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-rooms-available',
@@ -10,34 +11,32 @@ import { OrderService } from 'src/app/services/order.service';
 export class ListRoomsAvailableComponent implements OnInit {
   newOrder: NewOrderRoom;
   constructor(
+    private router: Router,
     private orderService: OrderService
   ) { }
 
   ngOnInit() {
-    // console.log('From List groupNAme', this.groupName[0]);
-    // console.log('from list', this.roomsGroup);
   }
-  // receiveOrderFromAvlRoom($event) {
-  //   this.newOrder = $event;
-  //   let x = false;
-  //   // tslint:disable-next-line:triple-equals
-  //   if (this.orderService.AvailableRoomsBtwDate.length == 0) {
-  //     this.orderService.AvailableRoomsBtwDate.push(this.newOrder);
-  //   } else {
-  //     for (let i = 0; i < this.orderService.AvailableRoomsBtwDate.length; i++) {
-  //       // tslint:disable-next-line:triple-equals
-  //       if (this.orderService.AvailableRoomsBtwDate[i].roomId == this.newOrder.roomId) {
-  //         this.orderService.AvailableRoomsBtwDate.splice(i, 1);
-  //         x = true;
-  //         break;
-  //       }
-  //     } if (x === false) {
-  //       this.orderService.AvailableRoomsBtwDate.push(this.newOrder);
-  //     }
+  removeAddedRooms() {
+    this.orderService.addedRoomsForNewOrder = [];
+    this.orderService.howManyPeople = false;
+  }
+  createArrNewOrders() {
+    // tslint:disable-next-line:triple-equals
+    if (this.orderService.addedRoomsForNewOrder.length > 0) {
+      this.router.navigate(['/book/order-details/new-order']);
+      // this.orderId++;
+      // this.newOrders = {
+      //   orderId: this.orderId,
+      //   orderInfo: this.orderService.addedRoomsForNewOrder
+      // };
+      // this.orderService.newOrderAvailbleRoomsBtwDate.push(this.newOrders);
+      // console.log(this.orderService.newOrderAvailbleRoomsBtwDate);
+      // this.orderService.AvailbleRoomsBtwDate = [];
 
-  //   }
-  //   // console.log('from list', this.roomsGroup);
-  //   console.log('from list', this.orderService.AvailableRoomsBtwDate);
-  // }
+    } else {
+      alert('Please select rooms');
+    }
+  }
 }
 

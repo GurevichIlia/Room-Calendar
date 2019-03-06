@@ -4,14 +4,21 @@
       <mat-card-content>
         <form>
           <div class="row align-items-center">
-            <div class="col-2">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-2 mb-3">
               <h4 #RoomName>
                 {{avlRooms.RoomGroupName + avlRooms.RoomNo}}
               </h4>
             </div>
-            <div class="col-2" #ArrivalDate>{{orderService.searchInfoForNewOrderRoom.arrivalDate}}</div>
-            <div class="col-2" #EvacuateDate>{{orderService.searchInfoForNewOrderRoom.evacuateDate}}</div>
-            <mat-form-field class="col-1">
+            <div class="col-6 col-sm-4 col-md-4 col-lg-2" #ArrivalDate>
+              <p class="dateTitle"><strong>Arrival</strong> </p>
+              {{orderService.searchInfoForNewOrderRoom.arrivalDate}}
+            </div>
+            <div class="col-6 col-sm-8 col-md-8 col-lg-2" #EvacuateDate>
+              <p class="dateTitle"><strong>Departure</strong></p>
+              {{orderService.searchInfoForNewOrderRoom.evacuateDate}}
+            </div>
+            <mat-form-field class="col-4 col-sm-4 col-md-4 col-lg-1">
+              <p class="dateTitle"><strong>Adults</strong></p>
               <select matNativeControl required #MaxAdults [value]="orderService.searchInfoForNewOrderRoom.maxAdults">
                 <option value="0">0</option>
                 <option value="1">1</option>
@@ -26,7 +33,8 @@
                 <option value="10">10</option>
               </select>
             </mat-form-field>
-            <mat-form-field class="col-1">
+            <mat-form-field class="col-4 col-sm-4 col-md-4 col-lg-1">
+              <p class="dateTitle"><strong>Children</strong></p>
               <select matNativeControl required #MaxChildren
                 [value]="orderService.searchInfoForNewOrderRoom.maxChildren">
                 <option value="0">0</option>
@@ -42,33 +50,29 @@
                 <option value="10">10</option>
               </select>
             </mat-form-field>
-            <mat-form-field class="col-1">
+            <mat-form-field class="col-4 col-sm-4 col-md-4 col-lg-1">
+              <p class="dateTitle"><strong>M/T</strong></p>
               <select matNativeControl required #MealType [value]="orderService.searchInfoForNewOrderRoom.mealType">
                 <option value="1">R/O</option>
                 <option value="2">B/B</option>
                 <option value="3">H/B</option>
               </select>
-              <select [hidden]='true' matNativeControl required>
-                <option #Price [value]='avlRooms.PriceRo'>R/O</option>
-                <option #Price [value]='avlRooms.PriceBB'>B/B</option>
-                <option #Price [value]='avlRooms.PriceHB'>H/B</option>
-              </select>
             </mat-form-field>
-            <div class="col-1">
-              <div class="" *ngIf="MealType.value == '1'">{{avlRooms.PriceRo}} NIS
-              </div>
-              <div class="" *ngIf="MealType.value == '2'">{{avlRooms.PriceBB}} NIS
-              </div>
-              <div class="" *ngIf="MealType.value == '3'">{{avlRooms.PriceHB}} NIS
-              </div>
-            </div>
-
-            <div class="col-1">
-              <button *ngIf="!avlRooms.order" (click)="addNewOrder(RoomName.innerHTML, ArrivalDate.innerHTML, EvacuateDate.innerHTML, MaxAdults.value, MaxChildren.value, MealType.value,avlRooms.RoomId, Price.value, avlRooms.RoomGroupId, avlRooms.RoomNo, avlRooms.RegularDays);
-                            avlRooms.order=!avlRooms.order" mat-raised-button color="primary">Add Order</button>
-              <button *ngIf="avlRooms.order" (click)="addNewOrder(RoomName.innerHTML, ArrivalDate.innerHTML, EvacuateDate.innerHTML, MaxAdults.value, MaxChildren.value, MealType.value,avlRooms.RoomId, Price.value, avlRooms.RoomGroupId, avlRooms.RoomNo, avlRooms.RegularDays);
-                            avlRooms.order=!avlRooms.order" mat-raised-button color="accent">Added</button>
-            </div>
+            <h5 class="col-7 col-sm-7 col-md-6 col-lg-2 text-left" *ngIf="MealType.value == '1'">{{avlRooms.PriceRo}}
+              NIS
+            </h5>
+            <h5 class="col-7 col-sm-7 col-md-6 col-lg-2 text-left" *ngIf="MealType.value == '2'">{{avlRooms.PriceBB}}
+              NIS
+            </h5>
+            <h5 class="col-7 col-sm-7 col-md-6 col-lg-2 text-left" *ngIf="MealType.value == '3'">{{avlRooms.PriceHB}}
+              NIS
+            </h5>
+            <button class="col-5 col-sm-5 col-md-5 col-lg-1" *ngIf="!avlRooms.howManyPeople" (click)="addNewOrder(RoomName.innerHTML, ArrivalDate.innerHTML, EvacuateDate.innerHTML, MaxAdults.value, MaxChildren.value, MealType.value,avlRooms.RoomId, avlRooms.RoomGroupId, avlRooms.RoomNo, avlRooms.RegularDays, avlRooms.maxinroom);
+                            avlRooms.howManyPeople=!avlRooms.howManyPeople" mat-raised-button color="primary">Add
+            </button>
+            <button class="col-5 col-sm-5 col-md-5 col-lg-1" *ngIf="avlRooms.howManyPeople" (click)="addNewOrder(RoomName.innerHTML, ArrivalDate.innerHTML, EvacuateDate.innerHTML, MaxAdults.value, MaxChildren.value, MealType.value,avlRooms.RoomId, avlRooms.RoomGroupId, avlRooms.RoomNo, avlRooms.RegularDays, avlRooms.maxinroom);
+                            avlRooms.howManyPeople=!avlRooms.howManyPeople" mat-raised-button
+              color="accent">Added</button>
           </div>
         </form>
       </mat-card-content>

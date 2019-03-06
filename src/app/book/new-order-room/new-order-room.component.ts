@@ -39,10 +39,6 @@ export class NewOrderRoomComponent implements OnInit {
     private roomService: GetRoomsService,
     private orderService: OrderService
   ) {
-
-    // this.arrivalDate = moment().format('YYYY-MM-DD');
-    // this.evacuateDate = moment(this.arrivalDate).add(1, 'day').format('YYYY-MM-DD');
-    // this.minDate = moment(this.arrivalDate).add(1, 'day').format('YYYY-MM-DD');
   }
 
   ngOnInit() {
@@ -52,21 +48,10 @@ export class NewOrderRoomComponent implements OnInit {
       this.filterGroup();
     }
   }
-
-  showAvailableRooms() {
-    return this.orderService.onlyAvailableRoomsBtwDate;
-  }
-
-  // this.availableRoomsBtwDate = this.roomService.availableRoomsBtwDate.filter(RoomData => RoomData['availble'] === 1);
-  // console.log(this.availableRoomsBtwDate);
-
-  // receiveOrderFromAvlRoom($event) {
-  //   this.newOrder = $event;
-  // }
   createArrNewOrders() {
     // tslint:disable-next-line:triple-equals
     if (this.orderService.addedRoomsForNewOrder.length > 0) {
-      this.router.navigate(['/order-details/new-order']);
+      this.router.navigate(['/book/order-details/new-order']);
       // this.orderId++;
       // this.newOrders = {
       //   orderId: this.orderId,
@@ -82,5 +67,9 @@ export class NewOrderRoomComponent implements OnInit {
   }
   filterGroup() {
     this.orderService.filterAvailableRoomsByGroup(this.roomsGroup);
+  }
+  removeAddedRooms() {
+    this.orderService.addedRoomsForNewOrder = [];
+    this.orderService.howManyPeople = false;
   }
 }

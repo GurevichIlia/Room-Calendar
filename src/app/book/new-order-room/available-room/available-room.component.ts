@@ -11,7 +11,7 @@ import { SearchRoomInfo } from 'src/app/model/SearchRoomInfo.model';
   styleUrls: ['./available-room.component.css']
 })
 export class AvailableRoomComponent implements OnInit {
-  @Input() avlRooms: Object[];
+  @Input() avlRooms: any[];
   newOrder: NewOrderRoom;
   newOrders: {
     orderId: number;
@@ -27,20 +27,44 @@ export class AvailableRoomComponent implements OnInit {
   ngOnInit() {
   }
   // tslint:disable-next-line:max-line-length
-  addNewOrder(roomName: string, arrivalDate: string, evacuateDate: string, maxAdults: string, maxChildren: string, mealType: string, roomId: number, roomPrice: number, roomGroupId: number, roomNo: string, regularDays: number) {
-    this.newOrder = {
-      roomId: roomId,
-      roomGroupId: roomGroupId,
-      roomNo: roomNo,
-      roomName: roomName,
-      maxAdults: maxAdults,
-      maxChildren: maxChildren,
-      mealType: mealType,
-      arrivalDate: arrivalDate,
-      evacuateDate: evacuateDate,
-      roomPrice: roomPrice,
-      regularDays: regularDays
-    };
-    this.orderService.addRoomsForNewOrder(this.newOrder);
+  addNewOrder(roomName: string, arrivalDate: string, evacuateDate: string, maxAdults: string, maxChildren: string, mealType: string, roomId: number, roomGroupId: number, roomNo: string, regularDays: number, maxinRoom: number) {
+    this.checkHowManyPeople(maxAdults, maxChildren, maxinRoom);
+    if (this.orderService.howManyPeople) {
+      this.newOrder = {
+        roomId: roomId,
+        roomGroupId: roomGroupId,
+        roomNo: roomNo,
+        roomName: roomName,
+        maxAdults: maxAdults,
+        maxChildren: maxChildren,
+        mealType: mealType,
+        arrivalDate: arrivalDate,
+        evacuateDate: evacuateDate,
+        Price: null,
+        regularDays: regularDays
+      };
+      if (mealType === '1') {
+        this.newOrder.Price = this.avlRooms['PriceRo'];
+      } if (mealType === '2') {
+        this.newOrder.Price = this.avlRooms['PriceBB'];
+      } if (mealType === '3') {
+        this.newOrder.Price = this.avlRooms['PriceHB'];
+      }
+      this.orderService.addRoomsForNewOrder(this.newOrder);
+
+    }
+
+  }
+  checkHowManyPeople(adults: string, children: string, maxinRoom: number) {
+    const adult = Number(adults);
+    const child = Number(children);
+    if ((adult + child) > maxinRoom) {
+      alert(`Maximum number of people for room: ${maxinRoom} persons`);
+      return this.orderService.howManyPeople = false;
+    } if ((adult + child) === 0) {
+      alert(`Minimum number of people for room: 1 person`);
+    } else {
+      return this.orderService.howManyPeople = true;
+    }
   }
 }
