@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { NewOrderRoom } from 'src/app/model/NewOrderRoom.model';
 import { OrderService } from 'src/app/services/order.service';
 import { Router } from '@angular/router';
@@ -10,12 +10,25 @@ import { Router } from '@angular/router';
 })
 export class ListRoomsAvailableComponent implements OnInit {
   newOrder: NewOrderRoom;
+  roomsGroup: any[] = [];
+  showScroll: boolean;
+  showScrollHeight = 300;
+  hideScrollHeight = 10;
   constructor(
     private router: Router,
     private orderService: OrderService
   ) { }
-
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    if ((window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop) > this.showScrollHeight) {
+      this.showScroll = true;
+    } else if (this.showScroll && (window.pageYOffset ||
+      document.documentElement.scrollTop || document.body.scrollTop) < this.hideScrollHeight) {
+      this.showScroll = false;
+    }
+  }
   ngOnInit() {
+    this.filterGroup();
   }
   removeAddedRooms() {
     this.orderService.addedRoomsForNewOrder = [];
@@ -37,6 +50,9 @@ export class ListRoomsAvailableComponent implements OnInit {
     } else {
       alert('Please select rooms');
     }
+  }
+  filterGroup() {
+    this.orderService.filterAvailableRoomsByGroup(this.roomsGroup);
   }
 }
 

@@ -9,13 +9,13 @@
                 {{avlRooms.RoomGroupName + avlRooms.RoomNo}}
               </h4>
             </div>
-            <div class="col-6 col-sm-4 col-md-4 col-lg-2" #ArrivalDate>
-              <p class="dateTitle"><strong>Arrival</strong> </p>
-              {{orderService.searchInfoForNewOrderRoom.arrivalDate}}
+            <div class="col-6 col-sm-4 col-md-4 col-lg-2">
+              <p class="dateTitle"><strong>Arrival</strong></p>
+              <p #ArrivalDate>{{orderService.searchInfoForNewOrderRoom.arrivalDate}}</p>
             </div>
-            <div class="col-6 col-sm-8 col-md-8 col-lg-2" #EvacuateDate>
+            <div class="col-6 col-sm-8 col-md-8 col-lg-2">
               <p class="dateTitle"><strong>Departure</strong></p>
-              {{orderService.searchInfoForNewOrderRoom.evacuateDate}}
+              <p #EvacuateDate>{{orderService.searchInfoForNewOrderRoom.evacuateDate}}</p>
             </div>
             <mat-form-field class="col-4 col-sm-4 col-md-4 col-lg-1">
               <p class="dateTitle"><strong>Adults</strong></p>

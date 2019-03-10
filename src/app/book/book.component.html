@@ -4,12 +4,19 @@
     </ngx-spinner>
     <div class="row">
         <!-- <div [hidden] *ngIf="!showScroll" class="col-1"></div> -->
-        <!-- <div class="col-1 stickyarrow">
-            <button class="btn" (click)="changeDate('prev');showBookedRooms()">
-                <i class="material-icons">
-                    arrow_back_ios</i>
-            </button>
-        </div> -->
+        <!-- <div class="text-left"> -->
+        <button class="btn col-1 stickyarrow left" (click)="changeDate('prev');showBookedRooms()">
+            <i class="material-icons">
+                arrow_back_ios</i>
+        </button>
+        <!-- </div> -->
+        <!-- <div class="col stickyarrow text-right"> -->
+        <button (click)="changeDate('next');showBookedRooms()" class="btn col-1 stickyarrow text-right ml-3">
+            <i class="material-icons">
+                arrow_forward_ios
+            </i>
+        </button>
+        <!-- </div> -->
         <div class="col-12">
             <div>
                 <div class="row">
@@ -27,9 +34,10 @@
                 </div>
 
                 <div class="col-12 sticky">
-                    <div class="row dateRow ">
-                        <!-- <button (click)="backToThisWeek()" mat-raised-button color="accent" class="col-2">This
-                            Week</button> -->
+                    <div class="row dateRow">
+                        <button (click)="backToThisWeek()" mat-raised-button color="accent"
+                            class="col-12 col-sm-12 col-md-2 col-lg-2">This
+                            Week</button>
                         <button mat-raised-button color="primary" class="col ml-2">{{weekStart[0]}}</button>
                         <button mat-raised-button color="primary" class="col ">{{weekStart[1]}}</button>
                         <button mat-raised-button color="primary" class="col ">{{weekStart[2]}}</button>
@@ -48,43 +56,43 @@
                     <ng-container *ngFor="let room of group['children']; let i=index">
                         <li class="list-group-item" *ngIf="!group.hide">
                             <div class="row">
-                                <div mat-button class="col-12">
+                                <div mat-button class="col-12 col-sm-12 col-md-2 col-lg-2">
                                     <strong>{{room.name}} </strong>
                                 </div>
                                 <button
                                     (click)="pickRoom(room.name,weekStart[0],weekStart[0],room.id + '_1', room.id);popUpSelectedRooms(room.id + '_1', Sun._elementRef.nativeElement.innerHTML);roomByRoomId(room.id)"
-                                    id="{{room.id + '_1'}}" mat-button class="col ml-2" #Sun>
+                                    id="{{room.id + '_1'}}" mat-button class="col-1 col-sm-1 col-md col-lg ml-2" #Sun>
                                     Sun
                                 </button>
                                 <button
                                     (click)="pickRoom(room.name,weekStart[1],weekStart[1],room.id + '_2',room.id );popUpSelectedRooms(room.id + '_2', Mon._elementRef.nativeElement.innerHTML);roomPrice(weekStart[1],weekStart[2], 1, 0, 1, room.id, 4)"
-                                    id="{{room.id + '_2'}}" mat-button class="col ml-1" #Mon>
+                                    id="{{room.id + '_2'}}" mat-button class="col-1 col-sm-1 col-md col-lg ml-1" #Mon>
                                     Mon
                                 </button>
                                 <button
                                     (click)="pickRoom(room.name,weekStart[2],weekStart[2],room.id + '_3',room.id);popUpSelectedRooms(room.id + '_3', Tue._elementRef.nativeElement.innerHTML)"
-                                    id="{{room.id + '_3'}}" mat-button class="col ml-1" #Tue>
+                                    id="{{room.id + '_3'}}" mat-button class="col-1 col-sm-1 col-md col-lg ml-1" #Tue>
                                     Tue
                                 </button>
                                 <button
                                     (click)="pickRoom(room.name,weekStart[3],weekStart[3],room.id + '_4',room.id);popUpSelectedRooms(room.id + '_4', Wed._elementRef.nativeElement.innerHTML)"
-                                    id="{{room.id + '_4'}}" mat-button class="col ml-1" #Wed>
+                                    id="{{room.id + '_4'}}" mat-button class="col-1 col-sm-1 col-md col-lg ml-1" #Wed>
                                     Wed
                                 </button>
                                 <button
                                     (click)="pickRoom(room.name,weekStart[4],weekStart[4],room.id + '_5',room.id);popUpSelectedRooms(room.id + '_5', Th._elementRef.nativeElement.innerHTML)"
-                                    id="{{room.id + '_5'}}" mat-button class="col ml-1" #Th>
+                                    id="{{room.id + '_5'}}" mat-button class="col-1 col-sm-1 col-md col-lg ml-1" #Th>
                                     Th
                                 </button>
                                 <button
                                     (click)="pickRoom(room.name,weekStart[5],weekStart[5],room.id + '_6',room.id);popUpSelectedRooms(room.id + '_6', Fr._elementRef.nativeElement.innerHTML)"
-                                    id="{{room.id + '_6'}}" mat-button class="col ml-1" #Fr>
+                                    id="{{room.id + '_6'}}" mat-button class="col-1 col-sm-1 col-md col-lg ml-1" #Fr>
                                     Fr
 
                                 </button>
                                 <button
                                     (click)="pickRoom(room.name,weekStart[6],weekStart[6],room.id + '_7',room.id);popUpSelectedRooms(room.id + '_7', Sa._elementRef.nativeElement.innerHTML)"
-                                    id="{{room.id + '_7'}}" mat-button class="col ml-1" #Sa>
+                                    id="{{room.id + '_7'}}" mat-button class="col-1 col-sm-1 col-md col-lg ml-1" #Sa>
                                     Sa
 
                                 </button>
@@ -95,7 +103,7 @@
             </div>
         </div>
         <!-- <div [hidden] *ngIf="!showScroll" class="col-1"></div> -->
-        <!-- <div class="col-1 stickyarrow">
+        <!-- <div class="col stickyarrow">
             <button (click)="changeDate('next');showBookedRooms()" class="btn">
                 <i class="material-icons">
                     arrow_forward_ios

@@ -25,6 +25,7 @@ export class OrderDetailsComponent implements OnInit {
   hideScrollHeight = 10;
   Adults = 0;
   totalPrice: number;
+  orderedRoom: NewOrderRoom;
   constructor(
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
@@ -60,7 +61,8 @@ export class OrderDetailsComponent implements OnInit {
     }
   }
   ngOnInit() {
-    if (this.orderService.customerInfo.totalRooms === null && this.orderService.avlRooms === undefined) {
+    // tslint:disable-next-line:max-line-length
+    if (this.orderService.customerInfo.totalRooms === null && this.orderService.avlRooms.length <= 0 || this.orderService.addedRoomsForNewOrder.length === 0 && this.orderService.avlRooms.length >= 0) {
       this.router.navigate(['/book']);
     }
     this.spinner.show();
@@ -70,7 +72,6 @@ export class OrderDetailsComponent implements OnInit {
       this.orderService.GetCompleteCustDetByOrderId(this.orderId);
       setTimeout(() => this.editOrderDetailsFromCalendar(), 1000);
     }
-
 
   }
   // completeCustDetByOrderId() {
@@ -98,11 +99,12 @@ export class OrderDetailsComponent implements OnInit {
       companyName: '',
       roomDetail: this.orderService.addedRoomsForNewOrder
     };
-    this.getTotalPrice(this.customerInfo.roomDetail);
+    this.getTotalPrice();
     console.log(this.customerInfo.roomDetail);
     this.spinner.hide();
   }
-  getTotalPrice(roomDetail: NewOrderRoom[]) {
+  getTotalPrice() {
+    const roomDetail = this.customerInfo.roomDetail;
     this.totalPrice = 0;
     for (const price of roomDetail) {
       this.totalPrice += price.Price;
@@ -111,11 +113,26 @@ export class OrderDetailsComponent implements OnInit {
   }
   editOrderDetailsFromCalendar() {
     this.customerInfo = this.orderService.customerInfo;
-    this.getTotalPrice(this.customerInfo.roomDetail);
+    this.getTotalPrice();
     this.spinner.hide();
   }
   submitNewOrder() {
     console.log(this.customerInfo);
     alert('Order Sent');
+  }
+  removeAddedRooms() {
+    if (this.customerInfo.roomDetail.length === 0) {
+      this.router.navigate(['/book']);
+    } else if (confirm('Are you sure? All data will be deleted!')) {
+      this.orderService.addedRoomsForNewOrder = [];
+      this.orderService.howManyPeople = false;
+      this.router.navigate(['/book']);
+    }
+  }
+  removeAddedRoom(roomId: number) {
+    if (confirm('Delete selected room?')) {
+      this.orderService.removeRoomFromAdded(roomId);
+      this.getTotalPrice();
+    }
   }
 }

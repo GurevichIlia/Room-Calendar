@@ -1,6 +1,6 @@
 <div class="container align-items-center">
     <div class="text-left mb-3 ">
-        <button (click)="removeAddedRooms()" routerLink="/book" mat-raised-button color="accent"
+        <button (click)="removeAddedRooms()" mat-raised-button color="accent"
             class="col-6 col-sm-6 col-md-4 col-xl-2">Back to
             Calendar</button>
     </div>
@@ -62,7 +62,7 @@
                                 </mat-form-field>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-12 col-md-12 col-lg-3">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-3" *ngIf="!showScroll">
                             <div class="row align-items-center">
                                 <mat-form-field class="col-12 col-sm-12 col-md-4 col-lg-12">
                                     <mat-select placeholder="Filter Group" [(ngModel)]="roomsGroup" multiple #RoomGroup>

@@ -21,7 +21,7 @@ export class OrderService {
   searchInfoForNewOrderRoom: SearchRoomInfo;
   onlyAvailableRoomsBtwDate: any[];
   addedRoomsForNewOrder: NewOrderRoom[] = [];
-  avlRooms: any[];
+  avlRooms: any[] = [];
   public howManyPeople = false;
   public groupName: any[] = [];
   public completeCustDetByOrderIdloaded = false;
@@ -70,7 +70,7 @@ export class OrderService {
       console.log(res['Data']);
     });
   }
-  addRoomsForNewOrder(newOrderRooms: NewOrderRoom) {
+  addRoomsForNewOrder(newOrderRooms?: NewOrderRoom, roomId?: number) {
     let x = false;
     // tslint:disable-next-line:triple-equals
     if (this.addedRoomsForNewOrder.length == 0) {
@@ -86,10 +86,16 @@ export class OrderService {
       } if (x === false) {
         this.addedRoomsForNewOrder.push(newOrderRooms);
       }
-
     }
     // console.log('from list', this.roomsGroup);
     console.log('from service', this.addedRoomsForNewOrder);
+  }
+  removeRoomFromAdded(roomId: number) {
+    for (let i = 0; i < this.addedRoomsForNewOrder.length; i++) {
+      if (this.addedRoomsForNewOrder[i].roomId == roomId) {
+        this.addedRoomsForNewOrder.splice(i, 1);
+      }
+    }
   }
   filterAvailableRoomsByGroup(groupName: string[]) {
     this.avlRooms = [];
