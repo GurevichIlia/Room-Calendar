@@ -17,7 +17,8 @@ export class TokenInterceptor implements HttpInterceptor {
                     'Content-Type': 'application/json; charset=utf-8',
                     'X-Token': localStorage.getItem('XToken')
                 }
-            });
+            }
+            );
         }
         return next.handle(request);
     }

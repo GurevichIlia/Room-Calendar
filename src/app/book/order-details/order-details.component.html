@@ -12,72 +12,156 @@
   </div>
 
   <h2 class="text-left mb-5">Order Details</h2>
-  <!-- <form action=""> -->
-  <div class="row mb-3">
-    <div class="col-6 text-left">
-      <div class="form-group">
-        <label>First Name</label>
-        <input type="" class="form-control" [(ngModel)]="customerInfo.firstName">
+
+  <form [formGroup]="myForm">
+    <div class="row mb-3">
+      <div class="col-6 text-left">
+        <div class="form-group">
+          <mat-form-field class="full-width mb-1">
+            <input type="text" matInput placeholder="First Name*" formControlName="firstName"
+              [value]="customerInfo.firstName">
+            <mat-error *ngIf="!firstName.hasError('required')">
+              Please enter First Name
+            </mat-error>
+            <mat-error *ngIf="firstName.hasError('required')">
+              First Name is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <mat-form-field class="full-width">
+            <input type="text" matInput placeholder="Last Name*" formControlName="lastName"
+              [value]="customerInfo.lastName">
+            <mat-error *ngIf="!lastName.hasError('required')">
+              Please enter Last Name
+            </mat-error>
+            <mat-error *ngIf="lastName.hasError('required')">
+              Last Name is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <mat-form-field class="full-width">
+            <input type="email" matInput placeholder="E-mail*" formControlName="email" [value]="customerInfo.email">
+            <mat-error *ngIf="email.hasError('email') && !email.hasError('required')">
+              Please enter a valid email address
+            </mat-error>
+            <mat-error *ngIf="email.hasError('required')">
+              Email is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Phone*" formControlName="phone" [value]="customerInfo.phone">
+            <mat-error *ngIf="!phone.hasError('required')">
+              Please enter a valid phone
+            </mat-error>
+            <mat-error *ngIf="phone.hasError('required')">
+              Phone is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Home Phone" formControlName="homePhone" [value]="customerInfo.homePhone">
+            <!-- <mat-error *ngIf="!firstName.hasError('required')">
+                  Please enter a valid email address
+                </mat-error> -->
+            <!-- <mat-error *ngIf="firstName.hasError('required')">
+                  Email is <strong>required</strong>
+                </mat-error> -->
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Passport" formControlName="passport" [value]="customerInfo.passport">
+            <!-- <mat-error *ngIf="!firstName.hasError('required')">
+                  Please enter a valid email address
+                </mat-error> -->
+            <!-- <mat-error *ngIf="firstName.hasError('required')">
+                  Email is <strong>required</strong>
+                </mat-error> -->
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Company" formControlName="companyName" [value]="customerInfo.companyName">
+            <!-- <mat-error *ngIf="!firstName.hasError('required')">
+                    Please enter a valid email address
+                  </mat-error> -->
+            <!-- <mat-error *ngIf="firstName.hasError('required')">
+                    Email is <strong>required</strong>
+                  </mat-error> -->
+          </mat-form-field>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Last Name</label>
-        <input type="text" class="form-control" [(ngModel)]="customerInfo.lastName">
-      </div>
-      <div class="form-group">
-        <label>Cell Phone</label>
-        <input type="phone" class="form-control" [(ngModel)]="customerInfo.phone">
-      </div>
-      <div class="form-group">
-        <label>Home Phone</label>
-        <input type="phone" class="form-control" [(ngModel)]="customerInfo.homePhone">
-      </div>
-      <div class="form-group">
-        <label for="">Email </label>
-        <input type="email" class="form-control" [(ngModel)]="customerInfo.email">
-      </div>
-      <div class="form-group">
-        <label for="">Passport Number</label>
-        <input type="number" class="form-control" [(ngModel)]="customerInfo.passport">
-      </div>
-      <div class="form-group">
-        <label for="">Company Name</label>
-        <input type="text" class="form-control" [(ngModel)]="customerInfo.companyName">
+      <div class="col-6 text-left">
+        <div class="form-group">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="Select a Language" disableRipple formControlName="language">
+              <mat-option value="English">English</mat-option>
+              <mat-option value="Hebrew">Hebrew</mat-option>
+              <mat-option value="Spain">Spain</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="full-width">
+            <input matInput placeholder="City" formControlName="city" [value]="customerInfo.city">
+            <!-- <mat-error *ngIf="!firstName.hasError('required')">
+                    Please enter a valid email address
+                  </mat-error> -->
+            <!-- <mat-error *ngIf="firstName.hasError('required')">
+                      Email is <strong>required</strong>
+                    </mat-error> -->
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Address" formControlName="address" [value]="customerInfo.address">
+            <!-- <mat-error *ngIf="!address.hasError('required')">
+                    Please enter a valid email address
+                  </mat-error> -->
+            <!-- <mat-error *ngIf="address.hasError('required')">
+                    Email is <strong>required</strong>
+                  </mat-error> -->
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Zip" formControlName="zip" [value]="customerInfo.zip">
+            <!-- <mat-error *ngIf="!firstName.hasError('required')">
+                      Please enter a valid email address
+                    </mat-error> -->
+            <!-- <mat-error *ngIf="firstName.hasError('required')">
+                      Email is <strong>required</strong>
+                    </mat-error> -->
+          </mat-form-field>
+        </div>
+
       </div>
     </div>
-    <div class="col-6 text-left">
-      <div class="form-group">
-        <label for="">Language</label>
-        <mat-form-field class="col-2">
-          <select matNativeControl required>
-            <option value="1">En</option>
-            <option value="2">He</option>
-            <option value="3">Sp</option>
-          </select>
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <label for="">City</label>
-        <input type="text" class="form-control" [(ngModel)]="customerInfo.city">
-      </div>
-      <div class="form-group">
-        <label for="">Address</label>
-        <input type="text" class="form-control" [(ngModel)]="customerInfo.address">
-      </div>
-      <div class="form-group">
-        <label for="">Zip</label>
-        <input type="number" class="form-control" [(ngModel)]="customerInfo.zip">
-      </div>
-    </div>
-  </div>
-  <button *ngIf="orderService.avlRooms !== undefined" routerLink="/book/new-order" mat-raised-button color="primary"
-    class="col-6 col-sm-6 col-md-4 col-lg-2 col-xl-2 mr-1 mb-2">Back to
-    New Order</button>
-  <button (click)="submit()" *ngIf="orderId != 'new-order'" mat-raised-button color="accent"
-    class="col-5 col-sm-5 col-md-4 col-lg-2 col-xl-2">Update</button>
-  <button *ngIf="orderId == 'new-order'" mat-raised-button color="accent"
-    class="col-5 col-sm-5 col-md-4 col-lg-2 col-xl-2">Submit</button>
-  <!-- </form> -->
+
+    <button *ngIf="orderService.avlRooms !== undefined" routerLink="/book/new-order" mat-raised-button color="primary"
+      class="col-6 col-sm-6 col-md-4 col-lg-2 col-xl-2 mr-1 mb-2">Back to
+      New Order</button>
+    <button [disabled]="myForm.invalid" (click)="submit()" *ngIf="orderId != 'new-order'" mat-raised-button
+      color="accent" class="col-5 col-sm-5 col-md-4 col-lg-2 col-xl-2">Update</button>
+    <button [disabled]="myForm.invalid" *ngIf="orderId == 'new-order'" mat-raised-button color="accent"
+      class="col-5 col-sm-5 col-md-4 col-lg-2 col-xl-2">Submit</button>
+  </form>
+
+
   <div>
+
     <ul class="list-unstyled">
       <mat-card style="background: #eeeeee" class="mb-2 order-title">
         <mat-card-content>
@@ -125,11 +209,11 @@
               </div>
               <div class="col-6 col-sm-8 col-md-9 col-lg-1 order-title">
                 <p><strong>Nights</strong></p>
-                <p>{{x.regularDays}}</p>
+                <p>{{x.regularDays}}{{x.RegularDays}}</p>
               </div>
               <div class="col-4 col-sm-4 col-md-2 col-lg-1 mb-3 ">
                 <p class="dateTitle"><strong>Adults</strong></p>
-                <p>{{x.maxAdults}}</p>
+                <p>{{x.maxAdults}}{{x.adults}}</p>
                 <!-- <select class="custom-select" id="inputGroupSelect01" [value]="x.maxAdults">
                   <option>1</option>
                   <option>2</option>
@@ -145,7 +229,7 @@
               </div>
               <div class="col-4 col-sm-4 col-md-2 col-lg-1 mb-3 ">
                 <p class="dateTitle"><strong>Children</strong></p>
-                <p>{{x.maxChildren}}</p>
+                <p>{{x.maxChildren}}{{x.Children}}</p>
                 <!-- <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="x.maxChildren">
                   <option>0</option>
                   <option>1</option>
@@ -176,31 +260,37 @@
               </div> -->
               <div class="col-4 col-sm-4 col-md-2 col-lg-2 mb-3 ">
                 <p class="dateTitle"><strong>M/T</strong></p>
-                <p *ngIf="x.mealType == 1" value="1">R/O</p>
-                <p *ngIf="x.mealType == 2" value="2">B/B</p>
-                <p *ngIf="x.mealType == 3" value="3">H/B</p>
+                <p *ngIf="x.mealType == 1 || x.RoomType == 1" value="1">R/O</p>
+                <p *ngIf="x.mealType == 2 || x.RoomType == 2" value="2">B/B</p>
+                <p *ngIf="x.mealType == 3 || x.RoomType == 3" value="3">H/B</p>
                 <!-- <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="x.mealType">
                   <option value="1">R/O</option>
                   <option value="2">B/B</option>
                   <option value="3">H/B</option>
                 </select> -->
               </div>
-              <div class="col-7 col-sm-4 col-md-2 col-lg-1 nights-title">
-                <p><strong>Nights</strong></p>
-                <p>{{x.regularDays}}</p>
+              <div class="col-7 col-sm-4 col-md-2 col-lg-1 nights-title text-left">
+                <p class="text-left"><strong>Nights</strong></p>
+                <p class="ml-3">{{x.regularDays}}</p>
               </div>
               <div class="col-5 col-sm-4 col-md-2 col-lg right">
                 <p class="dateTitle"><strong>Price</strong></p>
                 <strong>{{x.Price}} NIS</strong>
               </div>
               <div class="col-8 col-sm-3 col-md-1 col-lg text-right">
-                <button (click)="removeAddedRoom(x.roomId)" mat-raised-button color="warn"><i class="material-icons">
+                <button *ngIf="orderId === 'new-order'" mat-raised-button color="warn"
+                  (click)="removeAddedRoom(x.roomId)"><i class="material-icons">
+                    clear
+                  </i>
+                </button>
+
+                <button *ngIf="orderId !== 'new-order'" mat-raised-button color="warn"><i>
                     clear
                   </i>
                 </button>
               </div>
 
-              <!-- <i class="col-3 col-sm-3 col-md-2 col-lg-2 mb-3" (click)="removeAddedRoom(x.roomId)"
+              <!-- <i class="col-3 col-sm-3 col-md-2 col-lg-2 mb-3" "
                 class="material-icons">
                 clear
               </i> -->
@@ -214,13 +304,13 @@
         <mat-card-content class="row col-12 text-right">
           <h5 class="">Total Price: {{totalPrice}} NIS</h5>
 
-          <button class="col-5 col-sm-3 col-md-3 col-lg-2 mr-1" (click)='removeAddedRooms()' mat-raised-button
+          <button class="col-6 col-sm-3 col-md-3 col-lg-2 mr-1" (click)='removeAddedRooms()' mat-raised-button
             color="primary">Cancel Order
           </button>
-          <button class="col-5 col-sm-3 col-md-3 col-lg-2" style="width: 200px" (click)="submit()"
-            *ngIf="orderId != 'new-order'" mat-raised-button color="accent">Update</button>
-          <button class="col-5 col-sm-3 col-md-3 col-lg-2" (click)="submitNewOrder()" style="width: 200px"
-            *ngIf="orderId == 'new-order'" mat-raised-button color="accent">Submit</button>
+          <button [disabled]='myForm.invalid' class="col-5 col-sm-3 col-md-3 col-lg-2" style="width: 200px"
+            (click)="submit()" *ngIf="orderId != 'new-order'" mat-raised-button color="accent">Update</button>
+          <button [disabled]='myForm.invalid' class="col-5 col-sm-3 col-md-3 col-lg-2" (click)="submitNewOrder()"
+            style="width: 200px" *ngIf="orderId == 'new-order'" mat-raised-button color="accent">Submit</button>
         </mat-card-content>
       </mat-card>
     </div>

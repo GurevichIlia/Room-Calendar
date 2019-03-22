@@ -1,0 +1,35 @@
+cdk-virtual-scroll-viewport {
+    height: 140%;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    list-style-type: none;
+}
+.searchCard:hover{
+    background-color: #eeeeee;
+    cursor: pointer;
+    }
+@media (min-width: 0px) {
+    cdk-virtual-scroll-viewport{
+        height: 100vh;  
+    }
+     }
+    @media (min-width: 576px) { 
+        cdk-virtual-scroll-viewport{
+            height: 100vh;  
+        }
+     }
+    @media (min-width: 768px) { 
+        cdk-virtual-scroll-viewport{
+            height: 100vh;  
+        }
+     }
+    @media (min-width: 992px) {
+      
+    }
+    @media (min-width: 1200px) {
+        
+     }

@@ -23,7 +23,7 @@ export class AvailableRoomComponent implements OnInit {
     private orderService: OrderService
   ) {
   }
-
+  howManyPeople = false;
   ngOnInit() {
   }
   // tslint:disable-next-line:max-line-length
@@ -66,5 +66,10 @@ export class AvailableRoomComponent implements OnInit {
     } else {
       return this.orderService.howManyPeople = true;
     }
+  }
+  removeAddedRoom(roomId: number) {
+    this.howManyPeople = true;
+    this.orderService.removeRoomFromAdded(roomId);
+
   }
 }

@@ -10,6 +10,7 @@ import { CustomerDetailsComponent } from './book/customer-details/customer-detai
 import { OrderDetailsComponent } from './book/order-details/order-details.component';
 import { NewOrderRoomComponent } from './book/new-order-room/new-order-room.component';
 import { SearchAvailableRoomsComponent } from './book/new-order-room/search-available-rooms/search-available-rooms.component';
+import { OrderSearchComponent } from './order-search/order-search.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,9 @@ const routes: Routes = [
   {
     path: 'book', component: BookComponent,
     canActivate: [LoginGuard]
+  },
+  {
+    path: 'order-search', component: OrderSearchComponent,
   },
   {
     path: 'book/new-order', component: NewOrderRoomComponent,

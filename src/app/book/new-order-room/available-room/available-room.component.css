@@ -1,5 +1,6 @@
 .roomCard:hover{
 background-color: #eeeeee;
+cursor: pointer;
 }
 @media (min-width: 320px) {
     .order-title{

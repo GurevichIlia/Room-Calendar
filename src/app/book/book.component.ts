@@ -1,15 +1,18 @@
 import { Component, OnInit, ɵConsole, ElementRef, HostListener, Inject, Output } from '@angular/core';
-import { GetRoomsService } from '../services/get-rooms.service';
 import * as moment from 'moment';
 import { CalendareRoom } from '../model/CalendareRoom.model';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { RoomDetailsComponent } from './room-details/room-details.component';
+
 import { NgxSpinnerService } from 'ngx-spinner';
 import { OrderService } from '../services/order.service';
+import { LoginService } from '../services/login.service';
+import { GetRoomsService } from '../services/get-rooms.service';
+
+
 import { ShopCardComponent } from './shop-card/shop-card.component';
 import { CustomerDetailsComponent } from './customer-details/customer-details.component';
-import { LoginService } from '../services/login.service';
 import { SearchAvailableRoomsComponent } from './new-order-room/search-available-rooms/search-available-rooms.component';
+import { RoomDetailsComponent } from './room-details/room-details.component';
 
 
 
@@ -49,6 +52,7 @@ export class BookComponent implements OnInit {
     date: '',
   };
   OrderId;
+  width;
   @Output() shoppingCart;
   constructor(
     private spinner: NgxSpinnerService,
@@ -59,7 +63,9 @@ export class BookComponent implements OnInit {
   ) {
     this.start = moment().format('YYYY-MM-DD');
     this.end = moment(this.start).add('days', 120).format('YYYY-MM-DD');
-
+    // window.addEventListener('resize', () => {
+    //   this.check();
+    // });
   }
 
   @HostListener('window:scroll', [])
@@ -71,14 +77,37 @@ export class BookComponent implements OnInit {
       this.showScroll = false;
     }
   }
+
   ngOnInit() {
+    // this.test();
     /** spinner starts on init */
-    this.spinner.show();
-    this.oneWeekDate();
-    this.roomsForCalendar();
-    this.getBookedRooms();
-    if (localStorage.getItem('LoggedInStatus') === 'true') {
-      this.loginService.loggedInStatus = true;
+    if (document.body.clientWidth < 450) {
+      this.spinner.show();
+      alert('please flip the screen vertically');
+    }
+    if (document.body.clientWidth > 450) {
+      this.spinner.show();
+      this.oneWeekDate();
+      this.roomsForCalendar();
+      this.getBookedRooms();
+      if (localStorage.getItem('LoggedInStatus') === 'true') {
+        this.loginService.loggedInStatus = true;
+      }
+    }
+  }
+  check() {
+    if (document.body.clientWidth < 450) {
+      this.spinner.show();
+      alert('please flip the screen vertically')
+    }
+    if (document.body.clientWidth > 450) {
+      this.spinner.show();
+      this.oneWeekDate();
+      this.roomsForCalendar();
+      this.getBookedRooms();
+      if (localStorage.getItem('LoggedInStatus') === 'true') {
+        this.loginService.loggedInStatus = true;
+      }
     }
   }
   // Method for changing date
@@ -309,9 +338,9 @@ export class BookComponent implements OnInit {
             break;
           }
 
-          if (this.orderService.selectedRooms[i].name == name &&
-            this.orderService.selectedRooms[i].startDate == startDate &&
-            this.orderService.selectedRooms[i].endDate == endDate) {
+          if (this.orderService.selectedRooms[i].name === name &&
+            this.orderService.selectedRooms[i].startDate === startDate &&
+            this.orderService.selectedRooms[i].endDate === endDate) {
             this.orderService.selectedRooms.splice(i, 1);
             x = true;
             break;
@@ -321,7 +350,7 @@ export class BookComponent implements OnInit {
         }
       }
     }
-    console.log(this.orderService.selectedRooms)
+    console.log(this.orderService.selectedRooms);
   }
   popUpSelectedRooms(id, text) {
     let someId;
@@ -343,7 +372,7 @@ export class BookComponent implements OnInit {
   showRoomsForPickedDate(date) {
     this.start = date;
     this.showBookedRooms();
-    console.log(this.start);
+    console.log(date);
   }
   newOrder() {
     this.dialog.open(SearchAvailableRoomsComponent);
@@ -358,6 +387,17 @@ export class BookComponent implements OnInit {
   //   this.orderService.GetPrice(ArrivalDate, EvacuateDate, maxadults, maxchildren, totalnights, RoomId, RoomType).subscribe(res => {
   //     console.log(res);
   //   });
+  // test() {
+  //   const da = {
+  //     FileAs: "",
+  //     FirstName: "",
+  //     IsMax: true,
+  //     OrderNo: ''
+  //   };
+  //   this.orderService.GetOrderSearchData(da).subscribe(data => {
+  //     console.log(data);
+  //   });
+  // }
 }
 
 

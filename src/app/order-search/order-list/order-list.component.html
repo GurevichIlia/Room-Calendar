@@ -1,0 +1,34 @@
+<mat-card class="mb-1" style="background: #eeeeee">
+  <mat-card-content>
+  </mat-card-content>
+</mat-card>
+
+<cdk-virtual-scroll-viewport itemSize="100" class="mb-2">
+  <li class="list-group-item" *cdkVirtualFor="let order of orderList" mb-1>
+    <mat-card class="searchCard" (click)="getOrderDetByOrderId(order.ClientRoomOrderId)">
+      <mat-card-content>
+        <div class="row ">
+          <div class="col-6 col-sm-5 col-md-3 col-lg-3 col-xl-3 ">
+            <p class="col col-sm col-md col-lg col-xl"><strong>Order No</strong> </p>
+            {{order.ClientRoomOrderId}}
+          </div>
+          <div class="col-6 col-sm-5 col-md-3 col-lg-3 col-xl-3">
+            <p class="col col-sm col-md col-lg col-xl"><strong>Order Date</strong> </p>
+            {{order.ClientOrderDate}}
+          </div>
+          <div class="col col-sm-5 col-md-3 col-lg-3 col-xl-3">
+            <p class="col col-sm col-md col-lg col-xl"><strong>Name</strong> </p>
+            {{order.CustomerName}}
+          </div>
+          <div class="col col-sm-5 col-md-3 col-lg-3 col-xl-3">
+            <p class="col col-sm col-md col-lg col-xl"><strong>Client No</strong> </p>
+            {{order.CustomerId}}
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </li>
+</cdk-virtual-scroll-viewport>
+<div class="text-right mb-3">
+  <p>Total Lines: {{totalRow}}</p>
+</div>

@@ -2,24 +2,15 @@
     <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-clip-rotate-multiple">
         <p style="font-size: 20px; color: white">Loading...</p>
     </ngx-spinner>
+    <h1 class="text-left">Calendar</h1>
     <div class="row">
         <!-- <div [hidden] *ngIf="!showScroll" class="col-1"></div> -->
         <!-- <div class="text-left"> -->
-        <button class="btn col-1 stickyarrow left" (click)="changeDate('prev');showBookedRooms()">
-            <i class="material-icons">
-                arrow_back_ios</i>
-        </button>
-        <!-- </div> -->
-        <!-- <div class="col stickyarrow text-right"> -->
-        <button (click)="changeDate('next');showBookedRooms()" class="btn col-1 stickyarrow text-right ml-3">
-            <i class="material-icons">
-                arrow_forward_ios
-            </i>
-        </button>
+
         <!-- </div> -->
         <div class="col-12">
             <div>
-                <div class="row">
+                <!-- <div class="row">
                     <div class="input-group  mb-2 col-3" style="width: 250px">
                         <input #Date type="date" class="form-control" [(ngModel)]="start">
                         <span class="input-group-btn">
@@ -31,75 +22,132 @@
                         <button (click)='newOrder()' class="btn btn-secondary text-left" type="button">New
                             Order</button>
                     </div>
-                </div>
+                </div> -->
 
-                <div class="col-12 sticky">
-                    <div class="row dateRow">
-                        <button (click)="backToThisWeek()" mat-raised-button color="accent"
-                            class="col-12 col-sm-12 col-md-2 col-lg-2">This
-                            Week</button>
-                        <button mat-raised-button color="primary" class="col ml-2">{{weekStart[0]}}</button>
-                        <button mat-raised-button color="primary" class="col ">{{weekStart[1]}}</button>
-                        <button mat-raised-button color="primary" class="col ">{{weekStart[2]}}</button>
-                        <button mat-raised-button color="primary" class="col ">{{weekStart[3]}}</button>
-                        <button mat-raised-button color="primary" class="col ">{{weekStart[4]}}</button>
-                        <button mat-raised-button color="primary" class="col ">{{weekStart[5]}}</button>
-                        <button mat-raised-button color="primary" class="col ">{{weekStart[6]}}</button>
-                    </div>
-                </div>
-                <ul class="list-group list-unstyled" *ngFor="let group of allRooms">
-                    <div class="row mb-3">
-                        <h4 class="col-12">Group: {{group.name}}<button
-                                (click)="group.hide=!group.hide;showBookedRooms()" class="btn btn-light btn-sm"><i
-                                    [ngClass]="group.hide ? 'fa fa-plus': 'fa fa-minus'"></i></button></h4>
-                    </div>
-                    <ng-container *ngFor="let room of group['children']; let i=index">
-                        <li class="list-group-item" *ngIf="!group.hide">
-                            <div class="row">
-                                <div mat-button class="col-12 col-sm-12 col-md-2 col-lg-2">
-                                    <strong>{{room.name}} </strong>
-                                </div>
-                                <button
-                                    (click)="pickRoom(room.name,weekStart[0],weekStart[0],room.id + '_1', room.id);popUpSelectedRooms(room.id + '_1', Sun._elementRef.nativeElement.innerHTML);roomByRoomId(room.id)"
-                                    id="{{room.id + '_1'}}" mat-button class="col-1 col-sm-1 col-md col-lg ml-2" #Sun>
-                                    Sun
-                                </button>
-                                <button
-                                    (click)="pickRoom(room.name,weekStart[1],weekStart[1],room.id + '_2',room.id );popUpSelectedRooms(room.id + '_2', Mon._elementRef.nativeElement.innerHTML);roomPrice(weekStart[1],weekStart[2], 1, 0, 1, room.id, 4)"
-                                    id="{{room.id + '_2'}}" mat-button class="col-1 col-sm-1 col-md col-lg ml-1" #Mon>
-                                    Mon
-                                </button>
-                                <button
-                                    (click)="pickRoom(room.name,weekStart[2],weekStart[2],room.id + '_3',room.id);popUpSelectedRooms(room.id + '_3', Tue._elementRef.nativeElement.innerHTML)"
-                                    id="{{room.id + '_3'}}" mat-button class="col-1 col-sm-1 col-md col-lg ml-1" #Tue>
-                                    Tue
-                                </button>
-                                <button
-                                    (click)="pickRoom(room.name,weekStart[3],weekStart[3],room.id + '_4',room.id);popUpSelectedRooms(room.id + '_4', Wed._elementRef.nativeElement.innerHTML)"
-                                    id="{{room.id + '_4'}}" mat-button class="col-1 col-sm-1 col-md col-lg ml-1" #Wed>
-                                    Wed
-                                </button>
-                                <button
-                                    (click)="pickRoom(room.name,weekStart[4],weekStart[4],room.id + '_5',room.id);popUpSelectedRooms(room.id + '_5', Th._elementRef.nativeElement.innerHTML)"
-                                    id="{{room.id + '_5'}}" mat-button class="col-1 col-sm-1 col-md col-lg ml-1" #Th>
-                                    Th
-                                </button>
-                                <button
-                                    (click)="pickRoom(room.name,weekStart[5],weekStart[5],room.id + '_6',room.id);popUpSelectedRooms(room.id + '_6', Fr._elementRef.nativeElement.innerHTML)"
-                                    id="{{room.id + '_6'}}" mat-button class="col-1 col-sm-1 col-md col-lg ml-1" #Fr>
-                                    Fr
-
-                                </button>
-                                <button
-                                    (click)="pickRoom(room.name,weekStart[6],weekStart[6],room.id + '_7',room.id);popUpSelectedRooms(room.id + '_7', Sa._elementRef.nativeElement.innerHTML)"
-                                    id="{{room.id + '_7'}}" mat-button class="col-1 col-sm-1 col-md col-lg ml-1" #Sa>
-                                    Sa
-
-                                </button>
+                <!-- <div class="col-12 sticky"> -->
+                <mat-card class="col-12 sticky">
+                    <mat-card-content>
+                        <div class="row">
+                            <mat-form-field class="col-3 col-sm-3 col-md-2 col-lg-2">
+                                <input matInput [matDatepicker]="Date" (change)='showRoomsForPickedDate(Date)'
+                                    [(ngModel)]='start'>
+                                <mat-datepicker-toggle (change)='showRoomsForPickedDate(Date)' matSuffix [for]="Date">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker (change)='showRoomsForPickedDate(Date)' touchUi #Date>
+                                </mat-datepicker>
+                            </mat-form-field>
+                            <div class="col-4 col-sm-4 col-md-2 col-lg-2">
+                                <button (click)="backToThisWeek()" mat-raised-button color="accent">This
+                                    Week</button>
                             </div>
-                        </li>
-                    </ng-container>
-                </ul>
+                            <!-- <div class="input-group  mb-1 col-5 col-sm-5 col-md-2 col-lg-2" style="width: 250px">
+                                <input #Date type="date" class="form-control" [(ngModel)]="start">
+                                <span class="input-group-btn">
+                                    <button (click)='showRoomsForPickedDate(Date.value)' class="btn btn-secondary"
+                                        type="button">Show</button>
+                                </span>
+                            </div> -->
+                            <div class="col-4 col-sm-4 col-md-2 col-lg-2">
+                                <button (click)='newOrder()' mat-raised-button color="primary">New
+                                    Order</button>
+                            </div>
+
+                            <!-- <button (click)='newOrder()' class="btn btn-secondary text-left" type="button">New
+                                Order</button> -->
+                        </div>
+                        <div class="row dateRow">
+                            <button class="btn stickyarrow col-1 left" (click)="changeDate('prev');showBookedRooms()">
+                                <i class="material-icons">
+                                    arrow_back_ios</i>
+                            </button>
+                            <button (click)="changeDate('next');showBookedRooms()"
+                                class="btn stickyarrow text-right ml-3 col-1">
+                                <i class="material-icons">
+                                    arrow_forward_ios
+                                </i>
+                            </button>
+                            <button mat-raised-button color="primary"
+                                class="col ">{{weekStart[0] | groupFilter}}</button>
+                            <button mat-raised-button color="primary"
+                                class="col ">{{weekStart[1] | groupFilter}}</button>
+                            <button mat-raised-button color="primary"
+                                class="col ">{{weekStart[2] | groupFilter}}</button>
+                            <button mat-raised-button color="primary"
+                                class="col ">{{weekStart[3] | groupFilter}}</button>
+                            <button mat-raised-button color="primary"
+                                class="col ">{{weekStart[4] | groupFilter}}</button>
+                            <button mat-raised-button color="primary"
+                                class="col ">{{weekStart[5] | groupFilter}}</button>
+                            <button mat-raised-button color="primary"
+                                class="col ">{{weekStart[6] | groupFilter}}</button>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+
+
+                <cdk-virtual-scroll-viewport itemSize="100" class="mb-2">
+                    <ul class="list-group list-unstyled" *ngFor="let group of allRooms">
+                        <div class="row mb-3">
+                            <h4 class="col-12">Group: {{group.name}}<button
+                                    (click)="group.hide=!group.hide;showBookedRooms()" class="btn btn-light btn-sm"><i
+                                        [ngClass]="group.hide ? 'fa fa-plus': 'fa fa-minus'"></i></button></h4>
+                        </div>
+                        <ng-container *ngFor="let room of group['children']; let i=index">
+                            <li class="list-group-item" *ngIf="!group.hide">
+                                <div class="row">
+                                    <div mat-button class="col-12 col-sm-12 col-md-2 col-lg-2">
+                                        <strong>{{room.name}} </strong>
+                                    </div>
+                                    <button
+                                        (click)="pickRoom(room.name,weekStart[0],weekStart[0],room.id + '_1', room.id);popUpSelectedRooms(room.id + '_1', Sun._elementRef.nativeElement.innerHTML);roomByRoomId(room.id)"
+                                        id="{{room.id + '_1'}}" mat-button class="col-1 col-sm-1 col-md col-lg ml-2"
+                                        #Sun>
+                                        Sun
+                                    </button>
+                                    <button
+                                        (click)="pickRoom(room.name,weekStart[1],weekStart[1],room.id + '_2',room.id );popUpSelectedRooms(room.id + '_2', Mon._elementRef.nativeElement.innerHTML);roomPrice(weekStart[1],weekStart[2], 1, 0, 1, room.id, 4)"
+                                        id="{{room.id + '_2'}}" mat-button class="col-1 col-sm-1 col-md col-lg ml-1"
+                                        #Mon>
+                                        Mon
+                                    </button>
+                                    <button
+                                        (click)="pickRoom(room.name,weekStart[2],weekStart[2],room.id + '_3',room.id);popUpSelectedRooms(room.id + '_3', Tue._elementRef.nativeElement.innerHTML)"
+                                        id="{{room.id + '_3'}}" mat-button class="col-1 col-sm-1 col-md col-lg ml-1"
+                                        #Tue>
+                                        Tue
+                                    </button>
+                                    <button
+                                        (click)="pickRoom(room.name,weekStart[3],weekStart[3],room.id + '_4',room.id);popUpSelectedRooms(room.id + '_4', Wed._elementRef.nativeElement.innerHTML)"
+                                        id="{{room.id + '_4'}}" mat-button class="col-1 col-sm-1 col-md col-lg ml-1"
+                                        #Wed>
+                                        Wed
+                                    </button>
+                                    <button
+                                        (click)="pickRoom(room.name,weekStart[4],weekStart[4],room.id + '_5',room.id);popUpSelectedRooms(room.id + '_5', Th._elementRef.nativeElement.innerHTML)"
+                                        id="{{room.id + '_5'}}" mat-button class="col-1 col-sm-1 col-md col-lg ml-1"
+                                        #Th>
+                                        Th
+                                    </button>
+                                    <button
+                                        (click)="pickRoom(room.name,weekStart[5],weekStart[5],room.id + '_6',room.id);popUpSelectedRooms(room.id + '_6', Fr._elementRef.nativeElement.innerHTML)"
+                                        id="{{room.id + '_6'}}" mat-button class="col-1 col-sm-1 col-md col-lg ml-1"
+                                        #Fr>
+                                        Fr
+
+                                    </button>
+                                    <button
+                                        (click)="pickRoom(room.name,weekStart[6],weekStart[6],room.id + '_7',room.id);popUpSelectedRooms(room.id + '_7', Sa._elementRef.nativeElement.innerHTML)"
+                                        id="{{room.id + '_7'}}" mat-button class="col-1 col-sm-1 col-md col-lg ml-1"
+                                        #Sa>
+                                        Sa
+
+                                    </button>
+                                </div>
+                            </li>
+                        </ng-container>
+                    </ul>
+                </cdk-virtual-scroll-viewport>
+
             </div>
         </div>
         <!-- <div [hidden] *ngIf="!showScroll" class="col-1"></div> -->

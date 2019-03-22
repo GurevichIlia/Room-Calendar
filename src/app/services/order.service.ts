@@ -5,6 +5,7 @@ import { Observable, } from 'rxjs';
 import { CustomerDetails } from '../model/customer-details.model';
 import { NewOrderRoom } from '../model/NewOrderRoom.model';
 import { SearchRoomInfo } from '../model/SearchRoomInfo.model';
+import { SearchOrder } from '../model/SearchOrder';
 // import { SearchRoomInfo } from '../model/SearchRoomInfo.model';
 
 
@@ -47,6 +48,7 @@ export class OrderService {
       this.rootURL + 'Order/GetRoomOrderDet?RoomId=' + RoomId + '&ArrivalDate=' + ArrivalDate + '&EvacuateDate=' + EvacuateDate,
     );
   }
+
   GetCompleteCustDetByOrderId(OrderId: string) {
     return this.http.get(
       this.rootURL + 'Order/GetCompleteCustDetByOrderId?ClientRoomOrderId=' + OrderId
@@ -92,7 +94,7 @@ export class OrderService {
   }
   removeRoomFromAdded(roomId: number) {
     for (let i = 0; i < this.addedRoomsForNewOrder.length; i++) {
-      if (this.addedRoomsForNewOrder[i].roomId == roomId) {
+      if (this.addedRoomsForNewOrder[i].roomId === roomId) {
         this.addedRoomsForNewOrder.splice(i, 1);
       }
     }
@@ -111,11 +113,16 @@ export class OrderService {
           }
         }
       }
-
     }
     console.log('Order service', this.avlRooms);
   }
-}
+  public GetOrderSearchData(searchData: SearchOrder): Observable<any> {
+    return this.http.post(
+      (this.rootURL + 'Order/GetOrderSearchData'),
+      searchData,
 
+    );
+  }
+}
 
 

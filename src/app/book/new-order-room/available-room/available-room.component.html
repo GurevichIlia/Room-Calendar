@@ -1,6 +1,7 @@
 <mat-card class="mb-2">
   <mat-card-content>
-    <mat-card class="roomCard">
+    <mat-card class="roomCard"
+      (click)="addNewOrder(RoomName.innerHTML, ArrivalDate.innerHTML, EvacuateDate.innerHTML, MaxAdults.value, MaxChildren.value, MealType.value,avlRooms.RoomId, avlRooms.RoomGroupId, avlRooms.RoomNo, avlRooms.RegularDays, avlRooms.maxinroom)">
       <mat-card-content>
         <form>
           <div class="row align-items-center">
@@ -19,7 +20,8 @@
             </div>
             <mat-form-field class="col-4 col-sm-4 col-md-4 col-lg-1">
               <p class="dateTitle"><strong>Adults</strong></p>
-              <select matNativeControl required #MaxAdults [value]="orderService.searchInfoForNewOrderRoom.maxAdults">
+              <select (change)="removeAddedRoom(avlRooms.RoomId); avlRooms.howManyPeople = false" matNativeControl
+                required #MaxAdults [value]="orderService.searchInfoForNewOrderRoom.maxAdults">
                 <option value="0">0</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -35,8 +37,8 @@
             </mat-form-field>
             <mat-form-field class="col-4 col-sm-4 col-md-4 col-lg-1">
               <p class="dateTitle"><strong>Children</strong></p>
-              <select matNativeControl required #MaxChildren
-                [value]="orderService.searchInfoForNewOrderRoom.maxChildren">
+              <select (change)="removeAddedRoom(avlRooms.RoomId); avlRooms.howManyPeople = false" matNativeControl
+                required #MaxChildren [value]="orderService.searchInfoForNewOrderRoom.maxChildren">
                 <option value="0">0</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -52,7 +54,8 @@
             </mat-form-field>
             <mat-form-field class="col-4 col-sm-4 col-md-4 col-lg-1">
               <p class="dateTitle"><strong>M/T</strong></p>
-              <select matNativeControl required #MealType [value]="orderService.searchInfoForNewOrderRoom.mealType">
+              <select (change)="removeAddedRoom(avlRooms.RoomId); avlRooms.howManyPeople = false" matNativeControl
+                required #MealType [value]="orderService.searchInfoForNewOrderRoom.mealType">
                 <option value="1">R/O</option>
                 <option value="2">B/B</option>
                 <option value="3">H/B</option>

@@ -5,6 +5,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { ScrollDispatchModule } from '@angular/cdk/scrolling';
+
 
 // Material components
 import { MatButtonModule, MatDialogModule, MAT_LABEL_GLOBAL_OPTIONS, MatNativeDateModule, MAT_DATE_FORMATS } from '@angular/material';
@@ -17,6 +20,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 
@@ -43,6 +47,9 @@ import { SearchAvailableRoomsComponent } from './book/new-order-room/search-avai
 import { ListRoomsAvailableComponent } from './book/new-order-room/list-rooms-available/list-rooms-available.component';
 import { AvailableRoomComponent } from './book/new-order-room/available-room/available-room.component';
 
+import { GroupFilter } from './MyPipe/groupFilter.pipe';
+import { OrderSearchComponent } from './order-search/order-search.component';
+import { OrderListComponent } from './order-search/order-list/order-list.component';
 // import { NewOrderRoom } from './model/newOrderRoom';
 
 @NgModule({
@@ -60,7 +67,10 @@ import { AvailableRoomComponent } from './book/new-order-room/available-room/ava
     NewOrderRoomComponent,
     ListRoomsAvailableComponent,
     AvailableRoomComponent,
-    SearchAvailableRoomsComponent
+    SearchAvailableRoomsComponent,
+    GroupFilter,
+    OrderSearchComponent,
+    OrderListComponent
 
   ],
   imports: [
@@ -84,6 +94,9 @@ import { AvailableRoomComponent } from './book/new-order-room/available-room/ava
     MatIconModule,
     MatCardModule,
     MatListModule,
+    ScrollingModule,
+    MatCheckboxModule,
+    ScrollDispatchModule
 
   ],
   exports: [

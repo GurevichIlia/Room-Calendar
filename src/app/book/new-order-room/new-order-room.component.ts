@@ -85,4 +85,13 @@ export class NewOrderRoomComponent implements OnInit {
       this.router.navigate(['/book']);
     }
   }
+  // if meal type or children or adults were changed, this method works
+  warning() {
+    if (confirm('If you change settings all data will be deleted!')) {
+    }
+  }
+  removeAddedRoom() {
+    this.orderService.addedRoomsForNewOrder = [];
+
+  }
 }
