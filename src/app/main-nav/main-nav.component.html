@@ -1,0 +1,77 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="!(isHandset$ | async)">
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <button mat-button>Dashboard</button>
+      <button mat-button><a [routerLink]="['/book']">Calendar</a></button>
+      <button mat-button>Masters</button>
+      <button mat-button>Price</button>
+      <button mat-button>Tools</button>
+      <button mat-button (click)="newOrder()">New Order</button>
+      <button mat-button [matMenuTriggerFor]="animals">Reports</button>
+      <mat-menu #animals="matMenu">
+        <button mat-menu-item>Meal Report</button>
+        <button mat-menu-item>Presence and General Reports</button>
+        <button mat-menu-item>Statistic</button>
+      </mat-menu>
+      <button mat-button [matMenuTriggerFor]="rooms">Order</button>
+      <mat-menu #rooms="matMenu">
+        <button mat-menu-item><a [routerLink]="['/order-search']">Order
+            Details</a> </button>
+      </mat-menu>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="basic" class="container">
+      <div>
+        <img href="home" src="https://pp.userapi.com/c851424/v851424199/c1842/TsoIbYiFoxQ.jpg" width="200" height="70">
+      </div>
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <div class="brand">
+        <button mat-button>Dashboard</button>
+        <button mat-button><a [routerLink]="['/book']">Calendar</a></button>
+        <button mat-button>Masters</button>
+        <button mat-button>Price</button>
+        <button mat-button>Tools</button>
+        <button mat-button (click)="newOrder()">New Order</button>
+        <button mat-button [matMenuTriggerFor]="animals">Reports</button>
+        <mat-menu #animals="matMenu">
+          <button mat-menu-item [matMenuTriggerFor]="vertebrates">Meal Report</button>
+          <button mat-menu-item>Presence and General Reports</button>
+          <button mat-menu-item>Statistic</button>
+        </mat-menu>
+        <mat-menu #vertebrates="matMenu">
+          <button mat-menu-item>Fishes</button>
+          <button mat-menu-item>Amphibians</button>
+          <button mat-menu-item>Reptiles</button>
+          <button mat-menu-item>Birds</button>
+          <button mat-menu-item>Mammals</button>
+        </mat-menu>
+
+        <button mat-button [matMenuTriggerFor]="rooms">Order</button>
+        <mat-menu #rooms="matMenu">
+          <button mat-menu-item><a [routerLink]="['/order-search']">Order
+              Details</a> </button>
+        </mat-menu>
+        <mat-menu #room="matMenu">
+          <button mat-menu-item>Fishes</button>
+          <button mat-menu-item>Amphibians</button>
+          <button mat-menu-item>Reptiles</button>
+          <button mat-menu-item>Birds</button>
+          <button mat-menu-item>Mammals</button>
+        </mat-menu>
+        <button mat-button class="right ml-5">Logout</button>
+        <!-- <a class="matbtn" href="#">Link 2</a>
+          <a href="#">Link 3</a> -->
+      </div>
+
+    </mat-toolbar>
+    <hr>
+    <!-- Add Content Here -->
+  </mat-sidenav-content>
+</mat-sidenav-container>

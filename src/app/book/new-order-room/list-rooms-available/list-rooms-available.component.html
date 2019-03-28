@@ -13,7 +13,7 @@
       <mat-form-field class="col-6 col-sm-6 col-md-3 col-lg-3 align-self-end">
         <mat-select placeholder="Filter Group" [(ngModel)]="roomsGroup" multiple #RoomGroup>
           <mat-option *ngFor="let group of orderService.groupName; let i = index" [value]="group"
-            (click)="filterGroup()">
+            (click)="filterGroup();test()">
             {{group}}
           </mat-option>
         </mat-select>

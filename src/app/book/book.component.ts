@@ -1,7 +1,8 @@
-import { Component, OnInit, ɵConsole, ElementRef, HostListener, Inject, Output } from '@angular/core';
+// tslint:disable-next-line:max-line-length
+import { Component, OnInit, ElementRef, HostListener, Output, ViewChild, Renderer2, AfterViewInit, ViewChildren, AfterContentInit, EventEmitter } from '@angular/core';
 import * as moment from 'moment';
 import { CalendareRoom } from '../model/CalendareRoom.model';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDatepickerInputEvent } from '@angular/material';
 
 import { NgxSpinnerService } from 'ngx-spinner';
 import { OrderService } from '../services/order.service';
@@ -13,6 +14,9 @@ import { ShopCardComponent } from './shop-card/shop-card.component';
 import { CustomerDetailsComponent } from './customer-details/customer-details.component';
 import { SearchAvailableRoomsComponent } from './new-order-room/search-available-rooms/search-available-rooms.component';
 import { RoomDetailsComponent } from './room-details/room-details.component';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { FormControl } from '@angular/forms';
+import { CustomerDetails } from '../model/customer-details.model';
 
 
 
@@ -26,8 +30,9 @@ import { RoomDetailsComponent } from './room-details/room-details.component';
   providers: [RoomDetailsComponent, ShopCardComponent]
 })
 
-export class BookComponent implements OnInit {
+export class BookComponent implements OnInit, AfterViewInit {
   @Output() selectedRooms: any[] = [];
+  roomsGroup: any[] = [];
   roomsDate = [];
   groupsRooms = [];
   calendarRooms = [];
@@ -54,13 +59,18 @@ export class BookComponent implements OnInit {
   OrderId;
   width;
   @Output() shoppingCart;
+  @ViewChild('Sunday', { read: ElementRef }) sun: ElementRef;
+  @ViewChild('Sun', { read: ElementRef }) day: ElementRef;
+  @Output() dateChange: EventEmitter<MatDatepickerInputEvent<Date>>;
   constructor(
     private spinner: NgxSpinnerService,
     private roomService: GetRoomsService,
     private dialog: MatDialog,
     private orderService: OrderService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private renderer: Renderer2
   ) {
+
     this.start = moment().format('YYYY-MM-DD');
     this.end = moment(this.start).add('days', 120).format('YYYY-MM-DD');
     // window.addEventListener('resize', () => {
@@ -79,26 +89,33 @@ export class BookComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.test();
-    /** spinner starts on init */
-    if (document.body.clientWidth < 450) {
-      this.spinner.show();
-      alert('please flip the screen vertically');
+    // this.getGroup();
+    // console.log(this.orderService.groupName);
+    // this.spinner.show();
+    // this.oneWeekDate();
+    // this.roomsForCalendar();
+    // this.getBookedRooms();
+    // if (sessionStorage.getItem('LoggedInStatus') === 'true') {
+    //   this.loginService.loggedInStatus = true;
+    // }
+    console.log('ngOnInit', this.day);
+  }
+  ngAfterViewInit() {
+    console.log('ngAfterViewInit', this.day);
+    this.getGroup();
+    this.spinner.show();
+    this.oneWeekDate();
+    this.roomsForCalendar();
+    this.getBookedRooms();
+    if (sessionStorage.getItem('LoggedInStatus') === 'true') {
+      this.loginService.loggedInStatus = true;
     }
-    if (document.body.clientWidth > 450) {
-      this.spinner.show();
-      this.oneWeekDate();
-      this.roomsForCalendar();
-      this.getBookedRooms();
-      if (localStorage.getItem('LoggedInStatus') === 'true') {
-        this.loginService.loggedInStatus = true;
-      }
-    }
+
   }
   check() {
     if (document.body.clientWidth < 450) {
       this.spinner.show();
-      alert('please flip the screen vertically')
+      alert('please flip the screen vertically');
     }
     if (document.body.clientWidth > 450) {
       this.spinner.show();
@@ -148,11 +165,11 @@ export class BookComponent implements OnInit {
       );
     }
   }
-  roomsGroups() {
-    this.roomService.getGroupsRooms().subscribe(res => {
-      this.groupsRooms = res['Data'] as [];
-    });
-  }
+  // roomsGroups() {
+  //   this.roomService.getGroupsRooms().subscribe(res => {
+  //     this.groupsRooms = res['Data'] as [];
+  //   });
+  // }
   // Show all rooms
 
   roomsForCalendar() {
@@ -167,39 +184,39 @@ export class BookComponent implements OnInit {
     for (const i of this.allRooms) {
       for (const x of i.children) {
         this.sunday = document.getElementById(x.id + '_1');
-        this.sunday.style.backgroundColor = 'cornsilk';
-        this.sunday.style.border = 'none';
-        this.sunday.innerHTML = 'Free';
+        this.renderer.setStyle(this.sunday, 'backgroundColor', 'cornsilk');
+        this.renderer.setStyle(this.sunday, 'border', 'none');
+        this.renderer.setProperty(this.sunday, 'innerHTML', 'Free');
 
         this.monday = document.getElementById(x.id + '_2');
-        this.monday.style.backgroundColor = 'cornsilk';
-        this.monday.style.border = `none`;
-        this.monday.innerHTML = 'Free';
+        this.renderer.setStyle(this.monday, 'backgroundColor', 'cornsilk');
+        this.renderer.setStyle(this.monday, 'border', 'none');
+        this.renderer.setProperty(this.monday, 'innerHTML', 'Free');
 
         this.tuesday = document.getElementById(x.id + '_3');
-        this.tuesday.style.backgroundColor = 'cornsilk';
-        this.tuesday.style.border = `none`;
-        this.tuesday.innerHTML = 'Free';
+        this.renderer.setStyle(this.tuesday, 'backgroundColor', 'cornsilk');
+        this.renderer.setStyle(this.tuesday, 'border', 'none');
+        this.renderer.setProperty(this.tuesday, 'innerHTML', 'Free');
 
         this.wedns = document.getElementById(x.id + '_4');
-        this.wedns.style.backgroundColor = 'cornsilk';
-        this.wedns.style.border = `none`;
-        this.wedns.innerHTML = 'Free';
+        this.renderer.setStyle(this.wedns, 'backgroundColor', 'cornsilk');
+        this.renderer.setStyle(this.wedns, 'border', 'none');
+        this.renderer.setProperty(this.wedns, 'innerHTML', 'Free');
 
         this.tus = document.getElementById(x.id + '_5');
-        this.tus.style.backgroundColor = 'cornsilk';
-        this.tus.style.border = `none`;
-        this.tus.innerHTML = 'Free';
+        this.renderer.setStyle(this.tus, 'backgroundColor', 'cornsilk');
+        this.renderer.setStyle(this.tus, 'border', 'none');
+        this.renderer.setProperty(this.tus, 'innerHTML', 'Free');
 
         this.friday = document.getElementById(x.id + '_6');
-        this.friday.style.backgroundColor = 'cornsilk';
-        this.friday.style.border = `none`;
-        this.friday.innerHTML = 'Free';
+        this.renderer.setStyle(this.friday, 'backgroundColor', 'cornsilk');
+        this.renderer.setStyle(this.friday, 'border', 'none');
+        this.renderer.setProperty(this.friday, 'innerHTML', 'Free');
 
         this.sa = document.getElementById(x.id + '_7');
-        this.sa.style.backgroundColor = 'cornsilk';
-        this.sa.style.border = `none`;
-        this.sa.innerHTML = 'Free';
+        this.renderer.setStyle(this.sa, 'backgroundColor', 'cornsilk');
+        this.renderer.setStyle(this.sa, 'border', 'none');
+        this.renderer.setProperty(this.sa, 'innerHTML', 'Free');
 
         for (const y of this.roomService.bookedRooms) {
           // tslint:disable-next-line:triple-equals
@@ -208,45 +225,45 @@ export class BookComponent implements OnInit {
               if (w.name === x.name) {
                 if (w.date === this.weekStart[0]) {
                   this.sunday = document.getElementById(x.id + '_1');
-                  this.sunday.style.backgroundColor = 'yellow';
-                  this.sunday.style.border = 'none';
-                  this.sunday.innerHTML = 'Free';
+                  this.renderer.setStyle(this.sunday, 'backgroundColor', 'yellow');
+                  this.renderer.setStyle(this.sunday, 'border', 'none');
+                  this.renderer.setProperty(this.sunday, 'innerHTML', 'Free');
                 }
                 if (w.date === this.weekStart[1]) {
                   this.monday = document.getElementById(x.id + '_2');
-                  this.monday.style.backgroundColor = 'yellow';
-                  this.monday.style.border = `none`;
-                  this.monday.innerHTML = 'Free';
+                  this.renderer.setStyle(this.monday, 'backgroundColor', 'yellow');
+                  this.renderer.setStyle(this.monday, 'border', 'none');
+                  this.renderer.setProperty(this.monday, 'innerHTML', 'Free');
                 }
                 if (w.date === this.weekStart[2]) {
                   this.tuesday = document.getElementById(x.id + '_3');
-                  this.tuesday.style.backgroundColor = 'yellow';
-                  this.tuesday.style.border = `none`;
-                  this.tuesday.innerHTML = 'Free';
+                  this.renderer.setStyle(this.tuesday, 'backgroundColor', 'yellow');
+                  this.renderer.setStyle(this.tuesday, 'border', 'none');
+                  this.renderer.setProperty(this.tuesday, 'innerHTML', 'Free');
                 }
                 if (w.date === this.weekStart[3]) {
                   this.wedns = document.getElementById(x.id + '_4');
-                  this.wedns.style.backgroundColor = 'yellow';
-                  this.wedns.style.border = 'none';
-                  this.wedns.innerHTML = 'Free';
+                  this.renderer.setStyle(this.wedns, 'backgroundColor', 'yellow');
+                  this.renderer.setStyle(this.wedns, 'border', 'none');
+                  this.renderer.setProperty(this.wedns, 'innerHTML', 'Free');
                 }
                 if (w.date === this.weekStart[4]) {
                   this.tus = document.getElementById(x.id + '_5');
-                  this.tus.style.backgroundColor = 'yellow';
-                  this.tus.style.border = 'none';
-                  this.tus.innerHTML = 'Free';
+                  this.renderer.setStyle(this.tus, 'backgroundColor', 'yellow');
+                  this.renderer.setStyle(this.tus, 'border', 'none');
+                  this.renderer.setProperty(this.tus, 'innerHTML', 'Free');
                 }
                 if (w.date === this.weekStart[5]) {
                   this.friday = document.getElementById(x.id + '_6');
-                  this.friday.style.backgroundColor = 'yellow';
-                  this.friday.style.border = 'none';
-                  this.friday.innerHTML = 'Free';
+                  this.renderer.setStyle(this.friday, 'backgroundColor', 'yellow');
+                  this.renderer.setStyle(this.friday, 'border', 'none');
+                  this.renderer.setProperty(this.friday, 'innerHTML', 'Free');
                 }
                 if (w.date === this.weekStart[6]) {
                   this.sa = document.getElementById(x.id + '_7');
-                  this.sa.style.backgroundColor = 'yellow';
-                  this.sa.style.border = 'none';
-                  this.sa.innerHTML = 'Free';
+                  this.renderer.setStyle(this.sa, 'backgroundColor', 'yellow');
+                  this.renderer.setStyle(this.sa, 'border', 'none');
+                  this.renderer.setProperty(this.sa, 'innerHTML', 'Free');
                 }
               }
             }
@@ -254,45 +271,45 @@ export class BookComponent implements OnInit {
           if (x.id === y.resource) {
             if (y.start === this.weekStart[0]) {
               this.sunday = document.getElementById(x.id + '_1');
-              this.sunday.style.backgroundColor = y.backColor;
-              this.sunday.style.border = `2px solid ${y.borderColor}`;
-              this.sunday.innerHTML = y.text;
+              this.renderer.setStyle(this.sunday, 'backgroundColor', y.backColor);
+              this.renderer.setStyle(this.sunday, 'border', `2px solid ${y.borderColor}`);
+              this.renderer.setProperty(this.sunday, 'innerHTML', y.text);
             }
             if (y.start === this.weekStart[1]) {
               this.monday = document.getElementById(x.id + '_2');
-              this.monday.style.backgroundColor = y.backColor;
-              this.monday.style.border = `2px solid ${y.borderColor}`;
-              this.monday.innerHTML = y.text;
+              this.renderer.setStyle(this.monday, 'backgroundColor', y.backColor);
+              this.renderer.setStyle(this.monday, 'border', `2px solid ${y.borderColor}`);
+              this.renderer.setProperty(this.monday, 'innerHTML', y.text);
             }
             if (y.start === this.weekStart[2]) {
               this.tuesday = document.getElementById(x.id + '_3');
-              this.tuesday.style.backgroundColor = y.backColor;
-              this.tuesday.style.border = `2px solid ${y.borderColor}`;
-              this.tuesday.innerHTML = y.text;
+              this.renderer.setStyle(this.tuesday, 'backgroundColor', y.backColor);
+              this.renderer.setStyle(this.tuesday, 'border', `2px solid ${y.borderColor}`);
+              this.renderer.setProperty(this.tuesday, 'innerHTML', y.text);
             }
             if (y.start === this.weekStart[3]) {
               this.wedns = document.getElementById(x.id + '_4');
-              this.wedns.style.backgroundColor = y.backColor;
-              this.wedns.style.border = `2px solid ${y.borderColor}`;
-              this.wedns.innerHTML = y.text;
+              this.renderer.setStyle(this.wedns, 'backgroundColor', y.backColor);
+              this.renderer.setStyle(this.wedns, 'border', `2px solid ${y.borderColor}`);
+              this.renderer.setProperty(this.wedns, 'innerHTML', y.text);
             }
             if (y.start === this.weekStart[4]) {
               this.tus = document.getElementById(x.id + '_5');
-              this.tus.style.backgroundColor = y.backColor;
-              this.tus.style.border = `2px solid ${y.borderColor}`;
-              this.tus.innerHTML = y.text;
+              this.renderer.setStyle(this.tus, 'backgroundColor', y.backColor);
+              this.renderer.setStyle(this.tus, 'border', `2px solid ${y.borderColor}`);
+              this.renderer.setProperty(this.tus, 'innerHTML', y.text);
             }
             if (y.start === this.weekStart[5]) {
               this.friday = document.getElementById(x.id + '_6');
-              this.friday.style.backgroundColor = y.backColor;
-              this.friday.style.border = `2px solid ${y.borderColor}`;
-              this.friday.innerHTML = y.text;
+              this.renderer.setStyle(this.friday, 'backgroundColor', y.backColor);
+              this.renderer.setStyle(this.friday, 'border', `2px solid ${y.borderColor}`);
+              this.renderer.setProperty(this.friday, 'innerHTML', y.text);
             }
             if (y.start === this.weekStart[6]) {
               this.sa = document.getElementById(x.id + '_7');
-              this.sa.style.backgroundColor = y.backColor;
-              this.sa.style.border = `2px solid ${y.borderColor}`;
-              this.sa.innerHTML = y.text;
+              this.renderer.setStyle(this.sa, 'backgroundColor', y.backColor);
+              this.renderer.setStyle(this.sa, 'border', `2px solid ${y.borderColor}`);
+              this.renderer.setProperty(this.sa, 'innerHTML', y.text);
             }
           }
         }
@@ -314,9 +331,9 @@ export class BookComponent implements OnInit {
     someDate = document.getElementById(id);
     if (someDate.innerHTML === 'Free') {
       if (someDate.style.backgroundColor === 'yellow') {
-        someDate.style.backgroundColor = 'cornsilk';
+        this.renderer.setStyle(someDate, 'backgroundColor', 'cornsilk');
       } else {
-        someDate.style.backgroundColor = 'yellow';
+        this.renderer.setStyle(someDate, 'backgroundColor', 'yellow');
       }
       this.pickedRoom = {
         id: roomId,
@@ -352,13 +369,16 @@ export class BookComponent implements OnInit {
     }
     console.log(this.orderService.selectedRooms);
   }
-  popUpSelectedRooms(id, text) {
-    let someId;
-    someId = document.getElementById(id);
-    if (someId.style.backgroundColor === 'rgb(224, 255, 255)') {
+  popUpSelectedRooms(id, orderId: ElementRef) {
+    let roomId;
+    roomId = document.getElementById(id);
+    if (roomId.style.backgroundColor === 'rgb(224, 255, 255)') {
       this.spinner.show();
-      this.orderService.GetCompleteCustDetByOrderId(text);
-      setTimeout(() => this.popUpCustomerDetails(id, text), 1000);
+      this.orderService.GetCompleteCustDetByOrderId(orderId.nativeElement.textContent).subscribe(custDetByOrderId => {
+        custDetByOrderId = custDetByOrderId['Data'];
+        custDetByOrderId['orderId'] = orderId.nativeElement.textContent;
+        this.dialog.open(CustomerDetailsComponent, { data: custDetByOrderId });
+      });
       this.spinner.hide();
     }
   }
@@ -377,27 +397,18 @@ export class BookComponent implements OnInit {
   newOrder() {
     this.dialog.open(SearchAvailableRoomsComponent);
   }
-  // roomByRoomId(id) {
-  //   this.roomService.getRoomById(id).subscribe(res => {
-  //     res = res;
-  //     console.log(res);
-  //   });
-  // }
-  // roomPrice(ArrivalDate, EvacuateDate, maxadults, maxchildren, totalnights, RoomId, RoomType) {
-  //   this.orderService.GetPrice(ArrivalDate, EvacuateDate, maxadults, maxchildren, totalnights, RoomId, RoomType).subscribe(res => {
-  //     console.log(res);
-  //   });
-  // test() {
-  //   const da = {
-  //     FileAs: "",
-  //     FirstName: "",
-  //     IsMax: true,
-  //     OrderNo: ''
-  //   };
-  //   this.orderService.GetOrderSearchData(da).subscribe(data => {
-  //     console.log(data);
-  //   });
-  // }
+  test(qwe) {
+    this.spinner.show();
+
+    console.log(this.groupsRooms, qwe);
+    setTimeout(() => this.showBookedRooms(), 30);
+    this.spinner.hide();
+
+  }
+  getGroup() {
+    this.roomService.getGroupsRooms();
+
+  }
 }
 
 

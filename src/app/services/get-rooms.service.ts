@@ -14,6 +14,7 @@ export class GetRoomsService {
   readonly rootURL = 'http://apitest.jaffapms.com/API/';
   public bookedRooms: any[];
   public availableRoomsBtwDate;
+  roomGroup: any[] = [];
   // private TestRooms = new BehaviorSubject(this.availableRoomsBtwDate);
   // public availableRooms = this.TestRooms.asObservable();
   public bookedRoomLoaded = false;
@@ -22,9 +23,17 @@ export class GetRoomsService {
 
 
   getGroupsRooms() {
+    this.roomGroup = [];
     return this.http.get(
       this.rootURL + 'DropDown/GetGroups',
-    );
+    ).subscribe(groups => {
+      const group = groups['Data'] as [];
+      for (const gr of group) {
+        this.roomGroup.push(gr['Text']);
+      }
+      console.log('RoomService', this.roomGroup);
+
+    });
   }
   getRoomsCalendar(): Observable<any> {
     return this.http.get(

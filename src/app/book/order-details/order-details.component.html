@@ -10,9 +10,7 @@
       class="col-5 col-sm-5 col-md-4 col-lg-2 col-xl-2">Back to
       New Order</button>
   </div>
-
   <h2 class="text-left mb-5">Order Details</h2>
-
   <form [formGroup]="myForm">
     <div class="row mb-3">
       <div class="col-6 text-left">
@@ -161,8 +159,7 @@
 
 
   <div>
-
-    <ul class="list-unstyled">
+    <cdk-virtual-scroll-viewport itemSize="100" class="mb-2">
       <mat-card style="background: #eeeeee" class="mb-2 order-title">
         <mat-card-content>
           <!-- <div class="row text-left">
@@ -178,7 +175,7 @@
           </div> -->
         </mat-card-content>
       </mat-card>
-      <li class="list-group-item mb-2" *ngFor="let x of customerInfo.roomDetail">
+      <li class="list-group-item mb-2" *ngFor="let x of customerInfo?.roomDetail">
         <mat-card>
           <mat-card-content>
             <div class="row">
@@ -199,22 +196,53 @@
               </div> -->
 
               <!-- <div class="col-2"></div> -->
-              <div class="col-6 col-sm-4 col-md-3 col-lg-2 text-left">
+              <!-- <div class="col-6 col-sm-4 col-md-3 col-lg-2 text-left">
                 <p class="dateTitle"><strong>Arrival</strong></p>
-                <p>{{x.ArriveDate}}{{x.startDate}}{{x.arrivalDate}}</p>
-              </div>
-              <div class="col-6 col-sm-8 col-md-9 col-lg-2 text-left">
-                <p class="dateTitle"><strong>Departure</strong></p>
-                <p>{{x.EvacuateDate}}{{x.endDate}}{{x.evacuateDate}}</p>
-              </div>
-              <div class="col-6 col-sm-8 col-md-9 col-lg-1 order-title">
+                <p>{{x.ArriveDate}}{{x.startDate}}{{x.arrivalDate}}</p> -->
+              <mat-form-field class="col-6 col-sm-4 col-md-3 col-lg-2 text-left">
+                <input matInput [matDatepicker]="Arrival" placeholder="Arrival date" [disabled]="!x.edit"
+                  [min]="minStartDate" [value]="x.ArriveDate || x.startDate || x.arrivalDate"
+                  [(ngModel)]='x.arrivalDate'>
+                <mat-datepicker-toggle matSuffix [for]="Arrival"></mat-datepicker-toggle>
+                <mat-datepicker touchUi #Arrival></mat-datepicker>
+              </mat-form-field>
+              <!-- </div> -->
+              <!-- <div class="col-6 col-sm-8 col-md-9 col-lg-2 text-left">
+                <p class="dateTitle"><strong>Departure</strong></p>-->
+              <!-- <p>{{x.EvacuateDate}}{{x.endDate}}{{x.evacuateDate}}</p> -->
+              <mat-form-field class="col-6 col-sm-8 col-md-9 col-lg-2 text-left">
+                <input matInput [matDatepicker]="Departure" placeholder="Departure date" [disabled]="!x.edit"
+                  [min]="minStartDate" [value]="x.evacuateDate || x.endDate || x.EvacuateDate"
+                  [(ngModel)]='x.evacuateDate'>
+                <mat-datepicker-toggle matSuffix [for]="Departure"></mat-datepicker-toggle>
+                <mat-datepicker touchUi #Departure></mat-datepicker>
+              </mat-form-field>
+              <!-- </div> -->
+              <!-- <div class="col-6 col-sm-8 col-md-9 col-lg-1 order-title">
                 <p><strong>Nights</strong></p>
                 <p>{{x.regularDays}}{{x.RegularDays}}</p>
-              </div>
-              <div class="col-4 col-sm-4 col-md-2 col-lg-1 mb-3 ">
+              </div> -->
+              <mat-form-field class="col-6 col-sm-8 col-md-9 col-lg-1 order-title">
+                <mat-label>Nights</mat-label>
+                <mat-select [disabled]="!x.edit" [value]="x.regularDays">
+                  <mat-option value="0">0</mat-option>
+                  <mat-option value="1">1</mat-option>
+                  <mat-option value="2">2</mat-option>
+                  <mat-option value="3">3</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <!-- <div class="col-4 col-sm-4 col-md-2 col-lg-2 mb-3">
                 <p class="dateTitle"><strong>Adults</strong></p>
-                <p>{{x.maxAdults}}{{x.adults}}</p>
-                <!-- <select class="custom-select" id="inputGroupSelect01" [value]="x.maxAdults">
+                <p *ngIf="!x.edit">{{x.maxAdults}}{{x.adults}}</p>
+                <mat-form-field *ngIf="x.edit" class="col-4 col-sm-4 col-md-2 col-lg-2 mb-3">
+                  <mat-label>Select an option</mat-label>
+                  <mat-select [value]="x.maxAdults || x.maxAdults">
+                    <mat-option value="1">1</mat-option>
+                    <mat-option value="2">2</mat-option>
+                    <mat-option value="3">3</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <select *ngIf="x.edit" class="custom-select" id="inputGroupSelect01" [value]="x.adults">
                   <option>1</option>
                   <option>2</option>
                   <option>3</option>
@@ -225,12 +253,21 @@
                   <option>8</option>
                   <option>9</option>
                   <option>10</option>
-                </select> -->
-              </div>
-              <div class="col-4 col-sm-4 col-md-2 col-lg-1 mb-3 ">
+                </select>
+              </div> -->
+              <mat-form-field class="col-4 col-sm-4 col-md-2 col-lg-1 mb-3">
+                <mat-label>Adults</mat-label>
+                <mat-select [disabled]="!x.edit" [value]="x.maxAdults || x.maxAdults">
+                  <mat-option value="0">0</mat-option>
+                  <mat-option value="1">1</mat-option>
+                  <mat-option value="2">2</mat-option>
+                  <mat-option value="3">3</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <!-- <div class="col-4 col-sm-4 col-md-2 col-lg-1 mb-3 ">
                 <p class="dateTitle"><strong>Children</strong></p>
-                <p>{{x.maxChildren}}{{x.Children}}</p>
-                <!-- <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="x.maxChildren">
+                <p *ngIf="!x.edit">{{x.maxChildren}}{{x.Children}}</p> -->
+              <!-- <select *ngIf="x.edit" class="custom-select" id="inputGroupSelect01" [value]="x.Children">
                   <option>0</option>
                   <option>1</option>
                   <option>2</option>
@@ -243,7 +280,16 @@
                   <option>9</option>
                   <option>10</option>
                 </select> -->
-              </div>
+              <!-- </div> -->
+              <mat-form-field class="col-4 col-sm-4 col-md-2 col-lg-1 mb-3">
+                <mat-label>Children</mat-label>
+                <mat-select [disabled]="!x.edit" [value]="x.maxChildren">
+                  <mat-option value="0">0</mat-option>
+                  <mat-option value="1">1</mat-option>
+                  <mat-option value="2">2</mat-option>
+                  <mat-option value="3">3</mat-option>
+                </mat-select>
+              </mat-form-field>
               <!-- <div class="col-1 input-group mb-3"> <select class="custom-select" id="inputGroupSelect01">
                   <option>0</option>
                   <option>1</option>
@@ -258,47 +304,67 @@
                   <option>10</option>
                 </select>
               </div> -->
-              <div class="col-4 col-sm-4 col-md-2 col-lg-2 mb-3 ">
+              <!-- <div class="col-4 col-sm-4 col-md-2 col-lg-2 mb-3 ">
                 <p class="dateTitle"><strong>M/T</strong></p>
-                <p *ngIf="x.mealType == 1 || x.RoomType == 1" value="1">R/O</p>
-                <p *ngIf="x.mealType == 2 || x.RoomType == 2" value="2">B/B</p>
-                <p *ngIf="x.mealType == 3 || x.RoomType == 3" value="3">H/B</p>
-                <!-- <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="x.mealType">
+                <span *ngIf="!x.edit">
+                  <p *ngIf="x.mealType == 1 || x.RoomType == 1" value="1">R/O</p>
+                  <p *ngIf="x.mealType == 2 || x.RoomType == 2" value="2">B/B</p>
+                  <p *ngIf="x.mealType == 3 || x.RoomType == 3" value="3">H/B</p>
+                </span>
+
+                <select *ngIf="x.edit" class="custom-select" id="inputGroupSelect01" [value]="x.RoomType">
                   <option value="1">R/O</option>
                   <option value="2">B/B</option>
                   <option value="3">H/B</option>
-                </select> -->
-              </div>
-              <div class="col-7 col-sm-4 col-md-2 col-lg-1 nights-title text-left">
+                </select>
+              </div> -->
+              <mat-form-field class="col-4 col-sm-4 col-md-2 col-lg-2 mb-3">
+                <mat-label>Meal Type</mat-label>
+                <mat-select [disabled]="!x.edit" [value]="x.mealType">
+                  <mat-option value="1">R/O</mat-option>
+                  <mat-option value="2">B/B</mat-option>
+                  <mat-option value="3">H/B</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <!-- <div class="col-7 col-sm-4 col-md-2 col-lg-1 nights-title text-left">
                 <p class="text-left"><strong>Nights</strong></p>
-                <p class="ml-3">{{x.regularDays}}</p>
-              </div>
+                <p class="ml-3">{{x.regularDays}}{{x.RegularDays}}</p>
+              </div> -->
+              <mat-form-field class="col-7 col-sm-4 col-md-2 col-lg-1 nights-title text-left">
+                <mat-label>Nights</mat-label>
+                <mat-select [disabled]="!x.edit" [value]="x.regularDays">
+                  <mat-option value="0">0</mat-option>
+                  <mat-option value="1">1</mat-option>
+                  <mat-option value="2">2</mat-option>
+                  <mat-option value="3">3</mat-option>
+                </mat-select>
+              </mat-form-field>
               <div class="col-5 col-sm-4 col-md-2 col-lg right">
                 <p class="dateTitle"><strong>Price</strong></p>
                 <strong>{{x.Price}} NIS</strong>
               </div>
               <div class="col-8 col-sm-3 col-md-1 col-lg text-right">
-                <button *ngIf="orderId === 'new-order'" mat-raised-button color="warn"
+                <button class="mb-1" *ngIf="orderId === 'new-order'" mat-raised-button color="warn"
                   (click)="removeAddedRoom(x.roomId)"><i class="material-icons">
                     clear
                   </i>
                 </button>
 
-                <button *ngIf="orderId !== 'new-order'" mat-raised-button color="warn"><i>
+                <button class="mb-1" *ngIf="orderId !== 'new-order'" mat-raised-button color="warn"><i
+                    class="material-icons">
                     clear
                   </i>
                 </button>
+                <button mat-raised-button color="accent" (click)="x.edit = !x.edit"><i class="material-icons">
+                    edit
+                  </i>
+                </button>
               </div>
-
-              <!-- <i class="col-3 col-sm-3 col-md-2 col-lg-2 mb-3" "
-                class="material-icons">
-                clear
-              </i> -->
             </div>
           </mat-card-content>
         </mat-card>
       </li>
-    </ul>
+    </cdk-virtual-scroll-viewport>
     <div class="mb-1 col-12">
       <mat-card>
         <mat-card-content class="row col-12 text-right">
@@ -308,7 +374,8 @@
             color="primary">Cancel Order
           </button>
           <button [disabled]='myForm.invalid' class="col-5 col-sm-3 col-md-3 col-lg-2" style="width: 200px"
-            (click)="submit()" *ngIf="orderId != 'new-order'" mat-raised-button color="accent">Update</button>
+            (click)="updateOrderDetails()" *ngIf="orderId != 'new-order'" mat-raised-button
+            color="accent">Update</button>
           <button [disabled]='myForm.invalid' class="col-5 col-sm-3 col-md-3 col-lg-2" (click)="submitNewOrder()"
             style="width: 200px" *ngIf="orderId == 'new-order'" mat-raised-button color="accent">Submit</button>
         </mat-card-content>

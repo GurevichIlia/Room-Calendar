@@ -19,7 +19,7 @@ import { NewOrderRoom } from 'src/app/model/NewOrderRoom.model';
 export class OrderDetailsComponent implements OnInit {
   orderId: string;
   routeSubscription: Subscription;
-  customerInfo;
+  customerInfo: CustomerDetails;
   showScroll: boolean;
   showScrollHeight = 300;
   hideScrollHeight = 10;
@@ -50,6 +50,7 @@ export class OrderDetailsComponent implements OnInit {
       zip: '',
       city: '',
       companyName: '',
+      language: '',
       roomDetail: []
     };
     // this.myForm = this.fb.group({
@@ -70,6 +71,7 @@ export class OrderDetailsComponent implements OnInit {
     }
   }
   ngOnInit() {
+
     // tslint:disable-next-line:max-line-length
     this.myForm = this.fb.group({
       orderId: '',
@@ -98,30 +100,20 @@ export class OrderDetailsComponent implements OnInit {
       if (this.orderService.customerInfo.totalRooms === null && this.orderService.avlRooms.length <= 0 || this.orderService.addedRoomsForNewOrder.length === 0 && this.orderService.avlRooms.length >= 0) {
         this.router.navigate(['/book']);
       } else {
-        this.newOrderFromNewOrderList()
+        this.newOrderFromNewOrderList();
       }
-      // tslint:disable-next-line:max-line-length
-
-
     } else {
       // if (this.orderService.customerInfo.totalRooms === null && this.orderService.avlRooms.length <= 0) {
       //   this.router.navigate(['/book']);
-      this.orderService.GetCompleteCustDetByOrderId(this.orderId);
-      setTimeout(() => this.editOrderDetailsFromCalendar(), 1000);
-
-      console.log(this.customerInfo.roomDetail);
+      this.editOrderDetailsFromCalendar();
+      // this.orderService.cusDetOnload.subscribe(data => {
+      //   console.log(data);
+      // });
+      // setTimeout(() => this.editOrderDetailsFromCalendar(), 1000);
+      // console.log(this.customerInfo.roomDetail);
     }
-    // completeCustDetByOrderId() {
-
-
-
-
-    //   
-    //   console.log();
-    // this.firstName = new FormControl('', [
-    //   Validators.required,
-    // ]);
   }
+
   get firstName() {
     return this.myForm.get('firstName');
   }
@@ -152,7 +144,6 @@ export class OrderDetailsComponent implements OnInit {
       roomDetail: this.orderService.addedRoomsForNewOrder
     };
     this.getTotalPrice();
-    console.log(this.customerInfo.roomDetail);
     this.spinner.hide();
   }
   getTotalPrice() {
@@ -164,9 +155,12 @@ export class OrderDetailsComponent implements OnInit {
     console.log(this.totalPrice);
   }
   editOrderDetailsFromCalendar() {
-    this.customerInfo = this.orderService.customerInfo;
-    this.getTotalPrice();
-    this.spinner.hide();
+    this.orderService.GetCompleteCustDetByOrderId(this.orderId).subscribe(res => {
+      this.customerInfo = this.orderService.updateCustomerInfo(res['Data']);
+      this.customerInfo.orderId = this.orderId;
+      this.getTotalPrice();
+      this.spinner.hide();
+    });
   }
   submitNewOrder() {
     this.customerInfo = {
@@ -187,6 +181,26 @@ export class OrderDetailsComponent implements OnInit {
     };
     console.log(this.customerInfo);
     alert('Order Sent');
+  }
+  updateOrderDetails() {
+    this.customerInfo = {
+      orderId: null,
+      firstName: this.myForm.value.firstName,
+      lastName: this.myForm.value.lastName,
+      address: '',
+      phone: this.myForm.value.phone,
+      totalRooms: this.orderService.addedRoomsForNewOrder.length,
+      email: this.myForm.value.email,
+      homePhone: '',
+      passport: '',
+      zip: '',
+      city: '',
+      companyName: '',
+      roomDetail: this.orderService.addedRoomsForNewOrder,
+      language: this.myForm.value.language
+    };
+    console.log(this.customerInfo);
+    alert('Order Update');
   }
   removeAddedRooms() {
     if (this.customerInfo.roomDetail.length === 0) {

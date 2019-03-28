@@ -14,13 +14,14 @@ import { MatButtonModule, MatDialogModule, MAT_LABEL_GLOBAL_OPTIONS, MatNativeDa
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material';
+import { MatInputModule, MatToolbarModule, MatSidenavModule } from '@angular/material';
 import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 
@@ -50,6 +51,9 @@ import { AvailableRoomComponent } from './book/new-order-room/available-room/ava
 import { GroupFilter } from './MyPipe/groupFilter.pipe';
 import { OrderSearchComponent } from './order-search/order-search.component';
 import { OrderListComponent } from './order-search/order-list/order-list.component';
+import { MainNavComponent } from './main-nav/main-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { CalendarGroupFilterPipe } from './MyPipe/calendar-group-filter.pipe';
 // import { NewOrderRoom } from './model/newOrderRoom';
 
 @NgModule({
@@ -70,7 +74,9 @@ import { OrderListComponent } from './order-search/order-list/order-list.compone
     SearchAvailableRoomsComponent,
     GroupFilter,
     OrderSearchComponent,
-    OrderListComponent
+    OrderListComponent,
+    MainNavComponent,
+    CalendarGroupFilterPipe
 
   ],
   imports: [
@@ -88,7 +94,6 @@ import { OrderListComponent } from './order-search/order-list/order-list.compone
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    MatInputModule,
     MatMomentDateModule,
     MatTabsModule,
     MatIconModule,
@@ -96,7 +101,11 @@ import { OrderListComponent } from './order-search/order-list/order-list.compone
     MatListModule,
     ScrollingModule,
     MatCheckboxModule,
-    ScrollDispatchModule
+    ScrollDispatchModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatMenuModule
 
   ],
   exports: [
@@ -106,7 +115,7 @@ import { OrderListComponent } from './order-search/order-list/order-list.compone
   providers: [
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
 
-    { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'always' } },
+    { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: '' } },
     LoginService,
     LoginGuard,
     CookieService,

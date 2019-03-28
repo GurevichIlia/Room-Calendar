@@ -54,5 +54,9 @@ export class ListRoomsAvailableComponent implements OnInit {
   filterGroup() {
     this.orderService.filterAvailableRoomsByGroup(this.roomsGroup);
   }
+  test() {
+
+    console.log(this.roomsGroup)
+  }
 }
 

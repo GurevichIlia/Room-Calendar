@@ -3,23 +3,15 @@
     <p style="font-size: 20px; color: white">Loading...</p>
   </ngx-spinner>
   <div>
-    <div class="row mb-3">
-      <!-- <div class="col-sm-12 col-md-4 col-lg-1"></div> -->
-      <!-- <div class="col-sm-12 col-md-4 col-lg-2">Arrival Date</div> -->
-      <!-- <div class="col-sm-12 col-md-4 col-lg-2">Departure Date</div> -->
-      <!-- <div class="col-sm-12 col-md-4 col-lg-1">Adults</div> -->
-      <!-- <div class="col-sm-12 col-md-4 col-lg-1">Children</div> -->
-      <!-- <div class="col-sm-12 col-md-4 col-lg-2">Meal Type</div> -->
-      <!-- <div class="col-sm-12 col-md-4 col-lg-1"></div> -->
-    </div>
+    <h3>New Order</h3>
     <div class="row align-items-center">
       <!-- <div class="col-sm-12 col-md-4 col-lg-12">Arrival Date</div> -->
       <!-- <div class="col-sm-12 col-md-4 col-lg-1"></div> -->
       <div class="col-sm-12 col-md-12 col-lg-2">
         <div class="row">
-          <p class="col-sm-12 col-md-12 col-lg-12 mb-1"><strong>Arrival</strong></p>
+          <!-- <p class="col-sm-12 col-md-12 col-lg-12 mb-1"><strong>Arrival</strong></p> -->
           <mat-form-field class="example-full-width col-sm-12 col-md-12 col-lg-12">
-            <input matInput [matDatepicker]="startDate" (click)='click($event)' placeholder="Choose a date"
+            <input matInput [matDatepicker]="startDate" (dateChange)="changeDate()" placeholder="Arrival"
               [min]="minStartDate" [(ngModel)]='arrivalDate'>
             <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
             <mat-datepicker touchUi #startDate></mat-datepicker>
@@ -28,16 +20,25 @@
       </div>
       <div class="col-sm-12 col-md-12 col-lg-2 ">
         <div class="row">
-          <p class="col-sm-12 col-md-12 col-lg-12 mb-1"><strong>Departure</strong></p>
+          <!-- <p class="col-sm-12 col-md-12 col-lg-12 mb-1"><strong>Departure</strong></p> -->
           <mat-form-field class="example-full-width col-sm-12 col-md-12 col-lg-12">
-            <input matInput [matDatepicker]="endDate" placeholder="Choose a date" [min]="minEndDate"
+            <input matInput [matDatepicker]="endDate" placeholder="Departure" [value]="evacuateDate" [min]="minEndDate"
               [(ngModel)]='evacuateDate'>
             <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
             <mat-datepicker touchUi #endDate></mat-datepicker>
           </mat-form-field>
         </div>
       </div>
-      <div class="col-sm-12 col-md-12 col-lg-2">
+      <mat-form-field class="col-sm-12 col-md-12 col-lg-2">
+        <mat-label>Adults</mat-label>
+        <mat-select [value]="maxAdults" [(ngModel)]="maxAdults" matNativeControl required>
+          <mat-option value="0">0</mat-option>
+          <mat-option value="1">1</mat-option>
+          <mat-option value="2">2</mat-option>
+          <mat-option value="3">3</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- <div class="col-sm-12 col-md-12 col-lg-2">
         <div class="row">
           <p class="col-sm-12 col-md-12 col-lg-12 mb-1"><strong>Adults</strong></p>
           <mat-form-field class="col-sm-12 col-md-12 col-lg-12">
@@ -56,8 +57,17 @@
             </select>
           </mat-form-field>
         </div>
-      </div>
-      <div class="col-sm-12 col-md-12 col-lg-2">
+      </div> -->
+      <mat-form-field class="col-sm-12 col-md-12 col-lg-2">
+        <mat-label>Children</mat-label>
+        <mat-select [value]="maxChildren" [(ngModel)]="maxChildren" matNativeControl required>
+          <mat-option value="0">0</mat-option>
+          <mat-option value="1">1</mat-option>
+          <mat-option value="2">2</mat-option>
+          <mat-option value="3">3</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- <div class="col-sm-12 col-md-12 col-lg-2">
         <div class="row">
           <p class="col-sm-12 col-md-12 col-lg-1 mb-1"><strong>Children</strong></p>
           <mat-form-field class="col-sm-12 col-md-12 col-lg-12">
@@ -75,9 +85,17 @@
               <option value="10">10</option>
             </select>
           </mat-form-field>
-        </div>
-      </div>
-      <div class="col-sm-12 col-md-12 col-lg-2">
+        </div> -->
+      <!-- </div> -->
+      <mat-form-field class="col-sm-12 col-md-12 col-lg-2">
+        <mat-label>Meal Type</mat-label>
+        <mat-select [value]="mealType" [(ngModel)]="mealType" matNativeControl required>
+          <mat-option value="1">R/O</mat-option>
+          <mat-option value="2">B/B</mat-option>
+          <mat-option value="3">H/B</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- <div class="col-sm-12 col-md-12 col-lg-2">
         <div class="row">
           <p class="col-sm-12 col-md-12 col-lg-12 mb-1"><strong>Meal Type</strong></p>
           <mat-form-field class="col-sm-12 col-md-12 col-lg-12">
@@ -88,7 +106,7 @@
             </select>
           </mat-form-field>
         </div>
-      </div>
+      </div> -->
       <button (click)='showAvailableRooms()' mat-raised-button color="primary"
         class="col-sm-12 col-md-12 col-lg-2 right">Search</button>
     </div>

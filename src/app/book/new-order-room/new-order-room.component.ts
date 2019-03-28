@@ -91,7 +91,10 @@ export class NewOrderRoomComponent implements OnInit {
     }
   }
   removeAddedRoom() {
-    this.orderService.addedRoomsForNewOrder = [];
+    if (confirm('If you change, all data will be deleted!')) {
+      this.orderService.addedRoomsForNewOrder = [];
+    }
+
 
   }
 }

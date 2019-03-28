@@ -4,7 +4,7 @@
 </mat-card>
 
 <cdk-virtual-scroll-viewport itemSize="100" class="mb-2">
-  <li class="list-group-item" *cdkVirtualFor="let order of orderList" mb-1>
+  <li class="list-group-item" *cdkVirtualFor="let order of orderList" mb-1 style="background-color: grey">
     <mat-card class="searchCard" (click)="getOrderDetByOrderId(order.ClientRoomOrderId)">
       <mat-card-content>
         <div class="row ">

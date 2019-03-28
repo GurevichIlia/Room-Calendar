@@ -1,10 +1,10 @@
 export class SearchRoomInfo {
     arrivalDate: string;
     evacuateDate: string;
-    maxAdults: number;
-    maxChildren: number;
-    maxBaby?: number;
+    maxAdults: string;
+    maxChildren: string;
+    maxBaby?: string;
     lang?: string;
-    mealType: number;
+    mealType: string;
     organizationID?: string;
 }

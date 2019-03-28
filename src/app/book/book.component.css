@@ -1,17 +1,45 @@
 .sticky {
-    position: sticky;
+    /* position: sticky;
     top: 0em;
     min-height: 2em;
     height: 100%;
-    z-index: 100;
+    z-index: 100; */
 }
 cdk-virtual-scroll-viewport {
     height: 100vh;
     width: 100%;
     margin: 0 auto;
     display: flex;
-    align-items: center;
+    align-items: left;
     flex-direction: column;
     justify-content: center;
-    list-style-type: none;
+    list-style-type: none;  
 }
+
+@media (min-width: 320px) {
+    .dateRow {
+        display: none;
+    }
+     }
+    @media (min-width: 576px) { 
+        .dateRow {
+            display: block;
+        }
+        .date {
+            display: none;
+        }
+     }
+    
+    
+    @media (min-width: 768px) { 
+
+     }
+    
+    
+    @media (min-width: 992px) {
+    
+    }
+    
+    @media (min-width: 1200px) {
+        
+     }

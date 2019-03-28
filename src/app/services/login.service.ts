@@ -18,7 +18,7 @@ export class LoginService {
   }
 
   // public getToken(): string {
-  //   return localStorage.getItem('XToken');
+  //   return sessionStorage.getItem('XToken');
   // }
 
   // public isAuthenticated(): boolean {
@@ -30,7 +30,7 @@ export class LoginService {
   // }
 
   setLoggedIn(value: boolean) {
-    if (localStorage.getItem('XToken') !== null) {
+    if (sessionStorage.getItem('XToken') !== null) {
       return this.loggedInStatus = true;
     } else {
       return this.loggedInStatus = value;
@@ -39,7 +39,7 @@ export class LoginService {
   }
   get isLoggedIn() {
     console.log(this.loggedInStatus);
-    return localStorage.getItem('XToken') !== null;
+    return sessionStorage.getItem('XToken') !== null;
   }
 
   validLogin(userName: string, password: string, orgName: string): Observable<any> {
@@ -50,12 +50,12 @@ export class LoginService {
       Language: 'en'
     };
     return this.http.post<{ token: string }>(this.rootURL, userInfo).pipe(tap(res => {
-      localStorage.setItem('XToken', res['Data'].token);
-      localStorage.setItem('LoggedInStatus', 'true');
+      sessionStorage.setItem('XToken', res['Data'].token);
+      sessionStorage.setItem('LoggedInStatus', 'true');
     }));
   }
   RemoveToken() {
-    localStorage.removeItem('XToken');
-    localStorage.removeItem('LoggedInStatus');
+    sessionStorage.removeItem('XToken');
+    sessionStorage.removeItem('LoggedInStatus');
   }
 }

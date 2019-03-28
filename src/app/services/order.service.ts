@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { Observable, } from 'rxjs';
+import { Observable, Subject, BehaviorSubject, } from 'rxjs';
 import { CustomerDetails } from '../model/customer-details.model';
 import { NewOrderRoom } from '../model/NewOrderRoom.model';
 import { SearchRoomInfo } from '../model/SearchRoomInfo.model';
@@ -26,6 +26,7 @@ export class OrderService {
   public howManyPeople = false;
   public groupName: any[] = [];
   public completeCustDetByOrderIdloaded = false;
+  cusDetOnload = new BehaviorSubject(this.completeCustDetByOrderIdloaded);
   constructor(private http: HttpClient) {
     this.customerInfo = {
       orderId: '',
@@ -40,8 +41,10 @@ export class OrderService {
       zip: '',
       city: '',
       companyName: '',
+      language: '',
       roomDetail: <any>[]
     };
+
   }
   GetRoomOrderDet(RoomId: string, ArrivalDate: string, EvacuateDate: string): Observable<any> {
     return this.http.get(
@@ -49,28 +52,16 @@ export class OrderService {
     );
   }
 
-  GetCompleteCustDetByOrderId(OrderId: string) {
+  GetCompleteCustDetByOrderId(OrderId: string): Observable<any> {
     return this.http.get(
       this.rootURL + 'Order/GetCompleteCustDetByOrderId?ClientRoomOrderId=' + OrderId
-    ).subscribe(res => {
-      this.customerInfo = {
-        orderId: OrderId,
-        firstName: res['Data'].FirstName,
-        lastName: res['Data'].LastName,
-        address: res['Data'].Address,
-        phone: res['Data'].CellPhone,
-        totalRooms: res['Data'].RoomDetail.length,
-        email: res['Data'].EmailAddress,
-        homePhone: res['Data'].HomePhone,
-        passport: res['Data'].PassportNo,
-        zip: res['Data'].Zip,
-        city: res['Data'].City,
-        companyName: res['Data'].CompanyName,
-        roomDetail: res['Data'].RoomDetail,
-      };
-      this.completeCustDetByOrderIdloaded = true;
-      console.log(res['Data']);
-    });
+    );
+  }
+  GetPrice(ArrivalDate, EvacuateDate, maxadults, maxchildren, totalnights, RoomId, RoomType): Observable<any> {
+    return this.http.get(
+      this.rootURL + 'Order/GetRoomPrice?ArrivalDate=' + ArrivalDate + '&EvacuateDate=' + EvacuateDate + '&maxadults=' + maxadults + '&maxchildren=' + maxchildren +
+      '&totalnights=' + totalnights + '&RoomId=' + RoomId + '&RoomType=' + RoomType,
+    );
   }
   addRoomsForNewOrder(newOrderRooms?: NewOrderRoom, roomId?: number) {
     let x = false;
@@ -122,6 +113,25 @@ export class OrderService {
       searchData,
 
     );
+  }
+  updateCustomerInfo(customerInfo: any) {
+    this.customerInfo = {
+      orderId: customerInfo.orderId,
+      firstName: customerInfo.FirstName,
+      lastName: customerInfo.LastName,
+      address: customerInfo.Address,
+      phone: customerInfo.CellPhone,
+      totalRooms: customerInfo.RoomDetail.length,
+      email: customerInfo.EmailAddress,
+      homePhone: customerInfo.HomePhone,
+      passport: customerInfo.PassportNo,
+      zip: customerInfo.Zip,
+      city: customerInfo.City,
+      companyName: customerInfo.CompanyName,
+      language: customerInfo.language,
+      roomDetail: customerInfo.RoomDetail,
+    };
+    return this.customerInfo;
   }
 }
 

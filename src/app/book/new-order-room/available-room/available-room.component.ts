@@ -51,9 +51,7 @@ export class AvailableRoomComponent implements OnInit {
         this.newOrder.Price = this.avlRooms['PriceHB'];
       }
       this.orderService.addRoomsForNewOrder(this.newOrder);
-
     }
-
   }
   checkHowManyPeople(adults: string, children: string, maxinRoom: number) {
     const adult = Number(adults);
@@ -70,6 +68,24 @@ export class AvailableRoomComponent implements OnInit {
   removeAddedRoom(roomId: number) {
     this.howManyPeople = true;
     this.orderService.removeRoomFromAdded(roomId);
+  }
+  priceForRoom(ArrivalDate, EvacuateDate, maxadults, maxchildren, totalnights, RoomId, RoomType) {
+    this.orderService.GetPrice(ArrivalDate, EvacuateDate, maxadults, maxchildren, totalnights, RoomId, RoomType).subscribe(res => {
+      if (!res.IsError) {
+        if (RoomType === '1') {
+          this.avlRooms['PriceRo'] = res.Data;
+        } if (RoomType === '2') {
+          this.avlRooms['PriceBB'] = res.Data;
+        } if (RoomType === '3') {
+          this.avlRooms['PriceHB'] = res.Data;
+        }
+      } if (res.IsError) {
+        alert(res.ErrMsg);
+      }
 
+      console.log(this.avlRooms['PriceRo'], this.avlRooms['PriceBB'], this.avlRooms['PriceHB']);
+      console.log(res);
+    });
+    console.log('works');
   }
 }

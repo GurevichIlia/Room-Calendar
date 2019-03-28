@@ -1,6 +1,6 @@
-import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { GetRoomsService } from 'src/app/services/get-rooms.service';
-import { MatDialogRef, MatDialog, MatDatepicker } from '@angular/material';
+import { MatDialogRef, MatDialog, MatDatepicker, MatDatepickerInputEvent } from '@angular/material';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 import { Router } from '@angular/router';
@@ -41,9 +41,9 @@ export class SearchAvailableRoomsComponent implements OnInit {
   arrivalDate;
   evacuateDate;
   evaDate;
-  maxAdults = 2;
-  maxChildren = 0;
-  mealType = 2;
+  maxAdults = '2';
+  maxChildren = '0';
+  mealType = '2';
   maxBaby;
   Lang;
   OrganizationID;
@@ -53,6 +53,8 @@ export class SearchAvailableRoomsComponent implements OnInit {
   form: FormGroup;
   date = new FormControl(moment([2017, 0, 1]));
   @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
+  @Output() dateChange: EventEmitter<MatDatepickerInputEvent<Date>>;
+
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -81,7 +83,7 @@ export class SearchAvailableRoomsComponent implements OnInit {
     this.dateCtrl = new FormControl('', [Validators.required]);
   }
   showAvailableRooms() {
-    if (this.maxAdults === 0) {
+    if (this.maxAdults === '0') {
       alert('Please set How many people');
     } else {
       this.spinner.show();
@@ -119,5 +121,8 @@ export class SearchAvailableRoomsComponent implements OnInit {
         organizationID: this.OrganizationID
       };
     }
+  }
+  changeDate() {
+    this.evacuateDate = moment(this.arrivalDate).add(1, 'day').format('YYYY-MM-DD');
   }
 }
