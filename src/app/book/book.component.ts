@@ -375,7 +375,7 @@ export class BookComponent implements OnInit, AfterViewInit {
     if (roomId.style.backgroundColor === 'rgb(224, 255, 255)') {
       this.spinner.show();
       this.orderService.GetCompleteCustDetByOrderId(orderId.nativeElement.textContent).subscribe(custDetByOrderId => {
-        custDetByOrderId = custDetByOrderId['Data'];
+        custDetByOrderId = custDetByOrderId;
         custDetByOrderId['orderId'] = orderId.nativeElement.textContent;
         this.dialog.open(CustomerDetailsComponent, { data: custDetByOrderId });
       });

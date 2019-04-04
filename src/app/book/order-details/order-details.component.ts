@@ -7,6 +7,9 @@ import { OrderService } from 'src/app/services/order.service';
 import { CustomerDetails } from 'src/app/model/customer-details.model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NewOrderRoom } from 'src/app/model/NewOrderRoom.model';
+import * as moment from 'moment';
+
+
 
 
 
@@ -71,7 +74,23 @@ export class OrderDetailsComponent implements OnInit {
     }
   }
   ngOnInit() {
+    this.validationForm();
+    this.loadingPage();
+  }
 
+  get firstName() {
+    return this.myForm.get('firstName');
+  }
+  get lastName() {
+    return this.myForm.get('lastName');
+  }
+  get email() {
+    return this.myForm.get('email');
+  }
+  get phone() {
+    return this.myForm.get('phone');
+  }
+  validationForm() {
     // tslint:disable-next-line:max-line-length
     this.myForm = this.fb.group({
       orderId: '',
@@ -94,6 +113,8 @@ export class OrderDetailsComponent implements OnInit {
 
     });
     console.log(this.myForm.value);
+  }
+  loadingPage() {
     this.spinner.show();
     if (this.orderId === 'new-order') {
       // tslint:disable-next-line:max-line-length
@@ -112,19 +133,6 @@ export class OrderDetailsComponent implements OnInit {
       // setTimeout(() => this.editOrderDetailsFromCalendar(), 1000);
       // console.log(this.customerInfo.roomDetail);
     }
-  }
-
-  get firstName() {
-    return this.myForm.get('firstName');
-  }
-  get lastName() {
-    return this.myForm.get('lastName');
-  }
-  get email() {
-    return this.myForm.get('email');
-  }
-  get phone() {
-    return this.myForm.get('phone');
   }
   newOrderFromNewOrderList() {
     this.customerInfo = {
@@ -149,18 +157,19 @@ export class OrderDetailsComponent implements OnInit {
   getTotalPrice() {
     const roomDetail = this.customerInfo.roomDetail;
     this.totalPrice = 0;
-    for (const price of roomDetail) {
-      this.totalPrice += price.Price;
+    for (const roomPrice of roomDetail) {
+      this.totalPrice += roomPrice.Price;
     }
-    console.log(this.totalPrice);
   }
   editOrderDetailsFromCalendar() {
-    this.orderService.GetCompleteCustDetByOrderId(this.orderId).subscribe(res => {
-      this.customerInfo = this.orderService.updateCustomerInfo(res['Data']);
-      this.customerInfo.orderId = this.orderId;
-      this.getTotalPrice();
-      this.spinner.hide();
-    });
+    this.orderService.GetCompleteCustDetByOrderId(this.orderId).
+      subscribe(res => {
+        this.customerInfo = this.orderService.updateCustomerInfo(res);
+        this.customerInfo.orderId = this.orderId;
+        console.log(this.customerInfo);
+        this.getTotalPrice();
+        this.spinner.hide();
+      });
   }
   submitNewOrder() {
     this.customerInfo = {
@@ -216,5 +225,16 @@ export class OrderDetailsComponent implements OnInit {
       this.orderService.removeRoomFromAdded(roomId);
       this.getTotalPrice();
     }
+  }
+  keyNameRoomDetailToLoweCase(key: string) {
+    key[0].toLowerCase();
+    console.log(key);
+    return key;
+  }
+  stringToDate(date) {
+    let newDate = new Date(date);
+
+    console.log(newDate)
+    return newDate;
   }
 }

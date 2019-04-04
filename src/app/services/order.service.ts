@@ -23,6 +23,7 @@ export class OrderService {
   onlyAvailableRoomsBtwDate: any[];
   addedRoomsForNewOrder: NewOrderRoom[] = [];
   avlRooms: any[] = [];
+  roomDetail: NewOrderRoom;
   public howManyPeople = false;
   public groupName: any[] = [];
   public completeCustDetByOrderIdloaded = false;
@@ -55,10 +56,12 @@ export class OrderService {
   GetCompleteCustDetByOrderId(OrderId: string): Observable<any> {
     return this.http.get(
       this.rootURL + 'Order/GetCompleteCustDetByOrderId?ClientRoomOrderId=' + OrderId
-    );
+    ).pipe(map(response => response['Data']));
+
   }
   GetPrice(ArrivalDate, EvacuateDate, maxadults, maxchildren, totalnights, RoomId, RoomType): Observable<any> {
     return this.http.get(
+      // tslint:disable-next-line:max-line-length
       this.rootURL + 'Order/GetRoomPrice?ArrivalDate=' + ArrivalDate + '&EvacuateDate=' + EvacuateDate + '&maxadults=' + maxadults + '&maxchildren=' + maxchildren +
       '&totalnights=' + totalnights + '&RoomId=' + RoomId + '&RoomType=' + RoomType,
     );
@@ -133,6 +136,29 @@ export class OrderService {
     };
     return this.customerInfo;
   }
+  // changePropertyNameRoomDetail(roomDetail: Object[]) {
+  //   this.roomDetail = {
+  //     roomId: roomDetail.RoomId,
+  //     roomGroupId: roomDetail.roomGroupId,
+  //     roomNo: roomDetail.RoomNo,
+  //     roomName: roomDetail.RoomName,
+  //     maxAdults: roomDetail.MaxAdults,
+  //     maxChildren: roomDetail.MaxChildren,
+  //     mealType: roomDetail.MealType,
+  //     arrivalDate: roomDetail.ArriveDate,
+  //     evacuateDate: roomDetail.EvacuateDate,
+  //     Price: roomDetail.Price,
+  //     regularDays: roomDetail.RegularDays
+  //   }
+  //   return roomDetail;
+  // }
 }
+
+
+
+
+
+
+
 
 

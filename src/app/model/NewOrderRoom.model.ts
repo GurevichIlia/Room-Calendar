@@ -9,5 +9,5 @@ export class NewOrderRoom {
     arrivalDate: string;
     evacuateDate: string;
     Price: number;
-    regularDays: number;
+    regularDays: string;
 }

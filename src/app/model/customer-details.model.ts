@@ -13,11 +13,12 @@ export class CustomerDetails {
     zip: string;
     city: string;
     companyName: string;
-    language: string;
+    language?: string;
     roomDetail: NewOrderRoom[];
 
 
-    constructor(orderId, firstName, lastName, address, phone, totalRooms, email, homePhone, passport, zip, city, companyName, roomDetail) {
+    // tslint:disable-next-line:max-line-length
+    constructor(orderId, firstName, lastName, address, phone, totalRooms, email, homePhone, passport, zip, city, companyName, language, roomDetail) {
         this.orderId = orderId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -30,6 +31,7 @@ export class CustomerDetails {
         this.zip = zip;
         this.city = city;
         this.companyName = companyName;
+        this.language = language;
         this.roomDetail = roomDetail;
     }
 }

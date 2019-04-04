@@ -7,6 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 
 // Material components
@@ -54,6 +56,7 @@ import { OrderListComponent } from './order-search/order-list/order-list.compone
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { CalendarGroupFilterPipe } from './MyPipe/calendar-group-filter.pipe';
+import { DashboardComponent } from './dashboard/dashboard.component';
 // import { NewOrderRoom } from './model/newOrderRoom';
 
 @NgModule({
@@ -76,7 +79,8 @@ import { CalendarGroupFilterPipe } from './MyPipe/calendar-group-filter.pipe';
     OrderSearchComponent,
     OrderListComponent,
     MainNavComponent,
-    CalendarGroupFilterPipe
+    CalendarGroupFilterPipe,
+    DashboardComponent,
 
   ],
   imports: [
@@ -105,7 +109,9 @@ import { CalendarGroupFilterPipe } from './MyPipe/calendar-group-filter.pipe';
     LayoutModule,
     MatToolbarModule,
     MatSidenavModule,
-    MatMenuModule
+    MatMenuModule,
+    NgxChartsModule,
+    NgxDaterangepickerMd.forRoot(),
 
   ],
   exports: [

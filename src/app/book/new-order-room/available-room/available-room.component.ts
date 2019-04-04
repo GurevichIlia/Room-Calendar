@@ -41,7 +41,7 @@ export class AvailableRoomComponent implements OnInit {
         arrivalDate: arrivalDate,
         evacuateDate: evacuateDate,
         Price: null,
-        regularDays: regularDays
+        regularDays: regularDays.toString()
       };
       if (mealType === '1') {
         this.newOrder.Price = this.avlRooms['PriceRo'];

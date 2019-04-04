@@ -1,0 +1,61 @@
+<div class="container">
+  <div class="row">
+    <!-- <mat-form-field class="example-full-width col-sm-12 col-md-12 col-lg-12">
+          <input matInput [matDatepicker]="startDate" placeholder="Arrival" [(ngModel)]='arrivalDate'>
+          <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #startDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-12 col-md-12 col-lg-2 ">
+        <div class="row">
+          <mat-form-field class="example-full-width col-sm-12 col-md-12 col-lg-12">
+            <input matInput [matDatepicker]="endDate" placeholder="Departure" [(ngModel)]='evacuateDate'>
+            <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #endDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div> -->
+    <input class="text-left col-3" [showCustomRangeLabel]="true" [alwaysShowCalendars]="true" [ranges]="ranges"
+      [linkedCalendars]="true" type="text" (onSelect)='onSelect($event)' (choosedDate)="choosedDate(selected)"
+      startKey="start" endKey="end" [locale]="locale" [(ngModel)]="selected" ngxDaterangepickerMd
+      placeholder="Choose date" />
+
+
+    <button class="col-12" (click)='GetChartDataForPeople()' mat-raised-button color="primary"
+      class="col-sm-12 col-md-12 col-lg-2 right">Search</button>
+
+
+    <div class="row">
+      <div class="col-12">
+        <ngx-charts-line-chart [view]="view" [scheme]="colorScheme" [results]="multi" [gradient]="gradient"
+          [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="'Revenue'" [autoScale]="autoScale"
+          [timeline]="timeline" (select)="onSelect($event)">
+        </ngx-charts-line-chart>
+      </div>
+      <div class="col-6">
+        <ngx-charts-line-chart [view]="view" [scheme]="colorScheme" [results]="guests" [gradient]="gradient"
+          [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="'Guests'" [autoScale]="autoScale"
+          [timeline]="timeline" (select)="onSelect($event)">
+        </ngx-charts-line-chart>
+      </div>
+      <div class="col-6">
+        <ngx-charts-line-chart [view]="view" [scheme]="colorScheme" [results]="rooms" [gradient]="gradient"
+          [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="'Rooms'" [autoScale]="autoScale"
+          [timeline]="timeline" (select)="onSelect($event)">
+        </ngx-charts-line-chart>
+      </div>
+      <div class="col-6">
+        <ngx-charts-line-chart [view]="view" [scheme]="colorScheme" [results]="reservations" [gradient]="gradient"
+          [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="'Reservations'"
+          [autoScale]="autoScale" [timeline]="timeline" (select)="onSelect($event)">
+        </ngx-charts-line-chart>
+      </div>
+    </div>
+
+
+  </div>
+</div>
